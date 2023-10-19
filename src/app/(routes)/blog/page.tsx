@@ -1,9 +1,8 @@
-import fs from "fs/promises";
-import { parse_frontmatter } from "@/features/frontmatter";
 import { css } from "@/styled-system/css";
 
 import { type Metadata } from "next";
 
+import { fetch_posts } from "@/features/fetch_post";
 import { LinkCard } from "./_components/link_card";
 
 type PageProps = {
@@ -20,23 +19,10 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   const tag = searchParams.tag;
 
-  const files = await fs.readdir("post");
-
-  const result = await Promise.all(
-    files.map(async (file) => {
-      const source = await fs.readFile(`post/${file}`, "utf-8");
-      const parsed = parse_frontmatter(source);
-      return { file, parsed };
-    }),
+  const all_posts = await fetch_posts();
+  const posts = all_posts.filter(({ meta }) =>
+    tag ? meta.tags.includes(tag) : true,
   );
-  const posts = result
-    .filter(({ parsed }) => parsed.isOk())
-    .map(({ file, parsed }) => ({
-      slug: file.split(".")[0],
-      meta: parsed.unwrap().frontmatter,
-    }))
-    .filter(({ meta }) => meta.published)
-    .filter(({ meta }) => (tag ? meta.tags.includes(tag) : true));
 
   const card_container_style = css({
     mt: 8,

@@ -1,12 +1,9 @@
-import fs from "fs/promises";
-
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
 import { css } from "@/styled-system/css";
-import { parse_frontmatter } from "@/features/frontmatter";
 
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
+import { fetch_posts, fetch_post } from "@/features/fetch_post";
 
 type PageProps = {
   params: {
@@ -14,21 +11,27 @@ type PageProps = {
   };
 };
 
+export async function generateStaticParams(): Promise<PageProps["params"][]> {
+  const posts = await fetch_posts();
+  return posts.map(({ slug }) => ({
+    slug,
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = params;
-  const source = await fs.readFile(`post/${slug}.md`, "utf-8");
-  const result = parse_frontmatter(source);
-  const { frontmatter } = result.unwrapOrElse(() => notFound());
-  const { title, description } = frontmatter;
-  return { title, description };
+  const post = await fetch_post(slug);
+  const { title, description } = post.meta;
+  return {
+    title,
+    description,
+  };
 }
 
 export default async function Page({ params }: PageProps) {
-  const source = await fs.readFile(`post/${params.slug}.md`, "utf-8");
-  const result = parse_frontmatter(source);
-  const { frontmatter, content } = result.unwrapOrElse(() => notFound());
+  const { meta, content } = await fetch_post(params.slug);
 
   return (
     <>
@@ -43,8 +46,8 @@ export default async function Page({ params }: PageProps) {
         })}
       >
         <img
-          src={frontmatter.image}
-          alt={frontmatter.title}
+          src={meta.image}
+          alt={meta.title}
           className={css({
             mx: "auto",
             width: "lg",
@@ -63,13 +66,13 @@ export default async function Page({ params }: PageProps) {
             fontWeight: "extrabold",
           })}
         >
-          {frontmatter.title}
+          {meta.title}
         </h1>
         <p className={css({ mt: 4, textAlign: "center" })}>
-          {frontmatter.description}
+          {meta.description}
         </p>
         <time
-          dateTime={frontmatter.date.toISOString()}
+          dateTime={meta.date.toISOString()}
           className={css({
             mt: 4,
             display: "flex",
@@ -86,7 +89,7 @@ export default async function Page({ params }: PageProps) {
               fontSize: "lg",
             })}
           />
-          {frontmatter.date.toDateString()}
+          {meta.date.toDateString()}
         </time>
         <div
           className={css({ mt: 4, display: "flex", justifyContent: "center" })}

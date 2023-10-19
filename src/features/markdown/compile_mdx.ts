@@ -34,7 +34,7 @@ export async function compile_mdx(source: string) {
           remark_math,
           remark_linkcard,
           remark_breaks,
-        ] as RemarkPlugins, // FIX: Remove type assertion when next-mdx-remote is updated
+        ] as RemarkPlugins, // FIXME: Remove type assertion when next-mdx-remote is updated
         rehypePlugins: [
           [
             rehype_pretty_code,
@@ -44,7 +44,7 @@ export async function compile_mdx(source: string) {
             },
           ],
           rehype_katex,
-        ] as RehypePlugins, // FIX: Remove type assertion when next-mdx-remote is updated
+        ] as RehypePlugins, // FIXME: Remove type assertion when next-mdx-remote is updated
         remarkRehypeOptions: {
           footnoteLabel: "脚注",
           footnoteLabelTagName: "span",

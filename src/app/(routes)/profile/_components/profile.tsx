@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import Image from "./image";
 import { css } from "@/styled-system/css";
+import NextImage from "next/image";
 
 const Info = ({ tag, info }: { tag: string; info: ReactNode }) => {
   const tag_style = css({
@@ -25,11 +25,13 @@ const Info = ({ tag, info }: { tag: string; info: ReactNode }) => {
 export default () => {
   const profile_container_style = css({
     padding: "8",
-    display: "flex",
-    justifyContent: "space-between",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    alignItems: "center",
+    justifyItems: "center",
     "@media (max-width: 768px)": {
-      flexDirection: "column",
-      alignItems: "center",
+      gridTemplateColumns: "1fr",
+      gridTemplateRows: "1fr 1fr",
     },
     backgroundColor: "black",
     color: "white",
@@ -41,7 +43,7 @@ export default () => {
     fontWeight: "extrabold",
   });
 
-  const image_style = css({
+  const image_container_style = css({
     paddingTop: 4,
     paddingX: 8,
     "@media (max-width: 768px)": {
@@ -64,14 +66,25 @@ export default () => {
           }
         />
       </div>
-      <div className={image_style}>
-        <Image
+      <div className={image_container_style}>
+        <NextImage
           src="/images/asa1984_sleeping.jpg"
           alt="asa1984 sleeps in the share space of Sendai Kosen"
-          width={300}
-          height={300}
-          meta="me"
+          width={330}
+          height={250}
+          className={css({ width: "auto", borderRadius: "xl" })}
         />
+        <div
+          className={css({
+            marginTop: 1,
+            textAlign: "center",
+            fontSize: "sm",
+            fontWeight: "semibold",
+            color: "gray.500",
+          })}
+        >
+          me
+        </div>
       </div>
     </div>
   );

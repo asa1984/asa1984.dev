@@ -57,7 +57,7 @@ export const remark_zenn_message = (): Transformer => {
       parent.children[index as number] = {
         type: "message",
         children,
-      };
+      } as any; // FIXME: Remove any
     });
   };
 };

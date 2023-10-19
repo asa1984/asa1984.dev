@@ -69,7 +69,7 @@ deno run -A -r https://fresh.deno.dev my-project
 ビルド不要で設定ファイル無しに実行可能。Theシンプル。
 _重要_
 
-![No configuration](/posts/stack/fresh_no_configuration.png)
+![No configuration](/fresh_no_configuration.png)
 
 ### Island archetecture
 

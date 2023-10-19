@@ -53,6 +53,19 @@ export const custom_components: CustomComponents = {
     );
   },
 
+  // Images
+  img: (props) => {
+    const image_style = css({
+      marginX: "auto",
+      marginTop: 6,
+      display: "block",
+      maxWidth: "full",
+      height: "full",
+      borderRadius: "md",
+    });
+    return <img loading="lazy" className={image_style} {...props} />;
+  },
+
   // Special components
   message: (props) => <Message {...props} />,
   linkcard: (props) => (
