@@ -7,7 +7,7 @@ env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
 jobs:
-  deploy:
+  dev-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,7 +22,8 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+          nix develop --command \
+            echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
         uses: actions/cache@v3
@@ -32,5 +33,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Execute deployment in devShell
-        run: nix develop --command sh ./ci/dev.sh
+      - name: Install dependencies
+        run: |
+          nix develop --command \
+            pnpm install --frozen-lockfile --no-optional
+      - name: Build
+        run: |
+          nix develop --command \
+            pnpm build
+      - name: Deploy to Cloudflare Pages
+        run: |
+          nix develop --command \
+            wrangler pages deploy ./out --project-name=trashbox --branch dev
