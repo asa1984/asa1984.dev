@@ -16,13 +16,14 @@ export const metadata: Metadata = {
   description: "Blog",
 };
 
-export default async function Page({ searchParams }: PageProps) {
-  const tag = searchParams.tag;
+export default async function Page() {
+  // { searchParams }: PageProps
+  // const tag = searchParams.tag;
 
-  const all_posts = await fetch_posts();
-  const posts = all_posts.filter(({ meta }) =>
-    tag ? meta.tags.includes(tag) : true,
-  );
+  const posts = await fetch_posts();
+  // const posts = all_posts.filter(({ meta }) =>
+  //   tag ? meta.tags.includes(tag) : true,
+  // );
 
   const card_container_style = css({
     mt: 8,
@@ -36,6 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className={css({ mt: 8 })}>
+      {/*
       <h1
         className={css({
           display: "inline-block",
@@ -48,7 +50,8 @@ export default async function Page({ searchParams }: PageProps) {
         })}
       >
         {tag && `#${tag}`}
-      </h1>
+      </h1> 
+      */}
       <div className={card_container_style}>
         {posts.map(({ slug, meta }) => (
           <LinkCard key={slug} slug={slug} meta={meta} />

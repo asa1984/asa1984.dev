@@ -36,3 +36,6 @@ next-env.d.ts
 
 # pandacss
 **/styled-system
+
+# direnv
+.direnv
