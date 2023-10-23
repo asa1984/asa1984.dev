@@ -24,13 +24,14 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = params;
   const post = await get_post(slug);
-  const { title, description } = post.meta;
+  const { title, description, image } = post.meta;
   return {
     title,
     description,
     openGraph: {
       title,
       description,
+      images: [`/posts/${slug}/${image}`],
       type: "article",
     },
     twitter: {

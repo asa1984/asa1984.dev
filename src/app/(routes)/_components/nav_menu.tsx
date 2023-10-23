@@ -35,7 +35,7 @@ export const NavMenu = () => {
   useOnClickOutside(ref, () => setOpen(false));
 
   const items = [
-    { path: "/", name: "Home" },
+    { path: "", name: "Home" },
     { path: "profile", name: "Profile" },
     { path: "blog", name: "Blog" },
     { path: "context", name: "Context" },
@@ -53,7 +53,7 @@ export const NavMenu = () => {
       })}
     >
       <Link
-        href={`/${current.path}`}
+        href={`/${segment}`}
         className={css({ fontSize: "lg", fontWeight: "bold" })}
       >
         {current.name.toLowerCase()}
@@ -97,7 +97,7 @@ export const NavMenu = () => {
             {items.map((item) => (
               <Link
                 key={item.path}
-                href={item.path}
+                href={`/${item.path}`}
                 className={css({
                   pl: 2,
                   py: 1,

@@ -19,12 +19,14 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
+      - name: Install devShell
+        run: nix develop --install
+
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           nix develop --command \
-            echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
+            pnpm store path | xargs -I {} echo "STORE_PATH={}" >> $GITHUB_OUTPUT
       - name: Setup pnpm cache
         uses: actions/cache@v3
         with:
