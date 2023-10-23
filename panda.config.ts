@@ -1,13 +1,5 @@
 import { defineConfig, defineGlobalStyles } from "@pandacss/dev";
-
-const globalCss = defineGlobalStyles({
-  "html, body": {
-    color: "black",
-    backgroundColor: "white",
-    fontFamily: "sans",
-    lineHeight: "1.5",
-  },
-});
+import { global_css } from "@/styles/global";
 
 export default defineConfig({
   // Whether to use css reset
@@ -40,6 +32,7 @@ export default defineConfig({
           },
         },
       },
+
       keyframes: {
         scroll: {
           "0%": { transform: "translateY(0)" },
@@ -53,5 +46,5 @@ export default defineConfig({
   outdir: "./src/styled-system",
 
   // Global styles
-  globalCss,
+  globalCss: global_css,
 });

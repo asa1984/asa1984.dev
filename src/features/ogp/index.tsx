@@ -5,7 +5,7 @@ export type OgpLinkCardProps = {
   href: string;
 };
 
-export default async ({ href }: OgpLinkCardProps) => {
+export default async function OgpLinkCard({ href }: OgpLinkCardProps) {
   const ogp = await fetch_ogp(href);
   return <LinkCard {...ogp} />;
-};
+}

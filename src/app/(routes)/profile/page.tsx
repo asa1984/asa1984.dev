@@ -16,9 +16,14 @@ import Topic from "./_components/topic";
 export const metadata: Metadata = {
   title: "Who are you?",
   description: "About asa1984",
+  openGraph: {
+    title: "Who are you?",
+    description: "About asa1984",
+    type: "profile",
+  },
 };
 
-export default () => {
+export default function Page() {
   const article_style = css({
     marginTop: 16,
     marginX: "auto",
@@ -185,18 +190,22 @@ export default () => {
                 overflow: "hidden",
               })}
             >
-              <img
+              <Image
                 src="/images/asa1984_books.webp"
                 alt="Books"
+                width={400}
+                height={700}
                 className={css({
                   objectFit: "cover",
                   animation: "scroll infinite linear 60s both",
                 })}
               />
 
-              <img
+              <Image
                 src="/images/asa1984_books.webp"
                 alt="Books"
+                width={400}
+                height={700}
                 className={css({
                   objectFit: "cover",
                   animation: "scroll infinite linear 60s both",
@@ -265,4 +274,4 @@ export default () => {
       </article>
     </>
   );
-};
+}

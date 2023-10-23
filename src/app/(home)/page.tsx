@@ -9,11 +9,6 @@ import IconCard from "./_components/icon_card";
 
 import { IconX, IconGitHub, IconZenn, IconScrapbox } from "@/components/icons";
 
-export const metadata: Metadata = {
-  title: "asa1984.dev",
-  description: "asa1984's personal website",
-};
-
 export default function Page() {
   const links_container_style = css({
     marginTop: 16,
@@ -40,8 +35,7 @@ export default function Page() {
         <LinkCard title="Blog" description="Technology!" href="/blog" />
         <LinkCard
           title="Context"
-          // description="Feel, Think, Output"
-          description="unimplemented!()"
+          description="Feel, Think, Output"
           href="/context"
         />
         <div className={icons_container_style}>

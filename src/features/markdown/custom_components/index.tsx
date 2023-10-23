@@ -61,9 +61,11 @@ export const custom_components: CustomComponents = {
       display: "block",
       maxWidth: "full",
       height: "full",
-      borderRadius: "md",
+      borderRadius: "xl",
     });
-    return <img loading="lazy" className={image_style} {...props} />;
+    return (
+      <img loading="lazy" decoding="async" className={image_style} {...props} />
+    );
   },
 
   // Special components

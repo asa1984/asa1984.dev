@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Not Found",
 };
 
-export default () => {
+export default function NotFound() {
   const container_style = css({
     height: "100vh",
     display: "grid",
@@ -42,4 +42,4 @@ export default () => {
       </div>
     </div>
   );
-};
+}

@@ -2,7 +2,7 @@
 title: FreshでMarkdownブログを作った
 description: 臆病な自尊心と尊大な羞恥心と偉大なFresh
 date: 2022-11-16
-image: /fresh.png
+image: fresh.webp
 published: true
 tags: [Tech, Web, Deno]
 ---

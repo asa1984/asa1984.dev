@@ -2,7 +2,6 @@ import matter from "gray-matter";
 import {
   array,
   boolean,
-  coerce,
   date,
   object,
   safeParse,

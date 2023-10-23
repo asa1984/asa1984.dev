@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: |
           nix develop --command \
-            pnpm build
+            pnpm dev-build
       - name: Deploy to Cloudflare Pages
         run: |
           nix develop --command \

@@ -1,12 +1,11 @@
 import { type Metadata } from "next";
-import Image from "next/image";
 import { css } from "@/styled-system/css";
 
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
-import { get_post, get_posts } from "@/features/blog";
+import { get_post, get_posts } from "@/features/miniblog";
 
-export type PageProps = {
+type PageProps = {
   params: {
     slug: string;
   };
@@ -24,24 +23,20 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = params;
   const post = await get_post(slug);
-  const { title, description } = post.meta;
+  const { title } = post.meta;
   return {
     title,
-    description,
+    description: title,
     openGraph: {
       title,
-      description,
+      description: title,
       type: "article",
-    },
-    twitter: {
-      card: "summary_large_image",
     },
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
-  const { meta, content } = await get_post(slug);
-  const image_url = `/posts/${slug}/${meta.image}`;
+export default async function Page({ params }: PageProps) {
+  const { meta, content } = await get_post(params.slug);
 
   return (
     <article
@@ -60,22 +55,6 @@ export default async function Page({ params: { slug } }: PageProps) {
           },
         })}
       >
-        <Image
-          src={image_url}
-          alt={meta.title}
-          width={1280}
-          height={720}
-          className={css({
-            mx: "auto",
-            width: "lg",
-            aspectRatio: "16 / 9",
-            objectFit: "cover",
-            borderRadius: "xl",
-            borderStyle: "solid",
-            borderWidth: "2px",
-            borderColor: "black",
-          })}
-        />
         <h1
           className={css({
             mt: 12,
@@ -87,9 +66,6 @@ export default async function Page({ params: { slug } }: PageProps) {
         >
           {meta.title}
         </h1>
-        <p className={css({ mt: 4, textAlign: "center" })}>
-          {meta.description}
-        </p>
         <time
           dateTime={meta.date.toISOString()}
           className={css({

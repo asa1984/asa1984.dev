@@ -45,6 +45,17 @@
   strong {
     font-weight: var(--font-weights-bold);
   }
+  // Image caption
+  p:has(> img) {
+    br {
+      display: none;
+    }
+    em {
+      display: block;
+      text-align: center;
+      color: var(--colors-gray-500);
+    }
+  }
 
   // List
   ul {
@@ -72,6 +83,9 @@
     ol {
       margin-top: var(--spacing-0);
     }
+  }
+  li {
+    margin-top: var(--spacing-1);
   }
 
   // hr

@@ -1,48 +1,20 @@
 import Link from "next/link";
 
 import { css } from "@/styled-system/css";
+import { NavMenu } from "./_components/nav_menu";
 
 const Header = () => {
   const Logo = () => (
     <Link href="/">
       <div
         className={css({
-          fontSize: "3xl",
+          fontSize: "2xl",
           fontWeight: "extrabold",
           userSelect: "none",
         })}
       >
         TrashBox
       </div>
-    </Link>
-  );
-
-  const LinkButton = ({
-    href,
-    children,
-  }: {
-    href: string;
-    children: React.ReactNode;
-  }) => (
-    <Link
-      href={href}
-      className={css({
-        paddingX: 4,
-        paddingY: 2,
-        transitionDuration: "0.2s",
-        transitionTimingFunction: "ease-out",
-        borderRadius: {
-          base: 64,
-          _hover: "xl",
-        },
-        fontSize: "lg",
-        fontWeight: "semibold",
-        backgroundColor: "black",
-        color: "white",
-        userSelect: "none",
-      })}
-    >
-      {children}
     </Link>
   );
 
@@ -58,13 +30,6 @@ const Header = () => {
     height: "3rem",
   });
 
-  const link_container_style = css({
-    display: "flex",
-    flexDir: "row",
-    alignItems: "center",
-    gap: 2,
-  });
-
   return (
     <header>
       <nav>
@@ -72,35 +37,12 @@ const Header = () => {
           <li>
             <Logo />
           </li>
-          <ul className={link_container_style}>
-            <li>
-              <LinkButton href="/context">Context</LinkButton>
-            </li>
-            <li>
-              <LinkButton href="/profile">Profile</LinkButton>
-            </li>
-          </ul>
+          <li>
+            <NavMenu />
+          </li>
         </ul>
       </nav>
     </header>
-  );
-};
-
-const Footer = () => {
-  const footer_style = css({
-    marginX: "auto",
-    marginTop: 16,
-    marginBottom: 6,
-    textAlign: "center",
-    fontSize: "md",
-    fontWeight: "semibold",
-    color: "gray.600",
-  });
-
-  return (
-    <footer className={footer_style}>
-      <p>© 2023 asa1984</p>
-    </footer>
   );
 };
 
@@ -112,18 +54,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     minHeight: "100vh",
   });
 
-  const main_container_style = css({
+  const main_style = css({
     margin: "0 auto",
     px: 4,
     width: "100%",
     maxWidth: "4xl",
   });
 
+  const footer_style = css({
+    marginX: "auto",
+    marginTop: 16,
+    marginBottom: 6,
+    textAlign: "center",
+    fontSize: "md",
+    fontWeight: "semibold",
+    color: "gray.600",
+  });
+
   return (
     <div className={container_style}>
       <Header />
-      <main className={main_container_style}>{children}</main>
-      <Footer />
+      <main className={main_style}>{children}</main>
+      <footer className={footer_style}>
+        <p>© 2023 asa1984</p>
+      </footer>
     </div>
   );
 }

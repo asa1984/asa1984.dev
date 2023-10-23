@@ -22,7 +22,22 @@ const Info = ({ tag, info }: { tag: string; info: ReactNode }) => {
   );
 };
 
-export default () => {
+function get_age() {
+  const now = new Date();
+  const birth = new Date("2004-10-29");
+  const age = now.getFullYear() - birth.getFullYear();
+  if (now.getMonth() < birth.getMonth()) {
+    return age - 1;
+  }
+  if (now.getMonth() === birth.getMonth()) {
+    if (now.getDate() < birth.getDate()) {
+      return age - 1;
+    }
+  }
+  return age;
+}
+
+const ProfileCard = () => {
   const profile_container_style = css({
     padding: "8",
     display: "grid",
@@ -56,7 +71,7 @@ export default () => {
     <div className={profile_container_style}>
       <div>
         <h1 className={name_style}>Asahi Sato</h1>
-        <Info tag="Age" info="18 | 2004-present" />
+        <Info tag="Age" info={`${get_age()} | 2004-present`} />
         <Info tag="Location" info="Miyagi, Japan" />
         <Info
           tag="Org"
@@ -68,7 +83,7 @@ export default () => {
       </div>
       <div className={image_container_style}>
         <NextImage
-          src="/images/asa1984_sleeping.jpg"
+          src="/images/asa1984_sleeping.webp"
           alt="asa1984 sleeps in the share space of Sendai Kosen"
           width={330}
           height={250}
@@ -89,3 +104,5 @@ export default () => {
     </div>
   );
 };
+
+export default ProfileCard;

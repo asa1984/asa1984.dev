@@ -10,6 +10,11 @@ import {
   SiReact,
 } from "react-icons/si";
 import { BiCopy, BiInfoCircle, BiPen } from "react-icons/bi";
+import {
+  MdKeyboardArrowDown,
+  MdKeyboardArrowRight,
+  MdKeyboardArrowLeft,
+} from "react-icons/md";
 import { ComponentProps } from "react";
 
 export const IconGitHub = (props: ComponentProps<typeof SiGithub>) => (
@@ -46,3 +51,12 @@ export const IconInfo = (props: ComponentProps<typeof BiInfoCircle>) => (
 export const IconPen = (props: ComponentProps<typeof BiPen>) => (
   <BiPen {...props} />
 );
+export const IconArrowDown = (
+  props: ComponentProps<typeof MdKeyboardArrowDown>,
+) => <MdKeyboardArrowDown {...props} />;
+export const IconArrowRight = (
+  props: ComponentProps<typeof MdKeyboardArrowRight>,
+) => <MdKeyboardArrowRight {...props} />;
+export const IconArrowLeft = (
+  props: ComponentProps<typeof MdKeyboardArrowLeft>,
+) => <MdKeyboardArrowLeft {...props} />;

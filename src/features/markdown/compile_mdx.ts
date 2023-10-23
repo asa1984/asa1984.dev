@@ -2,6 +2,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { type CompileOptions } from "@mdx-js/mdx";
 
 import remark_breaks from "remark-breaks";
+import remark_comment from "remark-comment";
 import remark_gfm from "remark-gfm";
 import remark_gemoji from "remark-gemoji";
 import remark_math from "remark-math";
@@ -29,6 +30,7 @@ export async function compile_mdx(source: string) {
       mdxOptions: {
         remarkPlugins: [
           remark_zenn_message,
+          remark_comment,
           remark_gfm,
           remark_gemoji,
           remark_math,

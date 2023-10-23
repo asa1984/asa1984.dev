@@ -31,7 +31,7 @@ export default () => {
   return (
     <div className={container_style}>
       <Image
-        src="/images/asa1984.jpg"
+        src="/images/asa1984.webp"
         width={150}
         height={150}
         alt="asa1984's icon"

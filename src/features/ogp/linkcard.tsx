@@ -22,7 +22,6 @@ export const LinkCard = ({
     height: "120px",
     display: "flex",
     justifyContent: "space-between",
-    // grid: image ? "auto / 1fr 240px" : "1fr",
     border: "1px solid var(--colors-gray-300)",
     borderRadius: "lg",
     transitionDuration: "0.2s",
@@ -64,7 +63,7 @@ export const LinkCard = ({
   const favicon_style = css({ w: 4, h: 4, mr: 2 });
 
   const image_style = css({
-    maxWidth: "full",
+    maxWidth: "50%",
     height: "auto",
     borderLeft: "1px solid var(--colors-gray-300)",
     flexShrink: 0,
@@ -94,7 +93,13 @@ export const LinkCard = ({
           </div>
         </div>
       </div>
-      {image && <img src={image} alt={title} className={image_style} />}
+      {image && (
+        <img
+          src={image}
+          alt={`og:image of ${hostname}`}
+          className={image_style}
+        />
+      )}
     </a>
   );
 };

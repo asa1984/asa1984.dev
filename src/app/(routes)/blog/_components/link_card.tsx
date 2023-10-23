@@ -88,7 +88,11 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
   return (
     <div key={slug} className={card_style}>
       <Link href={`/blog/${slug}`} key={slug}>
-        <img src={meta.image} alt={meta.title} className={image_style} />
+        <img
+          src={`posts/${slug}/${meta.image}`}
+          alt={meta.title}
+          className={image_style}
+        />
       </Link>
       <div className={text_container_style}>
         <div className={date_style}>{get_diff_date(meta.date)}</div>
