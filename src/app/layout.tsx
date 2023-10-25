@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         case "main":
           return "https://asa1984.dev";
         case "dev":
-          return "http://dev.trashbox.pages.dev";
+          return "https://dev.trashbox.pages.dev";
         default:
           return "http://localhost:3000";
       }

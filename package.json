@@ -6,9 +6,8 @@
     "prepare": "panda codegen",
     "dev": "next dev",
     "lint": "next lint",
-    "build": "next build",
     "serve": "serve out",
-    "postbuild": "next-export-optimize-images",
+    "build": "next build && next-export-optimize-images",
     "build-dev": "DEPLOY_BRANCH=dev pnpm build",
     "build-prod": "DEPLOY_BRANCH=main pnpm build"
   },
