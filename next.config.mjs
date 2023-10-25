@@ -1,12 +1,11 @@
+import with_export_images from "next-export-optimize-images";
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const next_config = {
   output: "export",
-  images: {
-    unoptimized: true,
-  },
   experimental: {
     scrollRestoration: true,
   },
 };
 
-export default nextConfig;
+export default with_export_images(next_config);

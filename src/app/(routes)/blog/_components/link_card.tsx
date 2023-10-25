@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { css } from "@/styled-system/css";
 import { Frontmatter } from "@/features/frontmatter";
 
@@ -67,30 +68,16 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
     fontStyle: "italic",
   });
 
-  const tag_container_style = css({
-    px: 4,
-    pb: 4,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  });
-  const tag_style = css({
-    mr: 2,
-    display: "inline-block",
-    fontFamily: "monospace",
-    transitionDuration: "0.1s",
-    transitionTimingFunction: "ease-in-out",
-    borderBottom: "2px solid transparent",
-    _hover: {
-      borderColor: "black",
-    },
-  });
-
   return (
     <div key={slug} className={card_style}>
       <Link href={`/blog/${slug}`} key={slug}>
-        <img
+        <Image
           src={`posts/${slug}/${meta.image}`}
           alt={meta.title}
+          width={512}
+          height={288}
+          decoding="async"
+          loading="lazy"
           className={image_style}
         />
       </Link>
@@ -101,15 +88,6 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
         </Link>
         <div className={description_style}>{meta.description}</div>
       </div>
-      {/*
-      <ul className={tag_container_style}>
-        {meta.tags.map((tag) => (
-          <li key={tag} className={tag_style}>
-            <a href={`/blog?tag=${tag}`}>#{tag}</a>
-          </li>
-        ))}
-      </ul>
-      */}
     </div>
   );
 };

@@ -64,8 +64,10 @@ export default async function Page({ params: { slug } }: PageProps) {
         <Image
           src={image_url}
           alt={meta.title}
-          width={1280}
-          height={720}
+          width={512}
+          height={288}
+          decoding="async"
+          loading="lazy"
           className={css({
             mx: "auto",
             width: "lg",

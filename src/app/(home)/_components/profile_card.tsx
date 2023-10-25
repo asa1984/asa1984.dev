@@ -32,9 +32,10 @@ export default () => {
     <div className={container_style}>
       <Image
         src="/images/asa1984.webp"
-        width={150}
-        height={150}
+        width={128}
+        height={128}
         alt="asa1984's icon"
+        decoding="async"
         className={image_style}
       />
       <div>

@@ -146,6 +146,8 @@ export default function Page() {
                 alt="Keyboard"
                 width={400}
                 height={300}
+                decoding="async"
+                loading="lazy"
                 className={css({
                   height: "full",
                   objectFit: "cover",
@@ -195,6 +197,8 @@ export default function Page() {
                 alt="Books"
                 width={400}
                 height={700}
+                decoding="async"
+                loading="lazy"
                 className={css({
                   objectFit: "cover",
                   animation: "scroll infinite linear 60s both",
@@ -206,6 +210,8 @@ export default function Page() {
                 alt="Books"
                 width={400}
                 height={700}
+                decoding="async"
+                loading="lazy"
                 className={css({
                   objectFit: "cover",
                   animation: "scroll infinite linear 60s both",

@@ -86,6 +86,8 @@ export const LinkCard = ({
               <img
                 src={`https://www.google.com/s2/favicons?size=14&domain_url=${hostname}`}
                 alt="favicon"
+                decoding="async"
+                loading="lazy"
                 className={favicon_style}
               />
             </span>
@@ -97,6 +99,8 @@ export const LinkCard = ({
         <img
           src={image}
           alt={`og:image of ${hostname}`}
+          decoding="async"
+          loading="lazy"
           className={image_style}
         />
       )}

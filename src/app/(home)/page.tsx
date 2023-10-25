@@ -1,5 +1,3 @@
-import { type Metadata } from "next";
-
 import { css } from "@/styled-system/css";
 
 import ProfileCard from "./_components/profile_card";
