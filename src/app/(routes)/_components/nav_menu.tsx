@@ -67,6 +67,7 @@ export const NavMenu = () => {
         ref={ref}
       >
         <button
+          aria-label="Open menu"
           className={css({
             ml: 1,
             pt: 1,
