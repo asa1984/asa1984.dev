@@ -1,9 +1,8 @@
-import { css } from "@/styled-system/css";
-
 import { type Metadata } from "next";
 
-import { get_posts, type Post } from "@/features/miniblog";
+import { css } from "@/styled-system/css";
 
+import { get_posts, type Post } from "@/features/miniblog";
 import { LinkCard } from "./_components/link_card";
 
 export const metadata: Metadata = {

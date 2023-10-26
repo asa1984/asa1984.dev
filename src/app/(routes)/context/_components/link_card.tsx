@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { Noto_Emoji } from "next/font/google";
+
 import { css } from "@/styled-system/css";
 
 import { Frontmatter } from "@/features/miniblog";
 
-const emoji = Noto_Emoji({
-  subsets: ["emoji"],
-});
+// const emoji = Noto_Emoji({
+//   subsets: ["emoji"],
+// });
 
 export type LinkCardProps = {
   slug: string;
@@ -57,7 +57,7 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
             },
           })}
         >
-          <span className={emoji.className}>{meta.emoji}</span>
+          <span className={css({ fontFamily: "emoji" })}>{meta.emoji}</span>
         </span>
       </div>
       <div

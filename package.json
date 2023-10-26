@@ -12,6 +12,10 @@
     "build-prod": "DEPLOY_BRANCH=main pnpm build"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.0.15",
+    "@fontsource-variable/jetbrains-mono": "^5.0.18",
+    "@fontsource-variable/noto-emoji": "^5.0.16",
+    "@fontsource-variable/noto-sans-jp": "^5.0.16",
     "@mdx-js/mdx": "^2.3.0",
     "@pandacss/dev": "^0.15.5",
     "@sniptt/monads": "^0.5.10",

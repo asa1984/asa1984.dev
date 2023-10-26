@@ -5,6 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fontsource-variable/inter':
+    specifier: ^5.0.15
+    version: 5.0.15
+  '@fontsource-variable/jetbrains-mono':
+    specifier: ^5.0.18
+    version: 5.0.18
+  '@fontsource-variable/noto-emoji':
+    specifier: ^5.0.16
+    version: 5.0.16
+  '@fontsource-variable/noto-sans-jp':
+    specifier: ^5.0.16
+    version: 5.0.16
   '@mdx-js/mdx':
     specifier: ^2.3.0
     version: 2.3.0
@@ -947,6 +959,22 @@ packages:
 
   /@floating-ui/utils@0.1.6:
     resolution: {integrity: sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==}
+    dev: false
+
+  /@fontsource-variable/inter@5.0.15:
+    resolution: {integrity: sha512-CdQPQQgOVxg6ifmbrqYZeUqtQf7p2wPn6EvJ4M+vdNnsmYZgYwPPPQDNlIOU7LCUlSGaN26v6H0uA030WKn61g==}
+    dev: false
+
+  /@fontsource-variable/jetbrains-mono@5.0.18:
+    resolution: {integrity: sha512-8qyD5zmaB4X9EQsGViwHGcQPjOGsHGxyJ+DuAxkXVyP+/Mzb5B9kYuG8+8a3vX/y0mZ81CUpbUWp0ik89c3dQw==}
+    dev: false
+
+  /@fontsource-variable/noto-emoji@5.0.16:
+    resolution: {integrity: sha512-gzwhNO4i5dOD+VMoH3qthsftv4fD846GI3lDiLl7O9Thi+uzAB9P1f7rEsOr1yeyhrUWrUT6fepoR9Aj2ExlJA==}
+    dev: false
+
+  /@fontsource-variable/noto-sans-jp@5.0.16:
+    resolution: {integrity: sha512-suU5NNybimn+KgVHKJxpFzQ/HTrQFO3lSYo/umKsqdAFDxhPyRTyjN6V8Ha/IAj01Mnaj2HbL6xvMDEQuGwwCQ==}
     dev: false
 
   /@internationalized/date@3.5.0:

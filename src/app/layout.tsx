@@ -1,6 +1,10 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { SansEN, SansJP, Monospace } from "@/styles/fonts";
+
+import "./globals.css";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/noto-sans-jp";
+import "@fontsource-variable/jetbrains-mono";
+import "@fontsource-variable/noto-emoji";
 
 export const metadata: Metadata = {
   title: "asa1984.dev",
@@ -33,10 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="ja"
-      className={`${SansEN.variable} ${SansJP.variable} ${Monospace.variable}`}
-    >
+    <html lang="ja">
       <body>{children}</body>
     </html>
   );
