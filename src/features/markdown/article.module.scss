@@ -129,7 +129,7 @@
 
   // Code
   code {
-    font-family: var(--font-monospace);
+    font-family: var(--fonts-monospace);
   }
 
   p > code,
@@ -141,7 +141,7 @@
   }
 
   [data-rehype-pretty-code-fragment] {
-    font-family: var(--font-monospace);
+    font-family: var(--fonts-monospace);
     margin-top: var(--spacing-6);
     pre {
       padding: var(--spacing-4) 0;
