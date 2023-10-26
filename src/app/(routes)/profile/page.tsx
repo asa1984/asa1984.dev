@@ -117,7 +117,7 @@ export default function Page() {
                 <li>Terminal: WezTerm</li>
               </ul>
               <a
-                href="https:github.com/asa1984/dotfiles"
+                href="https://github.com/asa1984/dotfiles"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={css({
