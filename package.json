@@ -8,8 +8,8 @@
     "lint": "next lint",
     "serve": "serve out",
     "build": "next build && next-export-optimize-images",
-    "build-dev": "DEPLOY_BRANCH=dev pnpm build",
-    "build-prod": "DEPLOY_BRANCH=main pnpm build"
+    "build:dev": "DEPLOY_BRANCH=dev pnpm build",
+    "build:prod": "DEPLOY_BRANCH=main pnpm build"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.15",

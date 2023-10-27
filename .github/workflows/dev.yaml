@@ -1,13 +1,16 @@
 name: Development deployment
 
-on: [push]
+on:
+  push:
+    branches:
+      - dev
 
 env:
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
 jobs:
-  dev-deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -27,13 +30,15 @@ jobs:
         run: |
           nix develop --command \
             pnpm store path | xargs -I {} echo "STORE_PATH={}" >> $GITHUB_OUTPUT
-      - name: Setup pnpm cache
+      - name: Setup pnpm cache & Next.js cache
         uses: actions/cache@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: |
+            ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install dependencies
         run: |
@@ -42,7 +47,7 @@ jobs:
       - name: Build
         run: |
           nix develop --command \
-            pnpm build-dev
+            pnpm build:dev
       - name: Deploy to Cloudflare Pages
         run: |
           nix develop --command \
