@@ -29,10 +29,8 @@ function get_age() {
   if (now.getMonth() < birth.getMonth()) {
     return age - 1;
   }
-  if (now.getMonth() === birth.getMonth()) {
-    if (now.getDate() < birth.getDate()) {
-      return age - 1;
-    }
+  if (now.getMonth() === birth.getMonth() && now.getDate() < birth.getDate()) {
+    return age - 1;
   }
   return age;
 }

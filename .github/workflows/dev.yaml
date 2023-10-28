@@ -8,6 +8,7 @@ on:
 env:
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  TZ: "Asia/Tokyo"
 
 jobs:
   deploy-dev:
