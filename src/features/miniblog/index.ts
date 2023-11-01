@@ -43,7 +43,7 @@ export type Post = {
 };
 
 export async function get_post(slug: string): Promise<Post> {
-  const source = await fs.readFile(`./public/context/${slug}.md`, "utf-8");
+  const source = await fs.readFile(`./public/context/${slug}/post.md`, "utf-8");
 
   const { meta, content } = parse_frontmatter(source).unwrapOrElse(() => {
     throw new Error("Failed to parse frontmatter");

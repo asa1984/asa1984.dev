@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 type Years = Map<number, Post[]>;
-async function get_sorted_posts() {
+async function get_posts_per_years() {
   const posts = await get_posts();
   const years: Years = new Map();
   for (const post of posts) {
@@ -29,8 +29,8 @@ async function get_sorted_posts() {
 }
 
 export default async function Page() {
-  const posts = await get_sorted_posts();
-  const years = [...posts.entries()].sort().reverse();
+  const years_posts = await get_posts_per_years();
+  const years = [...years_posts.entries()].sort(([a], [b]) => b - a);
 
   return (
     <div
@@ -39,7 +39,7 @@ export default async function Page() {
         mx: "auto",
       })}
     >
-      {years.map(([year, post]) => {
+      {years.map(([year, posts]) => {
         return (
           <div key={year}>
             <h2
@@ -61,11 +61,17 @@ export default async function Page() {
                 },
               })}
             >
-              {post.map((post) => {
-                return (
-                  <LinkCard key={post.slug} slug={post.slug} meta={post.meta} />
-                );
-              })}
+              {posts
+                .sort((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
+                .map((post) => {
+                  return (
+                    <LinkCard
+                      key={post.slug}
+                      slug={post.slug}
+                      meta={post.meta}
+                    />
+                  );
+                })}
             </div>
           </div>
         );

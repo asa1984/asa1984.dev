@@ -1,5 +1,7 @@
 import { type MDXRemoteProps } from "next-mdx-remote";
+
 import Link from "next/link";
+import Image from "next/image";
 import { css } from "@/styled-system/css";
 
 import LinkCard from "@/features/ogp";
@@ -57,14 +59,22 @@ export const custom_components: CustomComponents = {
   img: (props) => {
     const image_style = css({
       marginX: "auto",
-      marginTop: 6,
       display: "block",
-      maxWidth: "full",
-      height: "full",
+      maxWidth: "100%",
       borderRadius: "xl",
+      overflow: "hidden",
     });
+    if (!props.src) {
+      return null;
+    }
     return (
-      <img loading="lazy" decoding="async" className={image_style} {...props} />
+      <img
+        src={props.src}
+        alt={props.alt ?? "alt"}
+        loading="lazy"
+        decoding="async"
+        className={image_style}
+      />
     );
   },
 
