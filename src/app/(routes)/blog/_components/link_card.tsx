@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { css } from "@/styled-system/css";
 import { Frontmatter } from "@/features/frontmatter";
+import { DiffDate } from "./link_card_date";
 
 export type LinkCardProps = {
   slug: string;
@@ -82,7 +83,9 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
         />
       </Link>
       <div className={text_container_style}>
-        <div className={date_style}>{get_diff_date(meta.date)}</div>
+        <div className={date_style}>
+          <DiffDate date={meta.date} />
+        </div>
         <Link href={`/blog/${slug}`} key={slug}>
           <h2 className={title_style}>{meta.title}</h2>
         </Link>
