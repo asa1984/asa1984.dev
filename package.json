@@ -1,0 +1,18 @@
+{
+  "name": "asa1984.dev",
+  "description": "asa1984's personal website",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "typecheck": "turbo run typecheck",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "gen": "turbo run gen",
+    "dev:migrate": "wrangler d1 migrations apply asa1984-blog --local"
+  },
+  "devDependencies": {
+    "turbo": "^1.11.2"
+  }
+}

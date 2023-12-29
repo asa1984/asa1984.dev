@@ -1,0 +1,4 @@
+src/styled-system/
+*.tsbuildinfo
+next-env.d.ts
+.next/

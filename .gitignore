@@ -1,0 +1,23 @@
+# Dependencies
+*node_modules
+
+# Local env files
+.env
+
+# Turbo
+.turbo
+
+# Deployment
+.vercel
+.wrangler
+wrangler.toml
+
+# Build Outputs
+out/
+build
+dist
+
+# Misc
+.DS_Store
+.direnv
+.cache

@@ -1,0 +1,26 @@
+{
+  "name": "@asa1984.dev/api",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "script": {
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@asa1984.dev/drizzle": "workspace:*",
+    "@hono/zod-validator": "^0.1.11",
+    "hono": "^3.11.7",
+    "ulidx": "^2.2.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@asa1984.dev/tsconfig": "workspace:*",
+    "@cloudflare/workers-types": "^4.20230914.0",
+    "better-sqlite3": "^9.2.2",
+    "drizzle-kit": "^0.20.6",
+    "drizzle-orm": "^0.29.1",
+    "typescript": "^5.3.3"
+  }
+}

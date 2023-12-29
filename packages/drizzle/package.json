@@ -1,0 +1,24 @@
+{
+  "name": "@asa1984.dev/drizzle",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "gen": "drizzle-kit generate:sqlite --out migrations --schema src/schema.ts",
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.29.1",
+    "drizzle-zod": "^0.5.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@asa1984.dev/tsconfig": "workspace:*",
+    "better-sqlite3": "^9.2.2",
+    "drizzle-kit": "^0.20.6",
+    "npm-run-all2": "^6.1.1",
+    "typescript": "^5.3.3"
+  }
+}
