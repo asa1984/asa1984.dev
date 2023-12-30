@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "gen": "panda codegen",
+    "gen:css": "panda codegen",
+    "gen:gql": "nitrogql generate",
     "dev": "next dev",
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit",
-    "serve": "serve out",
     "build": "next build",
     "build:dev": "BUILD_TARGET_ENV=development pnpm build",
     "build:preview": "BUILD_TARGET_ENV=preview pnpm build",
-    "build:prod": "BUILD_TARGET_ENV=production pnpm build"
+    "build:prod": "BUILD_TARGET_ENV=production pnpm build",
+    "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:graphql'"
   },
   "dependencies": {
     "@asa1984.dev/api": "workspace:*",
@@ -25,7 +26,6 @@
     "@sniptt/monads": "^0.5.10",
     "@types/mdast": "^4.0.3",
     "fetch-site-metadata": "^0.2.0",
-    "gray-matter": "^4.0.3",
     "katex": "^0.16.9",
     "mdast-util-to-hast": "^13.0.2",
     "next": "^14.0.4",
@@ -48,15 +48,19 @@
     "unified": "^11.0.4",
     "unist-util-inspect": "^8.0.0",
     "unist-util-visit": "^5.0.0",
-    "valibot": "^0.24.1",
+    "urql": "^4.0.6",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "graphql": "^16.8.1",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@nitrogql/cli": "1.6.0-beta.1",
+    "@nitrogql/graphql-loader": "1.6.0-beta.1",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@types/unist": "^3.0.2",
-    "serve": "^14.2.1",
+    "chokidar-cli": "^3.0.0",
     "typescript": "^5.3.3"
   }
 }

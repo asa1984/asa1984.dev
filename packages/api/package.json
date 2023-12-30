@@ -2,15 +2,25 @@
   "name": "@asa1984.dev/api",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
   "script": {
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./server": "./src/server/index.ts"
+  },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
+    "@hono/graphql-server": "^0.4.1",
     "@hono/zod-validator": "^0.1.11",
+    "@pothos/core": "^3.41.0",
+    "@pothos/plugin-simple-objects": "^3.7.0",
+    "@pothos/plugin-validation": "^3.10.1",
+    "graphql": "^16.8.1",
+    "graphql-yoga": "^5.1.0",
     "hono": "^3.11.7",
     "ulidx": "^2.2.1",
     "zod": "^3.22.4"

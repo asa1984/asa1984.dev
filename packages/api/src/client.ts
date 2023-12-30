@@ -1,7 +1,5 @@
 import { hc } from "hono/client";
-import { root } from "./server";
-
-type AppType = typeof root;
+import type { AppType } from "./server";
 
 export const createClient = ({
   baseUrl,

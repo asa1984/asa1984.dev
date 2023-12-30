@@ -2,3 +2,8 @@ src/styled-system/
 *.tsbuildinfo
 next-env.d.ts
 .next/
+
+# nitrogql
+src/generated
+*.d.graphql.ts
+*.d.graphql.ts.map

@@ -1,0 +1,12 @@
+query getBlogs {
+  blogs {
+    slug
+    image
+    title
+    description
+    content
+    published
+    createdAt
+    updatedAt
+  }
+}

@@ -1,14 +1,11 @@
-import { boolean, date, object, string, emoji, type Output } from "valibot";
 import { client } from "@/libs/api";
 
-export const frontmatter_schema = object({
-  title: string(),
-  emoji: string([emoji()]),
-  date: date(),
-  published: boolean(),
-});
-
-export type Frontmatter = Output<typeof frontmatter_schema>;
+export type Frontmatter = {
+  title: string;
+  emoji: string;
+  date: Date;
+  published: boolean;
+};
 
 export type Post = {
   slug: string;
