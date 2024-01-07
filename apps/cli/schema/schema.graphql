@@ -1,0 +1,32 @@
+type Blog {
+  content: String!
+  createdAt: String!
+  description: String!
+  image: String!
+  published: Boolean!
+  slug: String!
+  title: String!
+  updatedAt: String!
+}
+
+type Mutation {
+  """Create or update a blog"""
+  upsertBlog(input: UpsertBlogInput!): Blog!
+}
+
+type Query {
+  """Get a blog by slug"""
+  blog(slug: String): Blog
+
+  """Get all blogs"""
+  blogs: [Blog!]!
+}
+
+input UpsertBlogInput {
+  content: String!
+  description: String!
+  image: String!
+  published: Boolean!
+  slug: String!
+  title: String!
+}

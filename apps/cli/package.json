@@ -1,19 +1,14 @@
 {
   "name": "cli",
+  "type": "module",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "build": "esbuild src/main.ts --bundle --outfile=dist/index.js --target=node18 --format=esm --external=fs --external=crypto"
+    "gen": "bun run ./generate-gql-schema.ts"
   },
   "devDependencies": {
     "@asa1984.dev/api": "workspace:*",
     "@types/node": "^20.10.5",
-    "esbuild": "^0.19.10"
-  },
-  "dependencies": {
-    "@kvs/env": "^2.1.5",
-    "dotenv": "^16.3.1",
-    "gray-matter": "^4.0.3",
-    "valibot": "^0.24.1"
+    "graphql": "^16.8.1",
+    "tsx": "^4.7.0"
   }
 }

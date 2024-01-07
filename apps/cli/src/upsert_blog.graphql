@@ -1,0 +1,10 @@
+mutation upsertBlog($blog: UpsertBlogInput!) {
+  upsertBlog(input: $blog) {
+    slug
+    title
+    image
+    description
+    content
+    published
+  }
+}
