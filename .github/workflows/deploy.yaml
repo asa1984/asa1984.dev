@@ -49,7 +49,5 @@ jobs:
 
       - name: Install dependencies
         run: nix develop .#ci --command install
-      # - name: Build
-      #   run: nix develop --command build
       - name: Deploy
         run: nix develop .#ci --command deploy
