@@ -1,0 +1,10 @@
+query getContexts{
+  contexts{
+    slug
+    title
+    emoji
+    content
+    published
+    createdAt
+  }
+}

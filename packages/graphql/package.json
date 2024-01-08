@@ -1,0 +1,25 @@
+{
+  "name": "@asa1984.dev/graphql",
+  "private": true,
+  "script": {
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "main": "src/lib.ts",
+  "dependencies": {
+    "@asa1984.dev/drizzle": "workspace:*",
+    "@pothos/core": "^3.41.0",
+    "@pothos/plugin-simple-objects": "^3.7.0",
+    "graphql": "^16.8.1",
+    "ulidx": "^2.2.1"
+  },
+  "devDependencies": {
+    "@asa1984.dev/tsconfig": "workspace:*",
+    "@cloudflare/workers-types": "^4.20230914.0",
+    "better-sqlite3": "^9.2.2",
+    "drizzle-kit": "^0.20.6",
+    "drizzle-orm": "^0.29.1",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@asa1984.dev/tsconfig",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  }
+}

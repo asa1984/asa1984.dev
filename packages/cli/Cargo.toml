@@ -1,0 +1,22 @@
+[package]
+name = "cli"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.77"
+graphql_client = { version = "0.13.0", features = [
+  "reqwest-rustls",
+  "reqwest-blocking",
+] }
+serde = { version = "1.0.193", features = ["derive"] }
+sha256 = "1.4.0"
+fronma = "0.2.0"
+reqwest = { version = "0.11.23", default-features = false, features = [
+  "rustls-tls",
+  "blocking",
+] }
+ansi_term = "0.12.1"
+clap = { version = "4.4.12", features = ["derive"] }
