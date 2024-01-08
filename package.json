@@ -10,7 +10,9 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "gen": "turbo run gen",
-    "dev:migrate": "wrangler d1 migrations apply asa1984-blog --local"
+    "db:migrate": "wrangler d1 migrations apply asa1984-blog",
+    "dev:migrate": "wrangler d1 migrations apply asa1984-blog --local",
+    "deploy": "turbo run deploy"
   },
   "devDependencies": {
     "turbo": "^1.11.2"
