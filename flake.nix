@@ -33,6 +33,9 @@
         (writeScriptBin "migrate" ''
           ${nodePackages.pnpm}/bin/pnpm run migrate:prod
         '')
+        (writeScriptBin "deploy" ''
+          ${nodePackages.pnpm}/bin/pnpm run deploy
+        '')
       ];
     in {
       devShells = rec {
