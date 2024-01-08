@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "gen": "pnpm run gen:css && pnpm run gen:gql",
     "gen:css": "panda codegen",
     "gen:gql": "nitrogql generate",
     "dev": "rimraf ./next && next dev",
+    "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:graphql'",
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit",
     "build": "next build",
-    "build:dev": "BUILD_TARGET_ENV=development pnpm build",
     "build:preview": "BUILD_TARGET_ENV=preview pnpm build",
-    "build:prod": "BUILD_TARGET_ENV=production pnpm build",
-    "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:graphql'"
+    "build:prod": "BUILD_TARGET_ENV=production pnpm build"
   },
   "dependencies": {
     "@asa1984.dev/backend": "workspace:*",
@@ -32,7 +32,6 @@
     "next": "^14.0.4",
     "next-mdx-remote": "^4.4.1",
     "node-html-parser": "^6.1.11",
-    "npm-run-all": "^4.1.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",

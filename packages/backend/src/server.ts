@@ -16,6 +16,10 @@ export const schema = builder.toSchema();
 
 export const root = app
   .use("/graphql/*", (c, next) => {
+    console.log(c.env.API_TOKEN);
+    const token = c.req.header("Authorization");
+    console.log(token);
+
     const auth = bearerAuth({ token: c.env.API_TOKEN });
     return auth(c, next);
   })

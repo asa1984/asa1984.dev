@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const posts = await get_posts();
+  const sorted = posts.sort((a, b) => b.meta.date.getTime() - a.meta.date.getTime());
 
   const card_container_style = css({
     mt: 8,
@@ -30,7 +31,7 @@ export default async function Page() {
   return (
     <div className={css({ mt: 8 })}>
       <div className={card_container_style}>
-        {posts.map(({ slug, meta }) => (
+        {sorted.map(({ slug, meta }) => (
           <LinkCard key={slug} slug={slug} meta={meta} />
         ))}
       </div>

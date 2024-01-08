@@ -54,19 +54,19 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
     fontStyle: "italic",
   });
 
-  const image_url = (image: string) => {
-    const extention = image.split(".").pop();
-    const hash = createHash("sha256");
-    hash.update(`blog/${slug}/${image}`);
-    const hashed = hash.digest("hex");
-    return `${env.API_URL}/image/delivery/${hashed}.${extention}`;
-  };
+  // const image_url = (image: string) => {
+  //   const extention = image.split(".").pop();
+  //   const hash = createHash("sha256");
+  //   hash.update(`blog/${slug}/${image}`);
+  //   const hashed = hash.digest("hex");
+  //   return `${env.API_URL}/image/delivery/${hashed}.${extention}`;
+  // };
 
   return (
     <div key={slug} className={card_style}>
       <Link href={`/blog/${slug}`} key={slug}>
         <Image
-          src={image_url(meta.image)}
+          src={meta.image}
           alt={meta.title}
           width={512}
           height={288}

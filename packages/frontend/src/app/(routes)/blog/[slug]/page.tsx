@@ -33,7 +33,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params: { slug } }: PageProps) {
   const { meta, content } = await get_post(slug);
-  const image_url = `/posts/${slug}/${meta.image}`;
 
   return (
     <article
@@ -53,7 +52,7 @@ export default async function Page({ params: { slug } }: PageProps) {
         })}
       >
         <Image
-          src={image_url}
+          src={meta.image}
           alt={meta.title}
           width={512}
           height={288}
@@ -102,9 +101,6 @@ export default async function Page({ params: { slug } }: PageProps) {
           />
           {meta.date.toDateString()}
         </time>
-        {/* 
-        <div className={css({ mt: 4, display: "flex", justifyContent: "center" })}></div>
-        */}
       </header>
 
       <main>
