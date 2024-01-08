@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.77"
-frontmatter = "0.4.0"
+# frontmatter = "0.4.0"
 graphql_client = { version = "0.13.0", features = [
   "reqwest-rustls",
   "reqwest-blocking",

@@ -22,7 +22,7 @@ use anyhow::Result;
 use get_blogs::GetBlogsBlogs;
 use graphql_client::{reqwest::post_graphql_blocking, GraphQLQuery};
 use reqwest::blocking::Client;
-use reqwest::header;
+use reqwest::header::{self, HeaderMap, HeaderValue};
 use upsert_blog::{UpsertBlogInput, UpsertBlogUpsertBlog};
 
 pub struct GQLClient {
@@ -31,22 +31,17 @@ pub struct GQLClient {
 }
 
 impl GQLClient {
-    pub fn new(server: &str, token: &str) -> Self {
+    pub fn new(server: &str, token: &str) -> Result<Self> {
         let base_url = format!("{}/graphql", server);
 
-        let bearer_token = format!("Bearer {}", token);
-        let mut headers = header::HeaderMap::new();
-        headers.insert(
-            "Authorization",
-            header::HeaderValue::from_str(&bearer_token).unwrap(),
-        );
-        let client = Client::builder().default_headers(headers).build().unwrap();
-        Self {
-            client: Client::new(),
-            base_url,
-        }
+        let mut headers = HeaderMap::new();
+        let token = HeaderValue::try_from(format!("Bearer {}", token))?;
+        headers.insert(header::AUTHORIZATION, token);
+        let client = Client::builder().default_headers(headers).build()?;
+        Ok(Self { client, base_url })
     }
 
+    #[allow(dead_code)]
     pub fn get_blogs(&self) -> Result<Vec<GetBlogsBlogs>> {
         let query = get_blogs::Variables {};
         let response =

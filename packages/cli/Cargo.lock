@@ -220,7 +220,6 @@ dependencies = [
  "anyhow",
  "clap",
  "fronma",
- "frontmatter",
  "graphql_client",
  "reqwest",
  "serde",
@@ -335,15 +334,6 @@ checksum = "da11047dc6b6b3f21012056a0f9177e435a0ce4f34e1c5e7990b01342c0d4e49"
 dependencies = [
  "serde",
  "serde_yaml",
-]
-
-[[package]]
-name = "frontmatter"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8fc799a66fc39c6d56fa3bdc8afc1fd7efa8ebff71f4ff091596faffb96c84fa"
-dependencies = [
- "yaml-rust",
 ]
 
 [[package]]

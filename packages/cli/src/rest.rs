@@ -1,6 +1,6 @@
 use anyhow::Result;
 use reqwest::blocking::Client;
-use reqwest::header;
+use reqwest::header::{self, HeaderMap, HeaderValue};
 use std::fs::File;
 
 #[derive(Debug)]
@@ -10,19 +10,16 @@ pub struct RestClient {
 }
 
 impl RestClient {
-    pub fn new(base_url: &str, token: &str) -> Self {
-        let bearer_token = format!("Bearer {}", token);
-        let mut headers = header::HeaderMap::new();
-        headers.insert(
-            "Authorization",
-            header::HeaderValue::from_str(&bearer_token).unwrap(),
-        );
-        let client = Client::builder().default_headers(headers).build().unwrap();
+    pub fn new(base_url: &str, token: &str) -> Result<Self> {
+        let token = HeaderValue::try_from(format!("Bearer {}", token))?;
+        let mut headers = HeaderMap::new();
+        headers.insert(header::AUTHORIZATION, token);
+        let client = Client::builder().default_headers(headers).build()?;
 
-        Self {
+        Ok(Self {
             client,
             base_url: base_url.to_string(),
-        }
+        })
     }
 
     pub fn upload_image(&self, key: &str, file: File) -> Result<()> {
