@@ -2,8 +2,6 @@
 
 My personal website.
 
-## Structure
-
 ## Setup
 
 ```bash
@@ -21,13 +19,6 @@ pnpm build
 ```
 
 ## Deploy
-
-### Requirements
-
-- `.env` file
-- Loged in wrangler
-
-### Command
 
 ```bash
 pnpm deploy
