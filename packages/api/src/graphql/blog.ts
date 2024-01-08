@@ -1,10 +1,11 @@
 import { builder } from "./gql-builer";
 import _SimpleObjectsPlugin from "@pothos/plugin-simple-objects";
-import _ValidationPlugin from "@pothos/plugin-validation";
+// import _ValidationPlugin from "@pothos/plugin-validation";
+// import _ErrorsPlugin from "@pothos/plugin-errors";
 import { drizzle } from "drizzle-orm/d1";
 import { eq } from "drizzle-orm";
 import * as schema from "@asa1984.dev/drizzle";
-import { blogs } from "@asa1984.dev/drizzle";
+import { blogs as blogsSchema } from "@asa1984.dev/drizzle";
 import { ulid } from "ulidx";
 import { CURRENT_TIMESTAMP } from "../utils";
 
@@ -50,47 +51,60 @@ builder.queryFields((t) => ({
   }),
 }));
 
-builder.mutationField("postBlog", (t) =>
+const UpsertBlogInput = builder.inputType("UpsertBlogInput", {
+  fields: (t) => ({
+    slug: t.string({ required: true }),
+    title: t.string({ required: true }),
+    image: t.string({ required: true }),
+    description: t.string({ required: true }),
+    content: t.string({ required: true }),
+    published: t.boolean({ required: true }),
+  }),
+});
+
+builder.mutationField("upsertBlog", (t) =>
   t.field({
     type: BlogType,
     description: "Create or update a blog",
-    nullable: true,
     args: {
-      slug: t.arg.string({ required: true }),
-      title: t.arg.string({ required: true }),
-      image: t.arg.string({ required: true }),
-      description: t.arg.string({ required: true }),
-      content: t.arg.string({ required: true }),
-      published: t.arg.boolean({ required: true }),
+      input: t.arg({
+        type: UpsertBlogInput,
+        required: true,
+      }),
     },
-    resolve: async (_root, args, context) => {
+    resolve: async (_root, { input }, context) => {
+      const { slug, ...othres } = input;
       const db = drizzle(context.DB, { schema });
+
       const oldOne = await db.query.blogs.findFirst({
-        where: (blog) => eq(blog.slug, args.slug),
+        where: (blog) => eq(blog.slug, slug),
       });
+
       if (oldOne) {
-        const blog = await db
-          .update(blogs)
+        const result = await db
+          .update(blogsSchema)
           .set({
             updatedAt: CURRENT_TIMESTAMP(),
-            ...args,
+            ...input,
           })
-          .where(eq(blogs.slug, args.slug))
+          .where(eq(blogsSchema.slug, slug))
           .returning();
-        const updated = blog[0];
-        if (!updated) return null;
+
+        const updated = result[0];
+        if (!updated) throw new Error("Failed to update blog");
         return updated;
       } else {
         const id = ulid();
         const result = await db
-          .insert(blogs)
+          .insert(blogsSchema)
           .values({
             id,
-            ...args,
+            slug,
+            ...othres,
           })
           .returning();
         const inserted = result[0];
-        if (!inserted) return null;
+        if (!inserted) throw new Error("Failed to insert blog");
         return inserted;
       }
     },

@@ -54,7 +54,7 @@ fn main() {
             panic!("{}", Colour::Red.paint(err_msg));
         })
     });
-    let gql_client = gql::GQLClient::new(&cli.server);
+    let gql_client = gql::GQLClient::new(&cli.server, &token);
     let rest_client = rest::RestClient::new(&cli.server, &token);
 
     match &cli.subcommands {

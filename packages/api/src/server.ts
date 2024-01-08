@@ -17,6 +17,10 @@ export const app = new Hono<{ Bindings: Bindings }>();
 export const schema = builder.toSchema();
 
 export const root = app
+  .use("/graphql/*", (c, next) => {
+    const auth = bearerAuth({ token: c.env.API_TOKEN });
+    return auth(c, next);
+  })
   .get("/graphql", (c) => {
     const yoga = createYoga({
       schema,
@@ -34,49 +38,6 @@ export const root = app
       },
     });
     return yoga(c.req.raw, {});
-  })
-  .get("/graph", (c) => {
-    return c.html(
-      html`
-        <html>
-          <head>
-            <meta charset="utf-8" />
-            <title>Simple GraphiQL Example</title>
-            <link
-              href="https://unpkg.com/graphiql/graphiql.min.css"
-              rel="stylesheet"
-            />
-          </head>
-
-          <body style="margin: 0;">
-            <script
-              crossorigin
-              src="https://unpkg.com/react/umd/react.production.min.js"
-            ></script>
-            <script
-              crossorigin
-              src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
-            ></script>
-            <script
-              crossorigin
-              src="https://unpkg.com/graphiql/graphiql.min.js"
-            ></script>
-
-            <div id="graphiql" style="height: 100vh;"></div>
-            <script>
-              const fetcher = GraphiQL.createFetcher({
-                url: "/graphql",
-              });
-
-              ReactDOM.render(
-                React.createElement(GraphiQL, { fetcher: fetcher }),
-                document.getElementById("graphiql")
-              );
-            </script>
-          </body>
-        </html>
-      `
-    );
   })
   .use("/api/*", (c, next) => {
     const auth = bearerAuth({ token: c.env.API_TOKEN });
