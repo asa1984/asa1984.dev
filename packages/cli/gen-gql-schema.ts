@@ -1,11 +1,13 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { join } from "path";
 
-import { schema } from '@asa1984.dev/api';
-import { printSchema } from 'graphql';
+import { builder } from "@asa1984.dev/graphql";
+import { printSchema } from "graphql";
 
-const SCHEMA_OUTPUT_PATH = 'schema';
-const SCHEMA_FILE_NAME = 'schema.graphql';
+const schema = builder.toSchema();
+
+const SCHEMA_OUTPUT_PATH = "schema";
+const SCHEMA_FILE_NAME = "schema.graphql";
 
 function main() {
   if (!existsSync(SCHEMA_OUTPUT_PATH)) {

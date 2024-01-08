@@ -12,17 +12,121 @@ importers:
         specifier: ^1.11.2
         version: 1.11.2
 
-  apps/api:
+  packages/api:
     dependencies:
-      '@asa1984.dev/api':
+      '@asa1984.dev/drizzle':
         specifier: workspace:*
-        version: link:../../packages/api
-
-  apps/cli:
+        version: link:../drizzle
+      '@hono/graphql-server':
+        specifier: ^0.4.1
+        version: 0.4.1(hono@3.11.8)
+      '@hono/zod-validator':
+        specifier: ^0.1.11
+        version: 0.1.11(hono@3.11.8)(zod@3.22.4)
+      '@pothos/core':
+        specifier: ^3.41.0
+        version: 3.41.0(graphql@16.8.1)
+      '@pothos/plugin-errors':
+        specifier: ^3.11.1
+        version: 3.11.1(@pothos/core@3.41.0)(graphql@16.8.1)
+      '@pothos/plugin-simple-objects':
+        specifier: ^3.7.0
+        version: 3.7.0(@pothos/core@3.41.0)(graphql@16.8.1)
+      '@pothos/plugin-validation':
+        specifier: ^3.10.1
+        version: 3.10.1(@pothos/core@3.41.0)(graphql@16.8.1)(zod@3.22.4)
+      graphql:
+        specifier: ^16.8.1
+        version: 16.8.1
+      graphql-yoga:
+        specifier: ^5.1.0
+        version: 5.1.0(graphql@16.8.1)
+      hono:
+        specifier: ^3.11.7
+        version: 3.11.8
+      ulidx:
+        specifier: ^2.2.1
+        version: 2.2.1
+      wasm-image-optimization:
+        specifier: ^0.2.0
+        version: 0.2.0
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
-      '@asa1984.dev/api':
+      '@asa1984.dev/tsconfig':
         specifier: workspace:*
-        version: link:../../packages/api
+        version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: ^4.20230914.0
+        version: 4.20231121.0
+      better-sqlite3:
+        specifier: ^9.2.2
+        version: 9.2.2
+      drizzle-kit:
+        specifier: ^0.20.6
+        version: 0.20.6
+      drizzle-orm:
+        specifier: ^0.29.1
+        version: 0.29.1(@cloudflare/workers-types@4.20231121.0)(better-sqlite3@9.2.2)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/backend:
+    dependencies:
+      '@asa1984.dev/drizzle':
+        specifier: workspace:*
+        version: link:../drizzle
+      '@asa1984.dev/graphql':
+        specifier: workspace:*
+        version: link:../graphql
+      '@hono/zod-validator':
+        specifier: ^0.1.11
+        version: 0.1.11(hono@3.11.8)(zod@3.22.4)
+      graphql:
+        specifier: ^16.8.1
+        version: 16.8.1
+      graphql-yoga:
+        specifier: ^5.1.0
+        version: 5.1.0(graphql@16.8.1)
+      hono:
+        specifier: ^3.11.7
+        version: 3.11.8
+      ulidx:
+        specifier: ^2.2.1
+        version: 2.2.1
+      wasm-image-optimization:
+        specifier: ^0.2.0
+        version: 0.2.0
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@asa1984.dev/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: ^4.20230914.0
+        version: 4.20231121.0
+      better-sqlite3:
+        specifier: ^9.2.2
+        version: 9.2.2
+      drizzle-kit:
+        specifier: ^0.20.6
+        version: 0.20.6
+      drizzle-orm:
+        specifier: ^0.29.1
+        version: 0.29.1(@cloudflare/workers-types@4.20231121.0)(better-sqlite3@9.2.2)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/cli:
+    devDependencies:
+      '@asa1984.dev/graphql':
+        specifier: workspace:*
+        version: link:../graphql
       '@types/node':
         specifier: ^20.10.5
         version: 20.10.5
@@ -33,11 +137,39 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0
 
-  apps/web:
+  packages/drizzle:
     dependencies:
-      '@asa1984.dev/api':
+      drizzle-orm:
+        specifier: ^0.29.1
+        version: 0.29.1(@cloudflare/workers-types@4.20231121.0)(better-sqlite3@9.2.2)
+      drizzle-zod:
+        specifier: ^0.5.1
+        version: 0.5.1(drizzle-orm@0.29.1)(zod@3.22.4)
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@asa1984.dev/tsconfig':
         specifier: workspace:*
-        version: link:../../packages/api
+        version: link:../tsconfig
+      better-sqlite3:
+        specifier: ^9.2.2
+        version: 9.2.2
+      drizzle-kit:
+        specifier: ^0.20.6
+        version: 0.20.6
+      npm-run-all2:
+        specifier: ^6.1.1
+        version: 6.1.1
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/frontend:
+    dependencies:
+      '@asa1984.dev/backend':
+        specifier: workspace:*
+        version: link:../backend
       '@fontsource-variable/inter':
         specifier: ^5.0.16
         version: 5.0.16
@@ -175,47 +307,26 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
-  packages/api:
+  packages/graphql:
     dependencies:
       '@asa1984.dev/drizzle':
         specifier: workspace:*
         version: link:../drizzle
-      '@hono/graphql-server':
-        specifier: ^0.4.1
-        version: 0.4.1(hono@3.11.8)
-      '@hono/zod-validator':
-        specifier: ^0.1.11
-        version: 0.1.11(hono@3.11.8)(zod@3.22.4)
       '@pothos/core':
         specifier: ^3.41.0
         version: 3.41.0(graphql@16.8.1)
-      '@pothos/plugin-errors':
-        specifier: ^3.11.1
-        version: 3.11.1(@pothos/core@3.41.0)(graphql@16.8.1)
       '@pothos/plugin-simple-objects':
         specifier: ^3.7.0
         version: 3.7.0(@pothos/core@3.41.0)(graphql@16.8.1)
-      '@pothos/plugin-validation':
-        specifier: ^3.10.1
-        version: 3.10.1(@pothos/core@3.41.0)(graphql@16.8.1)(zod@3.22.4)
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
       graphql-yoga:
         specifier: ^5.1.0
         version: 5.1.0(graphql@16.8.1)
-      hono:
-        specifier: ^3.11.7
-        version: 3.11.8
       ulidx:
         specifier: ^2.2.1
         version: 2.2.1
-      wasm-image-optimization:
-        specifier: ^0.2.0
-        version: 0.2.0
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
     devDependencies:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
@@ -232,34 +343,6 @@ importers:
       drizzle-orm:
         specifier: ^0.29.1
         version: 0.29.1(@cloudflare/workers-types@4.20231121.0)(better-sqlite3@9.2.2)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-
-  packages/drizzle:
-    dependencies:
-      drizzle-orm:
-        specifier: ^0.29.1
-        version: 0.29.1(@cloudflare/workers-types@4.20231121.0)(better-sqlite3@9.2.2)
-      drizzle-zod:
-        specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.29.1)(zod@3.22.4)
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
-    devDependencies:
-      '@asa1984.dev/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-      better-sqlite3:
-        specifier: ^9.2.2
-        version: 9.2.2
-      drizzle-kit:
-        specifier: ^0.20.6
-        version: 0.20.6
-      npm-run-all2:
-        specifier: ^6.1.1
-        version: 6.1.1
       typescript:
         specifier: ^5.3.3
         version: 5.3.3

@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@asa1984.dev/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
     "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:graphql'"
   },
   "dependencies": {
-    "@asa1984.dev/api": "workspace:*",
+    "@asa1984.dev/backend": "workspace:*",
     "@fontsource-variable/inter": "^5.0.16",
     "@fontsource-variable/jetbrains-mono": "^5.0.19",
     "@fontsource-variable/noto-emoji": "^5.0.17",

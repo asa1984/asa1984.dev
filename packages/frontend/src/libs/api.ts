@@ -1,4 +1,4 @@
-import { createClient } from "@asa1984.dev/api";
+import { createClient } from "@asa1984.dev/backend";
 import { env } from "./env";
 
 export const client = createClient({
