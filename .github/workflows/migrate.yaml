@@ -1,0 +1,48 @@
+name: Migrate Cloudflare D1
+
+on:
+  push:
+    paths:
+      - "packages/drizzle/migrations/**"
+      - ".github/workflows/migrate.yaml"
+    branches:
+      - main
+
+
+
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Launch Turbo remote cache server
+        uses: dtinth/setup-github-actions-caching-for-turbo@v1
+
+      - uses: DeterminateSystems/flake-checker-action@main
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Install devShell
+        run: nix develop --install
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          nix develop --command \
+            pnpm store path | xargs -I {} echo "STORE_PATH={}" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache & Next.js cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
+      - name: Run migration
+        run: nix develop --command migrate

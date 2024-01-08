@@ -15,7 +15,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@asa1984.dev/backend": "workspace:*",
     "@asa1984.dev/graphql": "workspace:*",
     "@fontsource-variable/inter": "^5.0.16",
     "@fontsource-variable/jetbrains-mono": "^5.0.19",

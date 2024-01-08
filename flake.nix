@@ -29,12 +29,15 @@
           ${nodePackages.pnpm}/bin/pnpm run gen
           ${nodePackages.pnpm}/bin/pnpm run build
         '')
+        (writeScriptBin "migrate" ''
+          ${nodePackages.pnpm}/bin/pnpm run migrate:prod
+        '')
       ];
     in {
       devShells = rec {
         default = dev;
         dev = pkgs.mkShell {
-          packages = dev-deps ++ scripts;
+          packages = dev-deps;
         };
         ci = pkgs.mkShell {
           packages = ci-deps ++ scripts;
@@ -51,7 +54,7 @@
         # Scripts
         install = with pkgs;
           writescriptbin "install" ''
-            ${nodepackages.pnpm}/bin/pnpm install
+            ${nodepackages.pnpm}/bin/pnpm install --frozen-lockfile
           '';
         build = with pkgs;
           writeScriptBin "build" ''

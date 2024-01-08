@@ -1,0 +1,5 @@
+[[d1_databases]]
+binding = "DB"
+database_name = "asa1984-blog"
+database_id = "79856d54-a73b-481f-bb34-7a56ba8b993b"
+migrations_dir = "./migrations"

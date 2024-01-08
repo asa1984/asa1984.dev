@@ -10,8 +10,8 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "gen": "turbo run gen",
-    "db:migrate": "wrangler d1 migrations apply asa1984-blog",
-    "dev:migrate": "wrangler d1 migrations apply asa1984-blog --local",
+    "migrate:dev": "turbo run migrate:dev",
+    "migrate:prod": "turbo run migrate:prod",
     "deploy": "turbo run deploy"
   },
   "devDependencies": {

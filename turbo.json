@@ -3,6 +3,8 @@
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "gen": {},
+    "migrate:dev": {},
+    "migrate:prod": {},
     "dev": {
       "cache": false,
       "persistent": true

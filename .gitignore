@@ -10,7 +10,6 @@
 # Deployment
 .vercel
 .wrangler
-wrangler.toml
 
 # Build Outputs
 out/
