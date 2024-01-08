@@ -12,9 +12,7 @@ export type PageProps = {
   };
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params;
   const post = await get_post(slug);
   const { title, description, image } = post.meta;
@@ -83,9 +81,7 @@ export default async function Page({ params: { slug } }: PageProps) {
         >
           {meta.title}
         </h1>
-        <p className={css({ mt: 4, textAlign: "center" })}>
-          {meta.description}
-        </p>
+        <p className={css({ mt: 4, textAlign: "center" })}>{meta.description}</p>
         <time
           dateTime={meta.date.toISOString()}
           className={css({

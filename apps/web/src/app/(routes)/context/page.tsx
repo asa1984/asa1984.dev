@@ -65,13 +65,7 @@ export default async function Page() {
               {posts
                 .sort((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
                 .map((post) => {
-                  return (
-                    <LinkCard
-                      key={post.slug}
-                      slug={post.slug}
-                      meta={post.meta}
-                    />
-                  );
+                  return <LinkCard key={post.slug} slug={post.slug} meta={post.meta} />;
                 })}
             </div>
           </div>

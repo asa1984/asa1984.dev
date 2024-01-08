@@ -1,6 +1,7 @@
 ---
 title: "日記: 図書館及び異常者"
 emoji: 🌆
+date: 2023-11-01
 published: true
 ---
 

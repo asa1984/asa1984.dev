@@ -1,12 +1,6 @@
-import { Client, cacheExchange, fetchExchange } from "urql";
-import { env } from "@/libs/env";
+import { client } from "@/libs/graphql";
 import GetBlogs from "./getBlogs.graphql";
 import GetBlogBySlug from "./getBlogBySlug.graphql";
-
-const gqlClient = new Client({
-  url: `${env.API_URL}/graphql`,
-  exchanges: [cacheExchange, fetchExchange],
-});
 
 export type Frontmatter = {
   title: string;
@@ -23,7 +17,7 @@ export type Post = {
 };
 
 export const get_posts = async (): Promise<Post[]> => {
-  const result = await gqlClient.query(GetBlogs, {});
+  const result = await client.query(GetBlogs, {});
   const blogs = result.data?.blogs!;
   return blogs.map((blog) => {
     const frontmatter: Frontmatter = {
@@ -42,7 +36,7 @@ export const get_posts = async (): Promise<Post[]> => {
 };
 
 export const get_post = async (slug: string): Promise<Post> => {
-  const result = await gqlClient.query(GetBlogBySlug, { slug });
+  const result = await client.query(GetBlogBySlug, { slug });
   const blog = result.data?.blog;
   if (!blog) throw new Error("Not found");
   const frontmatter: Frontmatter = {

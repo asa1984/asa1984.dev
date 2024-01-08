@@ -11,9 +11,7 @@ type PageProps = {
   };
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params;
   const post = await get_post(slug);
   const { title } = post.meta;

@@ -5,6 +5,6 @@
     "ignore": ["src/styled-system"]
   },
   "files": {
-    "ignore": ["**/styled-system"]
+    "ignore": ["**/styled-system", "public"]
   }
 }

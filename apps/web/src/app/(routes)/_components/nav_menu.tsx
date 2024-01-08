@@ -10,7 +10,7 @@ import { IconArrowDown, IconArrowLeft } from "@/components/icons";
 
 const useOnClickOutside = (
   ref: React.RefObject<HTMLDivElement>,
-  handler: (event: MouseEvent | TouchEvent) => void
+  handler: (event: MouseEvent | TouchEvent) => void,
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
@@ -52,10 +52,7 @@ export const NavMenu = () => {
         alignItems: "center",
       })}
     >
-      <Link
-        href={`/${segment}`}
-        className={css({ fontSize: "lg", fontWeight: "bold" })}
-      >
+      <Link href={`/${segment}`} className={css({ fontSize: "lg", fontWeight: "bold" })}>
         {current.name.toLowerCase()}
       </Link>
       <div
@@ -116,9 +113,7 @@ export const NavMenu = () => {
                 })}
               >
                 <span>{item.name}</span>
-                {item.path === segment && (
-                  <IconArrowLeft className={css({ fontSize: "2xl" })} />
-                )}
+                {item.path === segment && <IconArrowLeft className={css({ fontSize: "2xl" })} />}
               </Link>
             ))}
           </div>

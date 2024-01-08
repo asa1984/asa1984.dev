@@ -73,10 +73,7 @@ const ProfileCard = () => {
         <Info tag="Location" info="Miyagi, Japan" />
         <Info
           tag="Org"
-          info={
-            "National Institue of Technology, Sendai College\n" +
-            "Robotics course, 4th grade"
-          }
+          info={"National Institue of Technology, Sendai College\n" + "Robotics course, 4th grade"}
         />
       </div>
       <div className={image_container_style}>

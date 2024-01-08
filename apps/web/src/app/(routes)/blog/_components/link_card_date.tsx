@@ -6,12 +6,9 @@ function get_diff_date(date: Date) {
   const progressYear = progress.getUTCFullYear() - 1970;
   const progressMonth = progress.getUTCMonth();
   const progressDate = progress.getUTCDate() - 1;
-  if (progressYear)
-    return progressYear === 1 ? "Last year" : `${progressYear} years ago`;
-  if (progressMonth)
-    return progressMonth === 1 ? "Last month" : `${progressMonth} months ago`;
-  if (progressDate)
-    return progressDate === 1 ? "Yesterday" : `${progressDate} days ago`;
+  if (progressYear) return progressYear === 1 ? "Last year" : `${progressYear} years ago`;
+  if (progressMonth) return progressMonth === 1 ? "Last month" : `${progressMonth} months ago`;
+  if (progressDate) return progressDate === 1 ? "Yesterday" : `${progressDate} days ago`;
   return "Today";
 }
 

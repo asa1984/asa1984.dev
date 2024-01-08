@@ -5,7 +5,7 @@
   "scripts": {
     "gen:css": "panda codegen",
     "gen:gql": "nitrogql generate",
-    "dev": "next dev",
+    "dev": "rimraf ./next && next dev",
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit",
@@ -25,6 +25,7 @@
     "@pandacss/dev": "^0.22.1",
     "@sniptt/monads": "^0.5.10",
     "@types/mdast": "^4.0.3",
+    "@urql/exchange-auth": "^2.1.6",
     "fetch-site-metadata": "^0.2.0",
     "katex": "^0.16.9",
     "mdast-util-to-hast": "^13.0.2",
@@ -52,7 +53,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "graphql": "^16.8.1",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@nitrogql/cli": "1.6.0-beta.1",
     "@nitrogql/graphql-loader": "1.6.0-beta.1",
@@ -61,6 +61,8 @@
     "@types/react-dom": "^18.2.18",
     "@types/unist": "^3.0.2",
     "chokidar-cli": "^3.0.0",
+    "graphql": "^16.8.1",
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   }
 }
