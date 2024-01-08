@@ -54,7 +54,7 @@
         # Scripts
         install = with pkgs;
           writescriptbin "install" ''
-            ${nodepackages.pnpm}/bin/pnpm install --frozen-lockfile
+            ${nodepackages.pnpm}/bin/pnpm install
           '';
         build = with pkgs;
           writeScriptBin "build" ''
