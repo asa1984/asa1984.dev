@@ -15,6 +15,7 @@
         nodePackages.vercel
         biome
         sqlite
+        act
       ];
       ci-deps = with pkgs; [
         nodejs-slim_20

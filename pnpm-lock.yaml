@@ -100,9 +100,6 @@ importers:
 
   packages/frontend:
     dependencies:
-      '@asa1984.dev/backend':
-        specifier: workspace:*
-        version: link:../backend
       '@asa1984.dev/graphql':
         specifier: workspace:*
         version: link:../graphql

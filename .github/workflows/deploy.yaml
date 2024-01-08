@@ -14,7 +14,7 @@ env:
   API_TOKEN: ${{ secrets.API_TOKEN }}
 
 jobs:
-  deploy-prod:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
