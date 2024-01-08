@@ -1,0 +1,10 @@
+query getContextBySlug($slug: String!) {
+  context(slug: $slug) {
+    slug
+    title
+    emoji
+    createdAt
+    published
+    content
+  }
+}

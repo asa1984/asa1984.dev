@@ -6,13 +6,12 @@
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit"
   },
-  "main": "src/index.ts",
+  "main": "src/lib.ts",
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
     "@pothos/core": "^3.41.0",
     "@pothos/plugin-simple-objects": "^3.7.0",
     "graphql": "^16.8.1",
-    "graphql-yoga": "^5.1.0",
     "ulidx": "^2.2.1"
   },
   "devDependencies": {

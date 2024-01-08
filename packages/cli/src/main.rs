@@ -13,7 +13,7 @@ struct Cli {
     #[command(subcommand)]
     subcommands: Subcommands,
 
-    #[arg(short, long = "server", default_value = "http://api.asa1984.dev")]
+    #[arg(short, long = "server", default_value = "https://api.asa1984.dev")]
     server: String,
 
     #[arg(short, long = "token")]
@@ -65,15 +65,36 @@ fn main() {
 
     match &cli.subcommands {
         Subcommands::Sync => {
-            let contents = file::get_all_blog_contents().unwrap_or_else(|err| {
+            let blog_contents = file::get_all_blog_contents().unwrap_or_else(|err| {
                 let err_msg = format!("Failed to get blogs: {err}");
                 panic!("{}", Colour::Red.paint(err_msg));
             });
-            for content in contents {
+            for content in blog_contents {
                 gql_client.upsert_blog(content.post).unwrap_or_else(|err| {
                     let err_msg = format!("Failed to upsert blog: {err}");
                     panic!("{}", Colour::Red.paint(err_msg));
                 });
+                for image_path in content.images {
+                    let key = image_path.as_os_str().to_str().unwrap();
+                    let file = fs::File::open(&image_path).unwrap();
+                    rest_client.upload_image(key, file).unwrap_or_else(|err| {
+                        let err_msg = format!("Failed to upload image: {err}");
+                        panic!("{}", Colour::Red.paint(err_msg));
+                    });
+                }
+            }
+
+            let context_contents = file::get_all_context_contents().unwrap_or_else(|err| {
+                let err_msg = format!("Failed to get contexts: {err}");
+                panic!("{}", Colour::Red.paint(err_msg));
+            });
+            for content in context_contents {
+                gql_client
+                    .upsert_context(content.post)
+                    .unwrap_or_else(|err| {
+                        let err_msg = format!("Failed to upsert context: {err}");
+                        panic!("{}", Colour::Red.paint(err_msg));
+                    });
                 for image_path in content.images {
                     let key = image_path.as_os_str().to_str().unwrap();
                     let file = fs::File::open(&image_path).unwrap();

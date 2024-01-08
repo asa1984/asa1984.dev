@@ -1,22 +1,22 @@
 {
-  "name": "@asa1984.dev/web",
-  "version": "0.1.0",
+  "name": "@asa1984.dev/frontend",
   "private": true,
   "scripts": {
-    "gen": "pnpm run gen:css && pnpm run gen:gql",
+    "gen": "pnpm run gen:css && pnpm run gen:schema && pnpm run gen:gql",
     "gen:css": "panda codegen",
     "gen:gql": "nitrogql generate",
+    "gen:schema": "bun run gen-gql-schema.ts",
     "dev": "rimraf ./next && next dev",
-    "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:graphql'",
+    "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:gql'",
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit",
     "build": "next build",
-    "build:preview": "BUILD_TARGET_ENV=preview pnpm build",
-    "build:prod": "BUILD_TARGET_ENV=production pnpm build"
+    "start": "next start"
   },
   "dependencies": {
     "@asa1984.dev/backend": "workspace:*",
+    "@asa1984.dev/graphql": "workspace:*",
     "@fontsource-variable/inter": "^5.0.16",
     "@fontsource-variable/jetbrains-mono": "^5.0.19",
     "@fontsource-variable/noto-emoji": "^5.0.17",
@@ -27,6 +27,7 @@
     "@types/mdast": "^4.0.3",
     "@urql/exchange-auth": "^2.1.6",
     "fetch-site-metadata": "^0.2.0",
+    "hono": "^3.11.7",
     "katex": "^0.16.9",
     "mdast-util-to-hast": "^13.0.2",
     "next": "^14.0.4",

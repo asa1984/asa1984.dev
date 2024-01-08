@@ -79,6 +79,6 @@ export const blogRoute = route
             message: `Could not delete ${slug}`,
             error: result.error,
           },
-          500
+          500,
         );
   });

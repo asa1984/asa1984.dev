@@ -2,10 +2,14 @@ import { z } from "zod";
 
 const envSchema = z
   .object({
-    BUILD_TARGET_ENV: z.enum(["development", "production", "preview"]).default("development"),
-    API_URL: z.string().default("http://localhost:8787"),
+    NODE_ENV: z.enum(["development", "production", "test"]),
     API_TOKEN: z.string().default(""),
   })
   .passthrough();
 
-export const env = envSchema.parse(process.env);
+const parsed = envSchema.parse(process.env);
+
+export const env = {
+  ...parsed,
+  API_URL: parsed.NODE_ENV === "development" ? "http://localhost:8787" : "https://api.asa1984.dev",
+};

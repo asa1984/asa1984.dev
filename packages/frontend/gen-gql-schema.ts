@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 
-import { schema } from "@asa1984.dev/api";
+import { builder } from "@asa1984.dev/graphql";
 import { printSchema } from "graphql";
 
 const SCHEMA_OUTPUT_PATH = "schema";
@@ -12,6 +12,7 @@ function main() {
     mkdirSync(SCHEMA_OUTPUT_PATH);
   }
 
+  const schema = builder.toSchema();
   const schemaText = printSchema(schema);
   writeFileSync(join(SCHEMA_OUTPUT_PATH, SCHEMA_FILE_NAME), schemaText);
 }

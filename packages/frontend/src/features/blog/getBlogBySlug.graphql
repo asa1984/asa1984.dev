@@ -7,6 +7,5 @@ query getBlogBySlug($slug: String!) {
     content
     published
     createdAt
-    updatedAt
   }
 }

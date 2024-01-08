@@ -1,4 +1,6 @@
-import { client } from "@/libs/api";
+import { client } from "@/libs/graphql";
+import GetContexts from "./getContexts.graphql";
+import GetContextBySlug from "./getContextBySlug.graphql";
 
 export type Frontmatter = {
   title: string;
@@ -13,41 +15,38 @@ export type Post = {
   content: string;
 };
 
-export async function get_post(slug: string): Promise<Post> {
-  const $get = client.api.contexts[":slug"].$get;
-  const resp = await $get({ param: { slug } });
-  if (!resp) throw new Error("Not found");
-  const context = await resp.json();
-  const meta: Frontmatter = {
+export const get_posts = async (): Promise<Post[]> => {
+  const result = await client.query(GetContexts, {});
+  const contexts = result.data?.contexts!;
+
+  return contexts.map((context) => {
+    const frontmatter: Frontmatter = {
+      title: context.title,
+      emoji: context.emoji,
+      date: new Date(context.createdAt),
+      published: context.published,
+    };
+    return {
+      slug: context.slug,
+      meta: frontmatter,
+      content: context.content,
+    };
+  });
+};
+
+export const get_post = async (slug: string): Promise<Post> => {
+  const result = await client.query(GetContextBySlug, { slug });
+  const context = result.data?.context;
+  if (!context) throw new Error("Not found");
+  const frontmatter: Frontmatter = {
     title: context.title,
     emoji: context.emoji,
     date: new Date(context.createdAt),
     published: context.published,
   };
   return {
-    slug,
-    meta,
+    slug: context.slug,
+    meta: frontmatter,
     content: context.content,
   };
-}
-
-export async function get_posts(): Promise<Post[]> {
-  const resp = await client.api.contexts.$get();
-  const contexts = await resp.json();
-  const posts = contexts
-    .map((context) => {
-      const meta: Frontmatter = {
-        title: context.title,
-        emoji: context.emoji,
-        date: new Date(context.createdAt),
-        published: context.published,
-      };
-      return {
-        slug: context.slug,
-        meta,
-        content: context.content,
-      };
-    })
-    .filter((post) => post.meta.published);
-  return posts;
-}
+};

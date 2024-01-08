@@ -1,0 +1,9 @@
+mutation upsertContext($context: UpsertContextInput!) {
+  upsertContext(input: $context) {
+    slug
+    title
+    emoji
+    published
+    updatedAt
+  }
+}

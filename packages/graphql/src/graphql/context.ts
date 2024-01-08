@@ -3,16 +3,15 @@ import _SimpleObjectsPlugin from "@pothos/plugin-simple-objects";
 import { drizzle } from "drizzle-orm/d1";
 import { eq } from "drizzle-orm";
 import * as schema from "@asa1984.dev/drizzle";
-import { blogs as blogsSchema } from "@asa1984.dev/drizzle";
+import { contexts as contextsSchema } from "@asa1984.dev/drizzle";
 import { ulid } from "ulidx";
 import { CURRENT_TIMESTAMP } from "../utils";
 
-const BlogType = builder.simpleObject("Blog", {
+const ContextType = builder.simpleObject("Context", {
   fields: (t) => ({
     slug: t.string({ nullable: false }),
     title: t.string({ nullable: false }),
-    image: t.string({ nullable: false }),
-    description: t.string({ nullable: false }),
+    emoji: t.string({ nullable: false }),
     content: t.string({ nullable: false }),
     published: t.boolean({ nullable: false }),
     updatedAt: t.string({ nullable: false }),
@@ -21,9 +20,9 @@ const BlogType = builder.simpleObject("Blog", {
 });
 
 builder.queryFields((t) => ({
-  blog: t.field({
-    type: BlogType,
-    description: "Get a blog by slug",
+  context: t.field({
+    type: ContextType,
+    description: "Get a context by slug",
     args: {
       slug: t.arg.string(),
     },
@@ -31,68 +30,67 @@ builder.queryFields((t) => ({
     resolve: async (_parent, { slug }, context) => {
       if (!slug) return null;
       const db = drizzle(context.DB, { schema });
-      const result = await db.query.blogs.findFirst({
-        where: (blog) => eq(blog.slug, slug),
+      const result = await db.query.contexts.findFirst({
+        where: (context) => eq(context.slug, slug),
       });
       if (!result) return null;
       return result;
     },
   }),
-  blogs: t.field({
-    type: [BlogType],
-    description: "Get all blogs",
+  contexts: t.field({
+    type: [ContextType],
+    description: "Get all contexts",
     resolve: async (_parent, _args, context) => {
       const db = drizzle(context.DB, { schema });
-      const result = await db.query.blogs.findMany();
+      const result = await db.query.contexts.findMany();
       return result;
     },
   }),
 }));
 
-const UpsertBlogInput = builder.inputType("UpsertBlogInput", {
+const UpsertContextInput = builder.inputType("UpsertContextInput", {
   fields: (t) => ({
     slug: t.string({ required: true }),
     title: t.string({ required: true }),
-    image: t.string({ required: true }),
-    description: t.string({ required: true }),
+    emoji: t.string({ required: true }),
     content: t.string({ required: true }),
     published: t.boolean({ required: true }),
   }),
 });
 
-builder.mutationField("upsertBlog", (t) =>
+builder.mutationField("upsertContext", (t) =>
   t.field({
-    type: BlogType,
-    description: "Create or update a blog",
+    type: ContextType,
+    description: "Upsert a context",
     args: {
       input: t.arg({
-        type: UpsertBlogInput,
+        type: UpsertContextInput,
         required: true,
       }),
     },
-    resolve: async (_root, { input }, context) => {
+    resolve: async (_parent, { input }, context) => {
       const { slug } = input;
       const db = drizzle(context.DB, { schema });
 
-      const oldOne = await db.query.blogs.findFirst({
-        where: (blog) => eq(blog.slug, slug),
+      const oldOne = await db.query.contexts.findFirst({
+        where: (context) => eq(context.slug, slug),
       });
 
       if (oldOne) {
         const result = await db
-          .update(blogsSchema)
+          .update(contextsSchema)
           .set({
             updatedAt: CURRENT_TIMESTAMP(),
             ...input,
           })
-          .where(eq(blogsSchema.slug, slug))
+          .where(eq(contextsSchema.slug, slug))
           .returning();
 
         return result[0]!;
       }
       const id = ulid();
       const result = await db
-        .insert(blogsSchema)
+        .insert(contextsSchema)
         .values({
           id,
           ...input,

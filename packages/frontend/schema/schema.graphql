@@ -9,9 +9,22 @@ type Blog {
   updatedAt: String!
 }
 
+type Context {
+  content: String!
+  createdAt: String!
+  emoji: String!
+  published: Boolean!
+  slug: String!
+  title: String!
+  updatedAt: String!
+}
+
 type Mutation {
   """Create or update a blog"""
-  postBlog(content: String!, description: String!, image: String!, published: Boolean!, slug: String!, title: String!): Blog
+  upsertBlog(input: UpsertBlogInput!): Blog!
+
+  """Upsert a context"""
+  upsertContext(input: UpsertContextInput!): Context!
 }
 
 type Query {
@@ -20,4 +33,27 @@ type Query {
 
   """Get all blogs"""
   blogs: [Blog!]!
+
+  """Get a context by slug"""
+  context(slug: String): Context
+
+  """Get all contexts"""
+  contexts: [Context!]!
+}
+
+input UpsertBlogInput {
+  content: String!
+  description: String!
+  image: String!
+  published: Boolean!
+  slug: String!
+  title: String!
+}
+
+input UpsertContextInput {
+  content: String!
+  emoji: String!
+  published: Boolean!
+  slug: String!
+  title: String!
 }

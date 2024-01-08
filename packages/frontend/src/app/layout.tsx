@@ -20,12 +20,10 @@ export const metadata: Metadata = {
 
   metadataBase: new URL(
     (() => {
-      switch (env.BUILD_TARGET_ENV) {
+      switch (env.NODE_ENV) {
         case "production":
           return "https://asa1984.dev";
-        case "preview":
-          return "https://dev.trashbox.pages.dev";
-        case "development":
+        default:
           return "http://localhost:3000";
       }
     })(),
