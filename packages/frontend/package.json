@@ -12,8 +12,7 @@
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit",
     "build": "pnpm gen && next build",
-    "start": "next start",
-    "deploy": "vercel deploy --prebuilt --prod"
+    "start": "next start"
   },
   "dependencies": {
     "@asa1984.dev/graphql": "workspace:*",
