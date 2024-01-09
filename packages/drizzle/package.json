@@ -6,8 +6,6 @@
   "scripts": {
     "gen": "drizzle-kit generate:sqlite --out migrations --schema src/schema.ts",
     "lint": "biome lint ./src",
-    "migrate:dev": "wrangler d1 migrations apply asa1984-blog --local",
-    "migrate:prod": "wrangler d1 migrations apply asa1984-blog",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit"
   },
