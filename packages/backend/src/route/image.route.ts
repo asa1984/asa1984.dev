@@ -23,18 +23,19 @@ export const imageDeliverRoute = route.get("/delivery/:key", imageCache, async (
 
   const object = await c.env.BUCKET.get(key);
   if (!object) return c.notFound();
-
-  const image = await object.arrayBuffer();
   if (reqEtag === object.etag) return c.body(null, 304);
 
-  const optimized = await optimizeImage({
-    image,
-    quality: 80,
-  });
-  if (!optimized) return c.body(null, 500);
+  const image = await object.arrayBuffer();
 
-  return c.body(optimized, 200, {
-    "Content-Type": "image/webp",
+  // MEMO: wasm-image-optimization sometimes exceeds the memory limit.
+  // const optimized = await optimizeImage({
+  //   image,
+  //   quality: 80,
+  // });
+  // if (!optimized) return c.body(null, 500);
+
+  return c.body(image, 200, {
+    // "Content-Type": "image/webp",
     etag: object.etag,
   });
 });
