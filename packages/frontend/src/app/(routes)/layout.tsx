@@ -46,33 +46,31 @@ const Header = () => {
   );
 };
 
-export const revalidate = 300; // 5 minutes
+const container_style = css({
+  display: "grid",
+  gridTemplateRows: "auto 1fr auto",
+  gridTemplateColumns: "100%",
+  minHeight: "100vh",
+});
+
+const main_style = css({
+  margin: "0 auto",
+  px: 4,
+  width: "100%",
+  maxWidth: "4xl",
+});
+
+const footer_style = css({
+  marginX: "auto",
+  marginTop: 16,
+  marginBottom: 6,
+  textAlign: "center",
+  fontSize: "md",
+  fontWeight: "semibold",
+  color: "gray.600",
+});
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const container_style = css({
-    display: "grid",
-    gridTemplateRows: "auto 1fr auto",
-    gridTemplateColumns: "100%",
-    minHeight: "100vh",
-  });
-
-  const main_style = css({
-    margin: "0 auto",
-    px: 4,
-    width: "100%",
-    maxWidth: "4xl",
-  });
-
-  const footer_style = css({
-    marginX: "auto",
-    marginTop: 16,
-    marginBottom: 6,
-    textAlign: "center",
-    fontSize: "md",
-    fontWeight: "semibold",
-    color: "gray.600",
-  });
-
   return (
     <div className={container_style}>
       <Header />

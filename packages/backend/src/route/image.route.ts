@@ -38,31 +38,6 @@ export const imageDeliverRoute = route.get("/delivery/:key", imageCache, async (
     etag: object.etag,
   });
 });
-// .get("/delivery/:content/:slug/:file", imageCache, async (c) => {
-//   const content = c.req.param("content");
-//   const slug = c.req.param("slug");
-//   const file = c.req.param("file");
-//   const key = await sha256(`${content}/${slug}/${file}`);
-//   if (!key) return c.body(null, 500);
-//   const reqEtag = c.req.header("if-none-match");
-//
-//   const object = await c.env.BUCKET.get(key);
-//   if (!object) return c.notFound();
-//
-//   const image = await object.arrayBuffer();
-//   if (reqEtag === object.etag) return c.body(null, 304);
-//
-//   const optimized = await optimizeImage({
-//     image,
-//     quality: 80,
-//   });
-//   if (!optimized) return c.body(null, 500);
-//
-//   return c.body(optimized, 200, {
-//     "Content-Type": "image/webp",
-//     etag: object.etag,
-//   });
-// });
 
 export const imageCacheRoute = route
   .delete(

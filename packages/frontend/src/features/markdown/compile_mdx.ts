@@ -13,7 +13,7 @@ import {
   remark_linkcard,
   remark_zenn_message,
   linkcard_handler,
-  zenn_message_handler,
+  // zenn_message_handler,
 } from "./lib";
 
 import moonlight_ii_theme from "./theme/moonlight-ii.json";
@@ -65,7 +65,7 @@ export async function compile_mdx({
           footnoteLabelTagName: "span",
           handlers: {
             // @ts-ignore FIXME: Why?
-            message: zenn_message_handler,
+            // message: zenn_message_handler,
             // @ts-ignore FIXME: Why?
             linkcard: linkcard_handler,
           },

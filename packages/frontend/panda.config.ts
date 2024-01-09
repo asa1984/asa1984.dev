@@ -1,4 +1,4 @@
-import { defineConfig, defineGlobalStyles } from "@pandacss/dev";
+import { defineConfig } from "@pandacss/dev";
 import { global_css } from "@/styles/global";
 
 export default defineConfig({

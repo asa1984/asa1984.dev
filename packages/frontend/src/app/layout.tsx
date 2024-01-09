@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { env } from "@/libs/env";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import "./globals.css";
 import "@fontsource-variable/inter";
@@ -38,6 +40,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>{children}</body>
+      <Analytics />
+      <SpeedInsights />
     </html>
   );
 }

@@ -1,12 +1,39 @@
 import { type MDXRemoteProps } from "next-mdx-remote";
 
 import Link from "next/link";
+import Image from "next/image";
 import { css } from "@/styled-system/css";
 
 import LinkCard from "@/features/ogp";
 import { Message } from "./message";
 import { env } from "@/libs/env";
 import { createHash } from "crypto";
+
+const sha256 = (text: string) => {
+  const hash = createHash("sha256");
+  hash.update(text);
+  return hash.digest("hex");
+};
+
+const anchor_style = css({
+  color: "blue.500",
+  backgroundImage: "linear-gradient(90deg, #0086e0, #0086e0)",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "left bottom",
+  backgroundSize: "0% 1px",
+  transitionDuration: "0.4s",
+  _hover: {
+    backgroundSize: "100% 1px",
+  },
+});
+
+const image_style = css({
+  marginX: "auto",
+  display: "block",
+  maxWidth: "100%",
+  borderRadius: "xl",
+  overflow: "hidden",
+});
 
 type CustomComponents = MDXRemoteProps["components"];
 
@@ -20,17 +47,6 @@ export const create_custom_components = ({
   // Links
   a: (props) => {
     const { href, children } = props;
-    const anchor_style = css({
-      color: "blue.500",
-      backgroundImage: "linear-gradient(90deg, #0086e0, #0086e0)",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "left bottom",
-      backgroundSize: "0% 1px",
-      transitionDuration: "0.4s",
-      _hover: {
-        backgroundSize: "100% 1px",
-      },
-    });
 
     if (!href) {
       return (
@@ -59,30 +75,19 @@ export const create_custom_components = ({
 
   // Images
   img: (props) => {
-    const image_style = css({
-      marginX: "auto",
-      display: "block",
-      maxWidth: "100%",
-      borderRadius: "xl",
-      overflow: "hidden",
-    });
     if (!props.src) {
       return null;
     }
-    if (props.src.startsWith("/")) {
-      const image_url = (image: string) => {
-        const extention = image.split(".").pop();
-        const hash = createHash("sha256");
-        hash.update(`${type}/${slug}${image}`);
-        const hashed = hash.digest("hex");
-        return `${env.API_URL}/image/delivery/${hashed}.${extention}`;
-      };
+    if (props.src.startsWith("./")) {
+      const filename = props.src.replace("./", "");
+      const key = sha256(`${type}/${slug}/${filename}`);
+      const image_url = `${env.API_URL}/image/delivery/${key}`;
       return (
-        <img
-          src={image_url(props.src)}
+        <Image
+          src={image_url}
           alt={props.alt ?? "alt"}
-          loading="lazy"
-          decoding="async"
+          width={500}
+          height={500}
           className={image_style}
         />
       );

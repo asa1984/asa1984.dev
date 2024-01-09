@@ -1,39 +1,40 @@
 import Image from "next/image";
 import { css } from "@/styled-system/css";
 
+const container_style = css({
+  marginTop: 16,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 8,
+});
+
+const image_style = css({
+  backgroundColor: "white",
+  overflow: "hidden",
+  borderRadius: "xl",
+  border: "3px solid",
+  borderColor: "black",
+});
+
+const h1_style = css({
+  fontSize: "5xl",
+  fontWeight: "extrabold",
+});
+
+const text_sub_style = css({
+  fontWeight: "semibold",
+  color: "gray.600",
+});
+
 export default () => {
-  const container_style = css({
-    marginTop: 16,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  });
-
-  const image_style = css({
-    backgroundColor: "white",
-    overflow: "hidden",
-    borderRadius: "xl",
-    border: "3px solid",
-    borderColor: "black",
-  });
-
-  const h1_style = css({
-    fontSize: "5xl",
-    fontWeight: "extrabold",
-  });
-
-  const text_sub_style = css({
-    fontWeight: "semibold",
-    color: "gray.600",
-  });
-
   return (
     <div className={container_style}>
       <Image
         src="/images/asa1984.webp"
         width={128}
         height={128}
+        priority
         alt="asa1984's icon"
         decoding="async"
         className={image_style}

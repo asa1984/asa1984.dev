@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      images: [`/posts/${slug}/${image}`],
+      images: [image],
       type: "article",
     },
     twitter: {
@@ -56,8 +56,8 @@ export default async function Page({ params: { slug } }: PageProps) {
           alt={meta.title}
           width={512}
           height={288}
+          priority
           decoding="async"
-          loading="lazy"
           className={css({
             mx: "auto",
             width: "lg",
