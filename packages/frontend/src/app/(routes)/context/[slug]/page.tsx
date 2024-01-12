@@ -3,7 +3,7 @@ import { css } from "@/styled-system/css";
 
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
-import { get_post } from "@/features/miniblog";
+import { get_post } from "@/features/context";
 
 type PageProps = {
   params: {

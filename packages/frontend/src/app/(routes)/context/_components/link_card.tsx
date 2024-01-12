@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { css } from "@/styled-system/css";
 
-import { Frontmatter } from "@/features/miniblog";
+import { Frontmatter } from "@/features/context";
 
 export type LinkCardProps = {
   slug: string;
