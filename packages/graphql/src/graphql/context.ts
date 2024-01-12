@@ -90,7 +90,8 @@ builder.mutationField("upsertContext", (t) =>
           .returning();
 
         // Revalidate frontend cache
-        revalidater.revalidateContext(slug);
+        await revalidater.revalidateContext(slug);
+        await revalidater.revalidateAllContext();
 
         return result[0]!;
       }
@@ -104,7 +105,7 @@ builder.mutationField("upsertContext", (t) =>
         .returning();
 
       // Revalidate frontend cache
-      revalidater.revalidateAllContext();
+      await revalidater.revalidateAllContext();
 
       return result[0]!;
     },

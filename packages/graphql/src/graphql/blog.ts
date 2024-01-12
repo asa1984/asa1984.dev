@@ -93,6 +93,7 @@ builder.mutationField("upsertBlog", (t) =>
 
         // Revalidate frontend cache
         await revalidater.revalidateBlog(slug);
+        await revalidater.revalidateAllBlog();
 
         return result[0]!;
       }
