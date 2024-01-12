@@ -1,7 +1,5 @@
 import Link from "next/link";
-
 import { css } from "@/styled-system/css";
-
 import { Frontmatter } from "@/features/context";
 
 export type LinkCardProps = {
@@ -9,27 +7,27 @@ export type LinkCardProps = {
   meta: Frontmatter;
 };
 
+const card_style = css({
+  display: "grid",
+  gridTemplateRows: "2fr 1fr",
+  overflow: "hidden",
+  border: "2px solid",
+  borderRadius: "lg",
+  aspectRatio: "4 / 3",
+  transitionDuration: "0.1s",
+  transitionTimingFunction: "ease-in-out",
+  _hover: {
+    transform: "scale(1.01)",
+  },
+  "@media (max-width: 768px)": {
+    gridTemplateRows: "1fr",
+    gridTemplateColumns: "auto 1fr",
+    aspectRatio: "auto",
+  },
+});
+
 export const LinkCard = ({ slug, meta }: LinkCardProps) => {
   const { date } = meta;
-
-  const card_style = css({
-    display: "grid",
-    gridTemplateRows: "2fr 1fr",
-    overflow: "hidden",
-    border: "2px solid",
-    borderRadius: "lg",
-    aspectRatio: "4 / 3",
-    transitionDuration: "0.1s",
-    transitionTimingFunction: "ease-in-out",
-    _hover: {
-      transform: "scale(1.01)",
-    },
-    "@media (max-width: 768px)": {
-      gridTemplateRows: "1fr",
-      gridTemplateColumns: "auto 1fr",
-      aspectRatio: "auto",
-    },
-  });
 
   const month = date.getMonth() + 1;
   const day = date.getDate();

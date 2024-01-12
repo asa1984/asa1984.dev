@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-
 import { useEffect, useRef, useState } from "react";
-
 import { css } from "@/styled-system/css";
 import { IconArrowDown, IconArrowLeft } from "@/components/icons";
 

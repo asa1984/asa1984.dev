@@ -5,8 +5,8 @@ import Image from "next/image";
 import { IconNixOS, IconReact, IconRust, IconTypescript } from "@/components/icons";
 import LinkCard from "@/features/ogp";
 
-import Profile from "./_components/profile";
-import Topic from "./_components/topic";
+import Profile from "./_components/Profile";
+import Topic from "./_components/Topic";
 
 export const metadata: Metadata = {
   title: "Who are you?",

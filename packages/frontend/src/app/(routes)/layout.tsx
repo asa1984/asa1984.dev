@@ -1,22 +1,22 @@
 import Link from "next/link";
-import { NavMenu } from "./_components/nav_menu";
+import { NavMenu } from "./_components/NavMenu";
 import { css } from "@/styled-system/css";
 
-const Header = () => {
-  const Logo = () => (
-    <Link href="/">
-      <div
-        className={css({
-          fontSize: "2xl",
-          fontWeight: "extrabold",
-          userSelect: "none",
-        })}
-      >
-        TrashBox
-      </div>
-    </Link>
-  );
+const HeaderLogo = () => (
+  <Link href="/">
+    <div
+      className={css({
+        fontSize: "2xl",
+        fontWeight: "extrabold",
+        userSelect: "none",
+      })}
+    >
+      TrashBox
+    </div>
+  </Link>
+);
 
+const Header = () => {
   const container_style = css({
     marginTop: 4,
     marginX: "auto",
@@ -34,7 +34,7 @@ const Header = () => {
       <nav>
         <ul className={container_style}>
           <li>
-            <Logo />
+            <HeaderLogo />
           </li>
           <li>
             <NavMenu />

@@ -1,5 +1,4 @@
 import { css } from "@/styled-system/css";
-// import { ToolChipContainer } from "@/components/toolchip";
 
 export type IconCardProps = {
   icon: React.ReactNode;

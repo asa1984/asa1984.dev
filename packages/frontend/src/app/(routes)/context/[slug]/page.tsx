@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
 import { css } from "@/styled-system/css";
-
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
 import { get_post } from "@/features/context";
@@ -77,9 +76,6 @@ export default async function Page({ params }: PageProps) {
           />
           {meta.date.toDateString()}
         </time>
-        {/* 
-        <div className={css({ mt: 4, display: "flex", justifyContent: "center" })}/>
-        */}
       </header>
 
       <main>

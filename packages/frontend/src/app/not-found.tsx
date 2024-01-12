@@ -7,30 +7,31 @@ export const metadata: Metadata = {
   description: "Not Found",
 };
 
+const container_style = css({
+  height: "100vh",
+  display: "grid",
+  placeItems: "center",
+});
+const h1_style = css({
+  fontSize: "8xl",
+  fontWeight: "bold",
+  textAlign: "center",
+  lineHeight: "none",
+});
+const emoji_style = css({
+  marginTop: 8,
+  fontSize: "8xl",
+  fontWeight: "bold",
+  textAlign: "center",
+});
+const text_style = css({
+  marginTop: 8,
+  fontSize: "xl",
+  textAlign: "center",
+  textDecoration: "underline",
+});
+
 export default function NotFound() {
-  const container_style = css({
-    height: "100vh",
-    display: "grid",
-    placeItems: "center",
-  });
-  const h1_style = css({
-    fontSize: "8xl",
-    fontWeight: "bold",
-    textAlign: "center",
-    lineHeight: "none",
-  });
-  const emoji_style = css({
-    marginTop: 8,
-    fontSize: "8xl",
-    fontWeight: "bold",
-    textAlign: "center",
-  });
-  const text_style = css({
-    marginTop: 8,
-    fontSize: "xl",
-    textAlign: "center",
-    textDecoration: "underline",
-  });
   return (
     <div className={container_style}>
       <div>

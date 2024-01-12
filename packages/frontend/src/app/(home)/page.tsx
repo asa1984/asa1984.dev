@@ -1,29 +1,27 @@
 import { css } from "@/styled-system/css";
-
-import ProfileCard from "./_components/profile_card";
-import NameOrigin from "./_components/name_origin";
-import LinkCard from "./_components/link_card";
-import IconCard from "./_components/icon_card";
-
+import ProfileCard from "./_components/ProfileCard";
+import NameOrigin from "./_components/NameOrigin";
+import LinkCard from "./_components/LinkCard";
+import IconCard from "./_components/IconCard";
 import { IconX, IconGitHub, IconZenn, IconScrapbox } from "@/components/icons";
 
+const links_container_style = css({
+  marginTop: 16,
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gridGap: 8,
+  "@media (max-width: 768px)": {
+    gridTemplateColumns: "1fr",
+  },
+});
+
+const icons_container_style = css({
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gridGap: 4,
+});
+
 export default function Page() {
-  const links_container_style = css({
-    marginTop: 16,
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gridGap: 8,
-    "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr",
-    },
-  });
-
-  const icons_container_style = css({
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gridGap: 4,
-  });
-
   return (
     <>
       <ProfileCard />

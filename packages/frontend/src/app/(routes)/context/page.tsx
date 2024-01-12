@@ -1,9 +1,7 @@
 import { type Metadata } from "next";
-
 import { css } from "@/styled-system/css";
-
 import { get_posts, type Post } from "@/features/context";
-import { LinkCard } from "./_components/link_card";
+import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
   title: "TrashBox",

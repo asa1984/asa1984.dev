@@ -1,7 +1,6 @@
 import { type Metadata } from "next";
 import Image from "next/image";
 import { css } from "@/styled-system/css";
-
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
 import { get_post } from "@/features/blog";
@@ -32,6 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params: { slug } }: PageProps) {
+  console.log("fire blog/", slug);
   const { meta, content } = await get_post(slug);
 
   return (
@@ -102,7 +102,6 @@ export default async function Page({ params: { slug } }: PageProps) {
           {meta.date.toDateString()}
         </time>
       </header>
-
       <main>
         <Markdown source={content} type="blog" slug={slug} />
       </main>
