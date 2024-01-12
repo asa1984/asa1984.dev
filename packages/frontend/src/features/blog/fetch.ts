@@ -42,10 +42,18 @@ export const get_posts = async (): Promise<Post[]> => {
   );
 };
 
-export const get_post = async (slug: string): Promise<Post> => {
+// Newer posts first
+export const get_posts_date_sorted = async (): Promise<Post[]> => {
+  const posts = await get_posts();
+  return posts.sort((prev, next) => {
+    return next.meta.date.getTime() - prev.meta.date.getTime();
+  });
+};
+
+export const get_post = async (slug: string): Promise<Post | null> => {
   const result = await client.query(GetBlogBySlug, { slug });
   const blog = result.data?.blog;
-  if (!blog) throw new Error("Not found");
+  if (!blog) return null;
 
   const image_key = await sha256(`blog/${blog.slug}/${blog.image}`);
   const image_url = `${env.API_URL}/image/delivery/${image_key}`;

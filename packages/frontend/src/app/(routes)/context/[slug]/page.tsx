@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import { css } from "@/styled-system/css";
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
@@ -13,6 +14,7 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params;
   const post = await get_post(slug);
+  if (!post) return notFound();
   const { title } = post.meta;
   return {
     title,
@@ -26,7 +28,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { meta, content } = await get_post(params.slug);
+  const post = await get_post(params.slug);
+  if (!post) return notFound();
+  const { meta, content } = post;
 
   return (
     <article

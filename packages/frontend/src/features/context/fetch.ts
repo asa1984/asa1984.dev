@@ -34,10 +34,19 @@ export const get_posts = async (): Promise<Post[]> => {
   });
 };
 
-export const get_post = async (slug: string): Promise<Post> => {
+// Newer posts first
+export const get_posts_date_sorted = async (): Promise<Post[]> => {
+  const posts = await get_posts();
+  return posts.sort((prev, next) => {
+    return next.meta.date.getTime() - prev.meta.date.getTime();
+  });
+};
+
+export const get_post = async (slug: string): Promise<Post | null> => {
   const result = await client.query(GetContextBySlug, { slug });
   const context = result.data?.context;
-  if (!context) throw new Error("Not found");
+  if (!context) return null;
+
   const frontmatter: Frontmatter = {
     title: context.title,
     emoji: context.emoji,

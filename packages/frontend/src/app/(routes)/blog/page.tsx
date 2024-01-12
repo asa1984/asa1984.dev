@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { css } from "@/styled-system/css";
-import { get_posts } from "@/features/blog";
+import { get_posts_date_sorted } from "@/features/blog";
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
@@ -23,13 +23,12 @@ const card_container_style = css({
 });
 
 export default async function Page() {
-  const posts = await get_posts();
-  const sorted = posts.sort((a, b) => b.meta.date.getTime() - a.meta.date.getTime());
+  const posts = await get_posts_date_sorted();
 
   return (
     <div className={css({ mt: 8 })}>
       <div className={card_container_style}>
-        {sorted.map(({ slug, meta }) => (
+        {posts.map(({ slug, meta }) => (
           <LinkCard key={slug} slug={slug} meta={meta} />
         ))}
       </div>
