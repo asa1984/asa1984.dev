@@ -6,6 +6,7 @@ import * as schema from "@asa1984.dev/drizzle";
 import { blogs as blogsSchema } from "@asa1984.dev/drizzle";
 import { ulid } from "ulidx";
 import { CURRENT_TIMESTAMP } from "../utils";
+import { Revalidater } from "../api";
 
 const BlogType = builder.simpleObject("Blog", {
   fields: (t) => ({
@@ -72,11 +73,13 @@ builder.mutationField("upsertBlog", (t) =>
     },
     resolve: async (_root, { input }, context) => {
       const { slug } = input;
-      const db = drizzle(context.DB, { schema });
 
+      const db = drizzle(context.DB, { schema });
       const oldOne = await db.query.blogs.findFirst({
         where: (blog) => eq(blog.slug, slug),
       });
+
+      const revalidater = new Revalidater(context.FRONTEND_URL, context.FRONTEND_API_TOKEN);
 
       if (oldOne) {
         const result = await db
@@ -88,6 +91,9 @@ builder.mutationField("upsertBlog", (t) =>
           .where(eq(blogsSchema.slug, slug))
           .returning();
 
+        // Revalidate frontend cache
+        await revalidater.revalidateBlog(slug);
+
         return result[0]!;
       }
       const id = ulid();
@@ -98,6 +104,10 @@ builder.mutationField("upsertBlog", (t) =>
           ...input,
         })
         .returning();
+
+      // Revalidate frontend cache
+      await revalidater.revalidateAllBlog();
+
       return result[0]!;
     },
   }),

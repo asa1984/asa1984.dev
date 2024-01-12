@@ -1,5 +1,7 @@
 export type Bindings = {
   DB: D1Database;
   BUCKET: R2Bucket;
-  API_TOKEN: string;
+  BACKEND_API_TOKEN: string;
+  FRONTEND_API_TOKEN: string;
+  FRONTEND_URL: string;
 };

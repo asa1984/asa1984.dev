@@ -3,13 +3,18 @@ import { notFound } from "next/navigation";
 import { css } from "@/styled-system/css";
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
-import { get_post } from "@/features/context";
+import { get_post, get_posts } from "@/features/context";
 
 type PageProps = {
   params: {
     slug: string;
   };
 };
+
+export async function generateStaticParams() {
+  const posts = await get_posts();
+  return posts.map(({ slug }) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params;

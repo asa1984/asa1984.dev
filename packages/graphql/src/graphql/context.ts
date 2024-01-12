@@ -6,6 +6,7 @@ import * as schema from "@asa1984.dev/drizzle";
 import { contexts as contextsSchema } from "@asa1984.dev/drizzle";
 import { ulid } from "ulidx";
 import { CURRENT_TIMESTAMP } from "../utils";
+import { Revalidater } from "../api";
 
 const ContextType = builder.simpleObject("Context", {
   fields: (t) => ({
@@ -72,6 +73,8 @@ builder.mutationField("upsertContext", (t) =>
       const { slug } = input;
       const db = drizzle(context.DB, { schema });
 
+      const revalidater = new Revalidater(context.FRONTEND_URL, context.FRONTEND_API_TOKEN);
+
       const oldOne = await db.query.contexts.findFirst({
         where: (context) => eq(context.slug, slug),
       });
@@ -86,6 +89,9 @@ builder.mutationField("upsertContext", (t) =>
           .where(eq(contextsSchema.slug, slug))
           .returning();
 
+        // Revalidate frontend cache
+        revalidater.revalidateContext(slug);
+
         return result[0]!;
       }
       const id = ulid();
@@ -96,6 +102,10 @@ builder.mutationField("upsertContext", (t) =>
           ...input,
         })
         .returning();
+
+      // Revalidate frontend cache
+      revalidater.revalidateAllContext();
+
       return result[0]!;
     },
   }),

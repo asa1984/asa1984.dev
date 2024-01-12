@@ -260,6 +260,9 @@ importers:
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
+      hono:
+        specifier: ^3.11.7
+        version: 3.11.8
       ulidx:
         specifier: ^2.2.1
         version: 2.2.1

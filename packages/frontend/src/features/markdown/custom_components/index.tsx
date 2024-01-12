@@ -81,7 +81,7 @@ export const create_custom_components = ({
     if (props.src.startsWith("./")) {
       const filename = props.src.replace("./", "");
       const key = sha256(`${type}/${slug}/${filename}`);
-      const image_url = `${env.API_URL}/image/delivery/${key}`;
+      const image_url = `${env.BACKEND_URL}/image/delivery/${key}`;
       return (
         <Image
           src={image_url}

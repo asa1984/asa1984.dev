@@ -16,29 +16,25 @@ export const schema = builder.toSchema();
 
 export const root = app
   .use("/graphql/*", (c, next) => {
-    const auth = bearerAuth({ token: c.env.API_TOKEN });
+    const auth = bearerAuth({ token: c.env.BACKEND_API_TOKEN });
     return auth(c, next);
   })
   .get("/graphql", (c) => {
     const yoga = createYoga({
       schema,
-      context: {
-        DB: c.env.DB,
-      },
+      context: c.env,
     });
     return yoga(c.req.raw, {});
   })
   .post("/graphql", (c) => {
     const yoga = createYoga({
       schema,
-      context: {
-        DB: c.env.DB,
-      },
+      context: c.env,
     });
     return yoga(c.req.raw, {});
   })
   .use("/api/*", (c, next) => {
-    const auth = bearerAuth({ token: c.env.API_TOKEN });
+    const auth = bearerAuth({ token: c.env.BACKEND_API_TOKEN });
     return auth(c, next);
   })
   .get("/api/hello", (c) => {

@@ -12,6 +12,7 @@
     "@pothos/core": "^3.41.0",
     "@pothos/plugin-simple-objects": "^3.7.0",
     "graphql": "^16.8.1",
+    "hono": "^3.11.7",
     "ulidx": "^2.2.1"
   },
   "devDependencies": {

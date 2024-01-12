@@ -3,13 +3,13 @@
   "private": true,
   "main": "src/lib.ts",
   "scripts": {
-    "dev": "wrangler dev src/main.ts --var API_TOKEN:$API_TOKEN",
+    "dev": "wrangler dev src/main.ts",
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
     "typecheck": "tsc --noEmit",
     "migrate:dev": "wrangler d1 migrations apply asa1984-blog --local",
     "migrate:prod": "wrangler d1 migrations apply asa1984-blog",
-    "deploy": "wrangler deploy src/main.ts --var API_TOKEN:$API_TOKEN"
+    "deploy": "wrangler deploy src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL"
   },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",

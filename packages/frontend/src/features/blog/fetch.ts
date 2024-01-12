@@ -25,7 +25,7 @@ export const get_posts = async (): Promise<Post[]> => {
   return Promise.all(
     blogs.map(async (blog) => {
       const image_key = await sha256(`blog/${blog.slug}/${blog.image}`);
-      const image_url = `${env.API_URL}/image/delivery/${image_key}`;
+      const image_url = `${env.BACKEND_URL}/image/delivery/${image_key}`;
       const frontmatter: Frontmatter = {
         title: blog.title,
         description: blog.description,
@@ -56,7 +56,7 @@ export const get_post = async (slug: string): Promise<Post | null> => {
   if (!blog) return null;
 
   const image_key = await sha256(`blog/${blog.slug}/${blog.image}`);
-  const image_url = `${env.API_URL}/image/delivery/${image_key}`;
+  const image_url = `${env.BACKEND_URL}/image/delivery/${image_key}`;
   const frontmatter: Frontmatter = {
     title: blog.title,
     description: blog.description,

@@ -1,6 +1,7 @@
 {
   "name": "@asa1984.dev/frontend",
   "private": true,
+  "main": "src/lib.ts",
   "scripts": {
     "gen": "pnpm run gen:css && pnpm run gen:schema && pnpm run gen:gql",
     "gen:css": "panda codegen",
