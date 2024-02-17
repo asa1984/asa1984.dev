@@ -44,7 +44,7 @@ export default function Page() {
               <h3>Likes & Learning</h3>
               <p>TypeScript, React (Next.js), Rust</p>
               <h3>Just Interested</h3>
-              <p>Type System, WASM, k8s, Haskell</p>
+              <p>Type System, WASM</p>
             </>
           }
           card={
@@ -107,7 +107,7 @@ export default function Page() {
               <h2>Env</h2>
               <ul>
                 <li>Distro: NixOS</li>
-                <li>Desktop: X11 + XMonad</li>
+                <li>Desktop: Hyprland</li>
                 <li>Editor: Neovim</li>
                 <li>Terminal: WezTerm</li>
               </ul>
