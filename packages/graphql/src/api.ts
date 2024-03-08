@@ -14,7 +14,7 @@ export class Revalidater implements RevalidaterInterface {
   }
 
   async revalidateAllBlog() {
-    await fetch(`${this.url}/api/blog/revalidate`, {
+    await fetch(`${this.url}/api/revalidate/blog`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.token}`,
@@ -22,7 +22,7 @@ export class Revalidater implements RevalidaterInterface {
     });
   }
   async revalidateBlog(slug: string) {
-    await fetch(`${this.url}/api/blog/revalidate/${slug}`, {
+    await fetch(`${this.url}/api/revalidate/blog/${slug}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.token}`,
@@ -30,7 +30,7 @@ export class Revalidater implements RevalidaterInterface {
     });
   }
   async revalidateAllContext() {
-    await fetch(`${this.url}/api/context/revalidate`, {
+    await fetch(`${this.url}/api/revalidate/context`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.token}`,
@@ -38,7 +38,7 @@ export class Revalidater implements RevalidaterInterface {
     });
   }
   async revalidateContext(slug: string) {
-    await fetch(`${this.url}/api/context/revalidate/${slug}`, {
+    await fetch(`${this.url}/api/revalidate/context/${slug}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.token}`,
