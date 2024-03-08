@@ -4,7 +4,7 @@ import Image from "next/image";
 import { css } from "@/styled-system/css";
 import { IconPen } from "@/components/icons";
 import Markdown from "@/features/markdown";
-import { get_post, get_posts } from "@/features/blog";
+import { get_post, get_published_posts } from "@/features/blog";
 
 type PageProps = {
   params: {
@@ -13,7 +13,7 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  const posts = await get_posts();
+  const posts = await get_published_posts();
   return posts.map(({ slug }) => ({ slug }));
 }
 

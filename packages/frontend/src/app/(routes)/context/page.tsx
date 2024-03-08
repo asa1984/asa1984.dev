@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { css } from "@/styled-system/css";
-import { get_posts, type Post } from "@/features/context";
+import { get_published_posts, type Post } from "@/features/context";
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 type Years = Map<number, Post[]>;
 async function get_posts_per_years() {
-  const posts = await get_posts();
+  const posts = await get_published_posts();
   const years: Years = new Map();
   for (const post of posts) {
     const year = post.meta.date.getFullYear();

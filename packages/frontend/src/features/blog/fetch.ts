@@ -18,12 +18,14 @@ export type Post = {
   content: string;
 };
 
-export const get_posts = async (): Promise<Post[]> => {
+export const get_published_posts = async (): Promise<Post[]> => {
   const result = await client.query(GetBlogs, {});
-  const blogs = result.data?.blogs!;
+  const blogs = result.data?.blogs;
+  if (!blogs) return [];
+  const published_blogs = blogs.filter((blog) => blog.published);
 
   return Promise.all(
-    blogs.map(async (blog) => {
+    published_blogs.map(async (blog) => {
       const image_key = await sha256(`blog/${blog.slug}/${blog.image}`);
       const image_url = `${env.BACKEND_URL}/image/delivery/${image_key}`;
       const frontmatter: Frontmatter = {
@@ -44,7 +46,7 @@ export const get_posts = async (): Promise<Post[]> => {
 
 // Newer posts first
 export const get_posts_date_sorted = async (): Promise<Post[]> => {
-  const posts = await get_posts();
+  const posts = await get_published_posts();
   return posts.sort((prev, next) => {
     return next.meta.date.getTime() - prev.meta.date.getTime();
   });

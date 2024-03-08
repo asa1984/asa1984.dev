@@ -15,9 +15,11 @@ export type Post = {
   content: string;
 };
 
-export const get_posts = async (): Promise<Post[]> => {
+export const get_published_posts = async (): Promise<Post[]> => {
   const result = await client.query(GetContexts, {});
-  const contexts = result.data?.contexts!;
+  const contexts = result.data?.contexts;
+  if (!contexts) return [];
+  const published_contexts = contexts.filter((context) => context.published);
 
   return contexts.map((context) => {
     const frontmatter: Frontmatter = {
@@ -36,7 +38,7 @@ export const get_posts = async (): Promise<Post[]> => {
 
 // Newer posts first
 export const get_posts_date_sorted = async (): Promise<Post[]> => {
-  const posts = await get_posts();
+  const posts = await get_published_posts();
   return posts.sort((prev, next) => {
     return next.meta.date.getTime() - prev.meta.date.getTime();
   });
