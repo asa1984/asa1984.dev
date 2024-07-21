@@ -1,5 +1,6 @@
 name = "asa1984-api"
-compatibility_date = "2023-01-01"
+main = "./crates/server/build/worker/shim.mjs"
+compatibility_date = "2024-06-20"
 
 [vars]
 API_TOKEN = "${API_TOKEN}"
@@ -13,3 +14,6 @@ binding = "DB"
 database_name = "asa1984-blog"
 database_id = "79856d54-a73b-481f-bb34-7a56ba8b993b"
 migrations_dir = "./packages/drizzle/migrations"
+
+[build]
+command = "cd ./crates/server && worker-build"

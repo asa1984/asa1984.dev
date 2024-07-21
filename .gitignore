@@ -18,5 +18,11 @@ dist
 
 # Misc
 .DS_Store
-.direnv
 .cache
+
+# Rust
+/target
+
+# Nix
+/.direnv
+/result

@@ -1,0 +1,29 @@
+[package]
+name = "trashbox_server"
+version.workspace = true
+edition.workspace = true
+
+[package.metadata.release]
+release = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+url.workspace = true
+serde.workspace = true
+
+trashbox_domain = { path = "../domain" }
+
+async-graphql = { version = "7.0.7", features = ["chrono", "url"] }
+async-graphql-axum = "7.0.7"
+async-trait = "0.1"
+axum = { version = "0.7.5", default-features = false }
+console_error_panic_hook = "0.1.7"
+tower-service = "0.3.2"
+wasm-bindgen-futures = "0.4.42"
+worker = { version = "0.3.0", features = ["http", "axum", "d1"] }
+worker-macros = { version = "0.3.0", features = ["http"] }

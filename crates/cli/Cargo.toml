@@ -1,0 +1,11 @@
+[package]
+name = "trashbox_cli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+thiserror.workspace = true
+
+clap = { version = "4.5.9", features = ["derive"] }
+graphql_client = { version = "0.14.0", features = ["reqwest-rustls"] }
