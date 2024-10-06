@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import { css } from "@/styled-system/css";
 import { get_posts_date_sorted } from "@/features/blog";
 import { LinkCard } from "./_components/LinkCard";

@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import { css } from "@/styled-system/css";
 import { get_published_posts, type Post } from "@/features/context";
 import { LinkCard } from "./_components/LinkCard";

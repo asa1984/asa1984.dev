@@ -1,5 +1,5 @@
-query getContexts{
-  contexts{
+query getContexts {
+  contexts {
     slug
     title
     emoji

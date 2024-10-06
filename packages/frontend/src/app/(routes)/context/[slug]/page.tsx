@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { css } from "@/styled-system/css";
 import { IconPen } from "@/components/icons";

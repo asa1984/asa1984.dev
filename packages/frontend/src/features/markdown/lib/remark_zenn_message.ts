@@ -1,8 +1,8 @@
-import { Transformer } from "unified";
+import type { Transformer } from "unified";
 import { visit } from "unist-util-visit";
 import type { Paragraph } from "mdast";
 import type { Parent } from "unist";
-import { type Handler } from "mdast-util-to-hast";
+import type { Handler } from "mdast-util-to-hast";
 
 import { is_text, is_paragraph, is_parent } from "./utils";
 

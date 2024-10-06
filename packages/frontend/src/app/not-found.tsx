@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import { css } from "@/styled-system/css";
 import Link from "next/link";
 

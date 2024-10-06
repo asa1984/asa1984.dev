@@ -1,5 +1,5 @@
-import { Node, Parent, Literal } from "unist";
-import { Paragraph, Text, Link } from "mdast";
+import type { Node, Parent, Literal } from "unist";
+import type { Paragraph, Text, Link } from "mdast";
 
 function is_object(target: unknown): target is { [key: string]: unknown } {
   return typeof target === "object" && target !== null;

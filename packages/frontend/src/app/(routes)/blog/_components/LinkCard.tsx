@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { css } from "@/styled-system/css";
-import { Frontmatter } from "@/features/blog";
+import type { Frontmatter } from "@/features/blog";
 import { LinkCardDateDiff } from "./LinkCardDateDiff";
 
 const card_style = css({

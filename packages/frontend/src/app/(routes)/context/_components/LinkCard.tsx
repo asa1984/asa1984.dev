@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { css } from "@/styled-system/css";
-import { Frontmatter } from "@/features/context";
+import type { Frontmatter } from "@/features/context";
 
 export type LinkCardProps = {
   slug: string;

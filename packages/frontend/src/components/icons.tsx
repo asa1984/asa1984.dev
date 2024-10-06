@@ -11,7 +11,7 @@ import {
 } from "react-icons/si";
 import { BiCopy, BiInfoCircle, BiPen } from "react-icons/bi";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
 export const IconGitHub = (props: ComponentProps<typeof SiGithub>) => <SiGithub {...props} />;
 export const IconNixOS = (props: ComponentProps<typeof SiNixos>) => <SiNixos {...props} />;

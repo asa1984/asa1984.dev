@@ -1,5 +1,5 @@
 import { compileMDX } from "next-mdx-remote/rsc";
-import { type CompileOptions } from "@mdx-js/mdx";
+import type { CompileOptions } from "@mdx-js/mdx";
 
 import remark_breaks from "remark-breaks";
 import remark_comment from "remark-comment";

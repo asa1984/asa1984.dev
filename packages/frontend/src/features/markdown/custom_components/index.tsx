@@ -1,4 +1,4 @@
-import { type MDXRemoteProps } from "next-mdx-remote";
+import type { MDXRemoteProps } from "next-mdx-remote";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import { css } from "@/styled-system/css";
 import LinkCard from "@/features/ogp";
 import { Message } from "./message";
 import { env } from "@/libs/env";
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
 
 const sha256 = (text: string) => {
   const hash = createHash("sha256");
