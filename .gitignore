@@ -20,3 +20,6 @@ dist
 .DS_Store
 .direnv
 .cache
+
+# git-hooks.nix
+.pre-commit-config.yaml

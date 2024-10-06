@@ -8,7 +8,10 @@ export interface RevalidaterInterface {
 }
 
 export class Revalidater implements RevalidaterInterface {
-  constructor(public url: string, public token: string) {
+  constructor(
+    public url: string,
+    public token: string,
+  ) {
     this.url = url;
     this.token = token;
   }
