@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { env } from "@/libs/env";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import type { Metadata } from "next";
 
 import "./globals.css";
 import "@fontsource-variable/inter";

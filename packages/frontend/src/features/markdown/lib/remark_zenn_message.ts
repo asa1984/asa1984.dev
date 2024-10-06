@@ -1,10 +1,10 @@
-import type { Transformer } from "unified";
-import { visit } from "unist-util-visit";
 import type { Paragraph } from "mdast";
-import type { Parent } from "unist";
 import type { Handler } from "mdast-util-to-hast";
+import type { Transformer } from "unified";
+import type { Parent } from "unist";
+import { visit } from "unist-util-visit";
 
-import { is_text, is_paragraph, is_parent } from "./utils";
+import { is_paragraph, is_parent, is_text } from "./utils";
 
 const MESSAGE_BEGINING = ":::message\n";
 const MESSAGE_ENDING = "\n:::";

@@ -1,7 +1,7 @@
+import { env } from "@/libs/env";
 import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
 import { revalidatePath } from "next/cache";
-import { env } from "@/libs/env";
 
 const app = new Hono().basePath("/api");
 

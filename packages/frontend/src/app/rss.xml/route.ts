@@ -1,5 +1,5 @@
-import { Feed } from "feed";
 import { get_posts_date_sorted } from "@/features/blog";
+import { Feed } from "feed";
 
 export async function GET() {
   const posts = await get_posts_date_sorted();

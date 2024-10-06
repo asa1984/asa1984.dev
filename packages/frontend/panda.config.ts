@@ -1,5 +1,5 @@
-import { defineConfig } from "@pandacss/dev";
 import { global_css } from "@/styles/global";
+import { defineConfig } from "@pandacss/dev";
 
 export default defineConfig({
   // Whether to use css reset

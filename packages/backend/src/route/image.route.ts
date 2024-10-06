@@ -1,11 +1,11 @@
+import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { cache } from "hono/cache";
 import { sha256 } from "hono/utils/crypto";
-import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
 import { optimizeImage } from "wasm-image-optimization";
+import { z } from "zod";
 
-import { Bindings } from "../types";
+import type { Bindings } from "../types";
 
 const CACHE_NAME = "image";
 const MAX_AGE = 60 * 60 * 24 * 30;

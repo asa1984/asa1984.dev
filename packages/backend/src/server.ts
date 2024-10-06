@@ -6,9 +6,9 @@ import { builder } from "@asa1984.dev/graphql";
 import { createYoga } from "graphql-yoga";
 
 import { blogRoute } from "./route/blog.route";
-import { taskRoute } from "./route/task.route";
 import { contextRoute } from "./route/context.route";
 import { imageCacheRoute, imageDeliverRoute } from "./route/image.route";
+import { taskRoute } from "./route/task.route";
 
 export const app = new Hono<{ Bindings: Bindings }>();
 

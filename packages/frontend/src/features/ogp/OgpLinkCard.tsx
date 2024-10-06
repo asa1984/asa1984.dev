@@ -1,6 +1,6 @@
 import { css } from "@/styled-system/css";
-import { fetch_ogp } from "./fetch_ogp";
 import { Suspense } from "react";
+import { fetch_ogp } from "./fetch_ogp";
 
 export type OgpLinkCardPresenterProps = {
   href: string;

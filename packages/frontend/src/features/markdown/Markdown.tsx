@@ -1,5 +1,5 @@
-import { compile_mdx } from "./compile_mdx";
 import style from "./article.module.scss";
+import { compile_mdx } from "./compile_mdx";
 import "katex/dist/katex.min.css";
 
 export type MarkdownProps = {

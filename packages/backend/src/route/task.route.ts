@@ -1,8 +1,8 @@
-import { Hono } from "hono";
-import { Bindings } from "../types";
-import { drizzle } from "drizzle-orm/d1";
 import * as schema from "@asa1984.dev/drizzle";
 import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { Hono } from "hono";
+import type { Bindings } from "../types";
 
 const route = new Hono<{ Bindings: Bindings }>();
 

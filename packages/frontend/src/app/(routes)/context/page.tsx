@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
+import { type Post, get_published_posts } from "@/features/context";
 import { css } from "@/styled-system/css";
-import { get_published_posts, type Post } from "@/features/context";
+import type { Metadata } from "next";
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {

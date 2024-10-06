@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "turbo run lint",
     "format": "turbo run format",
+    "check": "turbo run check",
     "typecheck": "turbo run typecheck",
     "dev": "turbo run dev",
     "build": "turbo run build",

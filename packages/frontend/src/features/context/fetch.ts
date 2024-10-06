@@ -1,6 +1,6 @@
 import { client } from "@/libs/graphql";
-import GetContexts from "./getContexts.graphql";
 import GetContextBySlug from "./getContextBySlug.graphql";
+import GetContexts from "./getContexts.graphql";
 
 export type Frontmatter = {
   title: string;
