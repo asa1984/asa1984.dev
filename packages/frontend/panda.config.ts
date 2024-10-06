@@ -18,11 +18,11 @@ export default defineConfig({
         fonts: {
           sans: {
             // value: `var(--font-sans-serif-en), var(--font-sans-serif-jp), sans-serif`,
-            value: `Inter Variable, Noto Sans JP Variable, sans-serif`,
+            value: "Inter Variable, Noto Sans JP Variable, sans-serif",
           },
           monospace: {
             // value: `var(--font-monospace), monospace`,
-            value: `JetBrains Mono Variable, monospace`,
+            value: "JetBrains Mono Variable, monospace",
           },
           emoji: {
             value: "Noto Emoji Variable, sans-serif",

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const next_config = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     scrollRestoration: true,
   },

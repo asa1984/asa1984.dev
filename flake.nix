@@ -76,7 +76,6 @@
             let
               devDeps = with pkgs; [
                 nodejs-slim_20
-                bun
                 nodePackages.pnpm
                 nodePackages.wrangler
                 nodePackages.vercel

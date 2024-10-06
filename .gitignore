@@ -3,6 +3,7 @@
 
 # Local env files
 .env
+.env*.local
 
 # Turbo
 .turbo

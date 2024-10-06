@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -12,7 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
     "allowArbitraryExtensions": true,
     "plugins": [
       {
@@ -22,7 +21,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "traceResolution": true
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "styled-system"],
   "exclude": ["node_modules"]

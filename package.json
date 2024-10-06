@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare": "turbo run gen",
     "lint": "turbo run lint",
     "format": "turbo run format",
     "check": "turbo run check",
