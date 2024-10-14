@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+
+env:
+  BACKEND_URL: ${{ vars.BACKEND_URL }}
+  FRONTEND_URL: ${{ vars.FRONTEND_URL }}
+  BACKEND_API_TOKEN: ${{ secrets.BACKEND_API_TOKEN }}
+  FRONTEND_API_TOKEN: ${{ secrets.FRONTEND_API_TOKEN }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Check
+        run: nix develop .#ci --command pnpm run check
+
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Typecheck
+        run: nix develop .#ci --command pnpm run typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Build
+        run: nix develop .#ci --command pnpm run build

@@ -1,6 +1,6 @@
+import { css } from "@/styled-system/css";
 import Link from "next/link";
 import { NavMenu } from "./_components/NavMenu";
-import { css } from "@/styled-system/css";
 
 const HeaderLogo = () => (
   <Link href="/">

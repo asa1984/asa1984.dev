@@ -1,10 +1,10 @@
-import { Hono } from "hono";
-import { zValidator } from "@hono/zod-validator";
-import { Bindings } from "../types";
-import { drizzle } from "drizzle-orm/d1";
 import * as schema from "@asa1984.dev/drizzle";
+import { zValidator } from "@hono/zod-validator";
 import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { Hono } from "hono";
 import { ulid } from "ulidx";
+import type { Bindings } from "../types";
 
 export const postContextSchema = schema.insertContextSchema.omit({
   id: true,
@@ -44,6 +44,7 @@ export const contextRoute = route
     const oldOne = await db.query.contexts.findFirst({
       where: (context) => eq(context.slug, slug),
     });
+
     if (oldOne) {
       const result = await db
         .update(schema.contexts)
@@ -54,16 +55,16 @@ export const contextRoute = route
         .where(eq(schema.contexts.slug, slug))
         .returning();
       return c.json(result[0]);
-    } else {
-      const id = ulid();
-      const result = await db
-        .insert(schema.contexts)
-        .values({
-          id,
-          slug,
-          ...post,
-        })
-        .returning();
-      return c.json(result[0]);
     }
+
+    const id = ulid();
+    const result = await db
+      .insert(schema.contexts)
+      .values({
+        id,
+        slug,
+        ...post,
+      })
+      .returning();
+    return c.json(result[0]);
   });

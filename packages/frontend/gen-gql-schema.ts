@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { join } from "path";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 import { builder } from "@asa1984.dev/graphql";
 import { printSchema } from "graphql";

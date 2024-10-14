@@ -74,9 +74,7 @@
       "indexes": {
         "blogs_slug_unique": {
           "name": "blogs_slug_unique",
-          "columns": [
-            "slug"
-          ],
+          "columns": ["slug"],
           "isUnique": true
         }
       },
@@ -147,9 +145,7 @@
       "indexes": {
         "contexts_slug_unique": {
           "name": "contexts_slug_unique",
-          "columns": [
-            "slug"
-          ],
+          "columns": ["slug"],
           "isUnique": true
         }
       },
@@ -264,9 +260,7 @@
       "indexes": {
         "tasks_slug_unique": {
           "name": "tasks_slug_unique",
-          "columns": [
-            "slug"
-          ],
+          "columns": ["slug"],
           "isUnique": true
         }
       },

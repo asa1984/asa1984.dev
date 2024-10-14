@@ -1,7 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "pipeline": {
+  "globalEnv": [
+    "BACKEND_URL",
+    "FRONTEND_URL",
+    "BACKEND_API_TOKEN",
+    "FRONTEND_API_TOKEN",
+    "CLOUDFLARE_ACCOUNT_ID",
+    "CLOUDFLARE_API_TOKEN"
+  ],
+  "tasks": {
     "gen": {},
     "migrate:dev": {},
     "migrate:prod": {},
@@ -11,10 +19,11 @@
     },
     "lint": {},
     "format": {},
+    "check": {},
     "typecheck": {},
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "deploy": {}
   }

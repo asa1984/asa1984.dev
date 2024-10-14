@@ -2,7 +2,7 @@ name: Deployment
 
 on:
   push:
-    paths-ignore: 
+    paths-ignore:
       - "packages/cli/**"
       - "packages/frontend/**"
     branches:
@@ -12,44 +12,20 @@ env:
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   BACKEND_API_TOKEN: ${{ secrets.BACKEND_API_TOKEN }}
-  FRONTEND_API_TOKEN: ${{ secrets.FRONTEND_API_TOKEN }}  
-  FRONTEND_URL: https://asa1984.dev
+  FRONTEND_API_TOKEN: ${{ secrets.FRONTEND_API_TOKEN }}
+  FRONTEND_URL: ${{ vars.FRONTEND_URL }}
+  BACKEND_URL: ${{ vars.BACKEND_URL }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
       deployments: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Launch Turbo remote cache server
-        uses: dtinth/setup-github-actions-caching-for-turbo@v1
-
-      - uses: DeterminateSystems/flake-checker-action@main
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
-
-      - name: Install devShell
-        run: nix develop .#ci --install
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          nix develop .#ci --command \
-            pnpm store path | xargs -I {} echo "STORE_PATH={}" >> $GITHUB_OUTPUT
-      - name: Setup pnpm cache & Next.js cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
-      - name: Install dependencies
-        run: nix develop .#ci --command install
+      - name: Setup
+        uses: ./.github/actions/setup
       - name: Deploy
-        run: nix develop .#ci --command deploy
+        run: nix develop .#ci --command pnpm run deploy

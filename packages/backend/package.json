@@ -4,9 +4,10 @@
   "main": "src/lib.ts",
   "scripts": {
     "dev": "wrangler dev src/main.ts",
-    "lint": "biome lint ./src",
-    "format": "biome format --write ./src",
-    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "typecheck": "tsc --project . --noEmit",
     "migrate:dev": "wrangler d1 migrations apply asa1984-blog --local",
     "migrate:prod": "wrangler d1 migrations apply asa1984-blog",
     "deploy": "wrangler deploy src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL"
@@ -15,19 +16,19 @@
     "@asa1984.dev/drizzle": "workspace:*",
     "@asa1984.dev/graphql": "workspace:*",
     "@hono/zod-validator": "^0.1.11",
-    "graphql": "^16.8.1",
-    "graphql-yoga": "^5.1.0",
-    "hono": "^3.11.7",
-    "ulidx": "^2.2.1",
-    "wasm-image-optimization": "^0.2.0",
-    "zod": "^3.22.4"
+    "graphql": "^16.9.0",
+    "graphql-yoga": "^5.7.0",
+    "hono": "^3.12.12",
+    "ulidx": "^2.4.1",
+    "wasm-image-optimization": "^0.2.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
-    "@cloudflare/workers-types": "^4.20230914.0",
-    "better-sqlite3": "^9.2.2",
-    "drizzle-kit": "^0.20.6",
-    "drizzle-orm": "^0.29.1",
-    "typescript": "^5.3.3"
+    "@cloudflare/workers-types": "^4.20241004.0",
+    "better-sqlite3": "^9.6.0",
+    "drizzle-kit": "^0.20.18",
+    "drizzle-orm": "^0.29.5",
+    "typescript": "^5.6.2"
   }
 }

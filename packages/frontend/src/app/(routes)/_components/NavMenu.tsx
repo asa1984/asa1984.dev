@@ -1,10 +1,10 @@
 "use client";
 
+import { IconArrowDown, IconArrowLeft } from "@/components/icons";
+import { css } from "@/styled-system/css";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { css } from "@/styled-system/css";
-import { IconArrowDown, IconArrowLeft } from "@/components/icons";
 
 const useOnClickOutside = (
   ref: React.RefObject<HTMLDivElement>,

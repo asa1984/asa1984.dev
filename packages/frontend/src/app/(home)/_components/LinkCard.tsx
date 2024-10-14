@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { css } from "@/styled-system/css";
+import Link from "next/link";
 
 export type CardProps = {
   title: React.ReactNode;

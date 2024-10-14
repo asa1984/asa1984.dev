@@ -1,5 +1,10 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.4.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "organizeImports": {
     "enabled": true
   },
@@ -12,9 +17,6 @@
       },
       "style": {
         "useNamingConvention": "off"
-      },
-      "nursery": {
-        "noUselessLoneBlockStatements": "off"
       },
       "complexity": {
         "useSimplifiedLogicExpression": "off",
@@ -46,9 +48,8 @@
       "enabled": true,
       "quoteStyle": "double",
       "jsxQuoteStyle": "double",
-      "trailingComma": "all",
+      "trailingCommas": "all",
       "semicolons": "always",
-      "arrowParentheses": "always",
       "indentStyle": "space",
       "indentWidth": 2,
       "lineWidth": 100,

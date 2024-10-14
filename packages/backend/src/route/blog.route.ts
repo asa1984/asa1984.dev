@@ -1,11 +1,11 @@
-import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
+import { Hono } from "hono";
 
-import { ulid } from "ulidx";
-import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
 import * as schema from "@asa1984.dev/drizzle";
 import { blogs, insertBlogSchema } from "@asa1984.dev/drizzle";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { ulid } from "ulidx";
 
 import type { Bindings } from "../types";
 import { CURRENT_TIMESTAMP } from "../utils";
@@ -54,18 +54,18 @@ export const blogRoute = route
         .where(eq(blogs.slug, slug))
         .returning();
       return c.json(result[0]);
-    } else {
-      const id = ulid();
-      const result = await db
-        .insert(blogs)
-        .values({
-          id,
-          slug,
-          ...post,
-        })
-        .returning();
-      return c.json(result[0]);
     }
+
+    const id = ulid();
+    const result = await db
+      .insert(blogs)
+      .values({
+        id,
+        slug,
+        ...post,
+      })
+      .returning();
+    return c.json(result[0]);
   })
   .delete("/blogs/:slug", async (c) => {
     const slug = c.req.param("slug");

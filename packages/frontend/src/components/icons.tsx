@@ -1,17 +1,17 @@
-import {
-  SiX,
-  SiGithub,
-  SiZenn,
-  SiScrapbox,
-  SiDiscord,
-  SiNixos,
-  SiRust,
-  SiTypescript,
-  SiReact,
-} from "react-icons/si";
+import type { ComponentProps } from "react";
 import { BiCopy, BiInfoCircle, BiPen } from "react-icons/bi";
-import { MdKeyboardArrowDown, MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-import { ComponentProps } from "react";
+import { MdKeyboardArrowDown, MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import {
+  SiDiscord,
+  SiGithub,
+  SiNixos,
+  SiReact,
+  SiRust,
+  SiScrapbox,
+  SiTypescript,
+  SiX,
+  SiZenn,
+} from "react-icons/si";
 
 export const IconGitHub = (props: ComponentProps<typeof SiGithub>) => <SiGithub {...props} />;
 export const IconNixOS = (props: ComponentProps<typeof SiNixos>) => <SiNixos {...props} />;

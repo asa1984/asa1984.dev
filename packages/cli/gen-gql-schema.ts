@@ -1,8 +1,7 @@
-import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { join } from "path";
-
-import { builder } from "@asa1984.dev/graphql";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { printSchema } from "graphql";
+import { builder } from "@asa1984.dev/graphql";
 
 const schema = builder.toSchema();
 

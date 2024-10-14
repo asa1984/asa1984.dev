@@ -1,6 +1,6 @@
-import { type Metadata } from "next";
-import { css } from "@/styled-system/css";
 import { get_posts_date_sorted } from "@/features/blog";
+import { css } from "@/styled-system/css";
+import type { Metadata } from "next";
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
