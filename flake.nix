@@ -89,21 +89,6 @@
                 nodePackages.wrangler
                 biome
               ];
-              scripts = with pkgs; [
-                (writeScriptBin "install" ''
-                  ${nodePackages.pnpm}/bin/pnpm install
-                '')
-                (writeScriptBin "build" ''
-                  ${nodePackages.pnpm}/bin/pnpm run gen
-                  ${nodePackages.pnpm}/bin/pnpm run build
-                '')
-                (writeScriptBin "migrate" ''
-                  ${nodePackages.pnpm}/bin/pnpm run migrate:prod
-                '')
-                (writeScriptBin "deploy" ''
-                  ${nodePackages.pnpm}/bin/pnpm run deploy
-                '')
-              ];
             in
             rec {
               default = dev;
@@ -112,7 +97,7 @@
                 shellHook = config.pre-commit.installationScript;
               };
               ci = pkgs.mkShell {
-                packages = ciDeps ++ scripts;
+                packages = ciDeps;
               };
             };
         };
