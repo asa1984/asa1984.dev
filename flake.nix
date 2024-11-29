@@ -74,21 +74,22 @@
 
           devShells =
             let
-              devDeps = with pkgs; [
-                nodejs-slim_20
-                nodePackages.pnpm
-                nodePackages.wrangler
-                nodePackages.vercel
-                biome
-                sqlite
-                act
+              sharedDeps = with pkgs; [
+                nodejs-slim_22
+                corepack
               ];
-              ciDeps = with pkgs; [
-                nodejs-slim_20
-                nodePackages.pnpm
-                nodePackages.wrangler
-                biome
-              ];
+              devDeps =
+                sharedDeps
+                ++ (with pkgs; [
+                  biome
+                  sqlite
+                  act
+                ]);
+              ciDeps =
+                sharedDeps
+                ++ (with pkgs; [
+                  biome
+                ]);
             in
             rec {
               default = dev;
