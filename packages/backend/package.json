@@ -16,19 +16,20 @@
     "@asa1984.dev/drizzle": "workspace:*",
     "@asa1984.dev/graphql": "workspace:*",
     "@hono/zod-validator": "^0.1.11",
-    "graphql": "^16.9.0",
+    "graphql": "catalog:",
     "graphql-yoga": "^5.7.0",
-    "hono": "^3.12.12",
-    "ulidx": "^2.4.1",
+    "hono": "catalog:",
+    "ulidx": "catalog:",
     "wasm-image-optimization": "^0.2.4",
-    "zod": "^3.23.8"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
-    "@cloudflare/workers-types": "^4.20241004.0",
+    "@cloudflare/workers-types": "catalog:",
     "better-sqlite3": "^9.6.0",
     "drizzle-kit": "^0.20.18",
     "drizzle-orm": "^0.29.5",
-    "typescript": "^5.6.2"
+    "typescript": "catalog:",
+    "wrangler": "catalog:"
   }
 }
