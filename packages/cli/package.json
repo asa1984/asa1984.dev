@@ -7,8 +7,8 @@
   },
   "devDependencies": {
     "@asa1984.dev/graphql": "workspace:*",
-    "@types/node": "^20.16.10",
-    "graphql": "^16.9.0",
-    "tsx": "^4.19.1"
+    "@types/node": "catalog:",
+    "graphql": "catalog:",
+    "tsx": "catalog:"
   }
 }

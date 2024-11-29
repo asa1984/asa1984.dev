@@ -13,16 +13,16 @@
     "@asa1984.dev/drizzle": "workspace:*",
     "@pothos/core": "^3.41.2",
     "@pothos/plugin-simple-objects": "^3.7.1",
-    "graphql": "^16.9.0",
-    "hono": "^3.12.12",
-    "ulidx": "^2.4.1"
+    "graphql": "catalog:",
+    "hono": "catalog:",
+    "ulidx": "catalog:"
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
-    "@cloudflare/workers-types": "^4.20241004.0",
+    "@cloudflare/workers-types": "catalog:",
     "better-sqlite3": "^9.6.0",
     "drizzle-kit": "^0.20.18",
     "drizzle-orm": "^0.29.5",
-    "typescript": "^5.6.2"
+    "typescript": "catalog:"
   }
 }
