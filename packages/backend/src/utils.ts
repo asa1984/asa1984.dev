@@ -18,4 +18,5 @@ export const detectType = (b64: string): Type | undefined => {
       return signatures[s];
     }
   }
+  return undefined;
 };

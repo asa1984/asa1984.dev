@@ -28,8 +28,8 @@ export const remark_zenn_message = (): Transformer => {
 
       const children = [...node.children];
 
-      const first_child = children[0];
-      if (first_child.type !== "text") return;
+      const first_child = children.at(0);
+      if (!first_child || first_child.type !== "text") return;
       const first_value = first_child.value;
       if (first_value === MESSAGE_BEGINING) {
         children.shift();
@@ -40,8 +40,8 @@ export const remark_zenn_message = (): Transformer => {
         };
       }
 
-      const last_child = children[children.length - 1];
-      if (last_child.type !== "text") return;
+      const last_child = children.at(-1);
+      if (!last_child || last_child.type !== "text") return;
       const last_value = last_child.value;
       if (last_value === MESSAGE_ENDING) {
         children.pop();

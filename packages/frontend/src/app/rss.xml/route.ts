@@ -11,7 +11,7 @@ export async function GET() {
     language: "ja",
     favicon: "https://asa1984.dev/favicon.ico",
     copyright: "All rights reserved 2023, asa1984",
-    updated: posts[0].meta.date,
+    updated: posts[0]?.meta.date,
     author: {
       name: "asa1984",
       link: "https://asa1984.dev/profile",
