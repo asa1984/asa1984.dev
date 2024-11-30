@@ -1,3 +1,0 @@
-BACKEND_API_TOKEN=<your backend server's token>
-FRONTEND_API_TOKEN=<your next api route's token>
-FRONTEND_URL=<your frontend url>

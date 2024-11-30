@@ -1,7 +1,9 @@
-src/styled-system/
-*.tsbuildinfo
+# Next.js
 next-env.d.ts
 .next/
+
+# Panda CSS
+src/styled-system/
 
 # nitrogql
 src/generated

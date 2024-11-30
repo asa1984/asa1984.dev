@@ -1,6 +1,5 @@
-# Local env files
-.env
-.env*.local
+# dotenvx
+.env.keys
 
 # Dependencies
 *node_modules
@@ -8,21 +7,18 @@
 # TypeScript
 *.tsbuildinfo
 
-# Turbo
+# Turborepo
 .turbo
 
 # Build Outputs
-out/
-build
 dist
 
 # Deployment
 .vercel
 .wrangler
 
-# Misc
+# direnv
 .direnv
-.cache
 
 # git-hooks.nix
 .pre-commit-config.yaml

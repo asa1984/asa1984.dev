@@ -4,18 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "turbo run lint",
-    "format": "turbo run format",
-    "check": "turbo run check",
-    "typecheck": "turbo run typecheck",
-    "dev": "turbo run dev",
-    "build": "turbo run build",
     "gen": "turbo run gen",
-    "migrate:dev": "turbo run migrate:dev",
-    "migrate:prod": "turbo run migrate:prod",
-    "deploy": "turbo run deploy"
+    "lint": "turbo run lint",
+    "check": "turbo run check",
+    "format": "turbo run format",
+    "typecheck": "turbo run typecheck",
+    "dev": "dotenvx run -- turbo run dev",
+    "build": "dotenvx run -- turbo run build",
+    "start": "dotenvx run -- turbo run start",
+    "migrate:dev": "dotenvx run -- turbo run migrate:dev",
+    "migrate:prod": "dotenvx run -- turbo run migrate:prod",
+    "deploy": "dotenvx run -- turbo run deploy"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.26.0",
     "turbo": "^2.3.3",
     "wrangler": "catalog:"
   },

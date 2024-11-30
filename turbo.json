@@ -1,43 +1,41 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": [".env", ".env.production"],
   "ui": "tui",
-  "globalEnv": [
-    "BACKEND_URL",
-    "FRONTEND_URL",
-    "BACKEND_API_TOKEN",
-    "FRONTEND_API_TOKEN",
-    "CLOUDFLARE_ACCOUNT_ID",
-    "CLOUDFLARE_API_TOKEN"
-  ],
   "tasks": {
     "gen": {
       "dependsOn": ["^gen"]
     },
-    "migrate:dev": {},
-    "migrate:prod": {},
-    "dev": {
-      "dependsOn": ["gen"],
-      "cache": false,
-      "persistent": true
-    },
     "lint": {
-      "dependsOn": ["gen"]
-    },
-    "format": {
       "dependsOn": ["gen"]
     },
     "check": {
       "dependsOn": ["gen"]
     },
+    "format": {
+      "dependsOn": ["gen"]
+    },
     "typecheck": {
       "dependsOn": ["gen", "^typecheck"]
+    },
+    "dev": {
+      "dependsOn": ["gen"],
+      "cache": false,
+      "persistent": true
     },
     "build": {
       "dependsOn": ["gen", "^build"]
     },
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "migrate:dev": {},
+    "migrate:prod": {},
     "deploy": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "cache": false
     }
   }
 }
