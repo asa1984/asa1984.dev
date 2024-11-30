@@ -1,13 +1,4 @@
 {
-  "extends": "@asa1984.dev/tsconfig/base.json",
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
-    "lib": ["esnext"],
-    "outDir": "dist"
-  },
+  "extends": "@asa1984.dev/tsconfig/lib.json",
   "include": ["src"]
 }

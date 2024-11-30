@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["./primitive/lint.json", "./primitive/nitrogql.json"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
+
+    /* Compiler mode */
+    "incremental": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    /* Module */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+
+    /* Next.js */
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  }
+}

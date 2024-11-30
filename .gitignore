@@ -1,24 +1,26 @@
-# Dependencies
-*node_modules
-
 # Local env files
 .env
 .env*.local
 
+# Dependencies
+*node_modules
+
+# TypeScript
+*.tsbuildinfo
+
 # Turbo
 .turbo
-
-# Deployment
-.vercel
-.wrangler
 
 # Build Outputs
 out/
 build
 dist
 
+# Deployment
+.vercel
+.wrangler
+
 # Misc
-.DS_Store
 .direnv
 .cache
 
