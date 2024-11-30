@@ -1,0 +1,28 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "dev": {
+      "dependsOn": ["migrate:dev"],
+      "env": ["BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"]
+    },
+    "start": {
+      "env": ["BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"]
+    },
+    "migrate:dev": {
+      "inputs": ["wrangler.toml", "../drizzle/migrations"]
+    },
+    "migrate:prod": {
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"]
+    },
+    "deploy": {
+      "env": [
+        "BACKEND_API_TOKEN",
+        "FRONTEND_URL",
+        "FRONTEND_API_TOKEN",
+        "CLOUDFLARE_ACCOUNT_ID",
+        "CLOUDFLARE_API_TOKEN"
+      ]
+    }
+  }
+}

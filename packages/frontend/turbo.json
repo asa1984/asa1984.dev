@@ -5,8 +5,15 @@
     "gen": {
       "outputs": ["schema/**/*", "src/generated/**/*", "src/styled-system/**/*"]
     },
+    "dev": {
+      "env": ["BACKEND_URL", "BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"]
+    },
     "build": {
+      "env": ["BACKEND_URL", "BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"],
       "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "start": {
+      "env": ["BACKEND_URL", "BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"]
     }
   }
 }
