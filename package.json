@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "turbo run gen",
     "lint": "turbo run lint",
     "format": "turbo run format",
     "check": "turbo run check",
@@ -17,7 +16,7 @@
     "deploy": "turbo run deploy"
   },
   "devDependencies": {
-    "turbo": "^2.1.3",
+    "turbo": "^2.3.3",
     "wrangler": "catalog:"
   },
   "packageManager": "pnpm@9.14.4"
