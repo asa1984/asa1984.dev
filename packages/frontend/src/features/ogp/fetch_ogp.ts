@@ -2,19 +2,22 @@ import { parse } from "node-html-parser";
 
 export type OGP = {
   href: string;
-  title?: string;
-  description?: string;
-  image?: string;
+  title: string | undefined;
+  description: string | undefined;
+  image: string | undefined;
 };
 
 export async function fetch_ogp(href: string): Promise<OGP> {
   const response = await fetch(href);
   const html = await response.text();
 
-  const ogp: OGP = { href };
   const root = parse(html);
-  ogp.title = root.querySelector("title")?.text;
-  ogp.description = root.querySelector("meta[name='description']")?.getAttribute("content");
+  const ogp: OGP = {
+    href,
+    title: root.querySelector("title")?.text,
+    description: root.querySelector("meta[name='description']")?.getAttribute("content"),
+    image: undefined,
+  };
   root
     .getElementsByTagName("meta")
     .filter((elem) => elem.getAttribute("property"))

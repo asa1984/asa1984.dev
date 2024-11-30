@@ -41,7 +41,8 @@ export const NavMenu = () => {
 
   const on_click = () => setOpen((open) => !open);
 
-  const current = items.find((item) => item.path === segment) ?? items[0];
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  const current = items.find((item) => item.path === segment) ?? items[0]!;
 
   return (
     <div

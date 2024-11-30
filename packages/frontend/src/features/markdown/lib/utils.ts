@@ -43,8 +43,8 @@ export function is_linkcard(node: unknown): node is Paragraph & {
   const child = children[0];
   return (
     children.length === 1 &&
-    child.type === "link" &&
-    child.children[0].type === "text" &&
+    child?.type === "link" &&
+    child?.children[0]?.type === "text" &&
     (child.url === child.children[0].value || child.children[0].value === "@card")
   );
 }
