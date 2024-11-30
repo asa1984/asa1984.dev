@@ -7,7 +7,7 @@
     "lint": "biome lint .",
     "format": "biome format --write .",
     "check": "biome check .",
-    "typecheck": "tsc --project . --noEmit",
+    "typecheck": "tsc",
     "migrate:dev": "wrangler d1 migrations apply asa1984-blog --local",
     "migrate:prod": "wrangler d1 migrations apply asa1984-blog",
     "deploy": "wrangler deploy src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL"

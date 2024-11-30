@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext"],
+
+    /* Compiler mode */
+    "incremental": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    /* Module */
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true
+  }
+}
