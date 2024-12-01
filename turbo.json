@@ -31,8 +31,7 @@
     "migrate:dev": {},
     "migrate:prod": {},
     "deploy": {
-      "dependsOn": ["build"],
-      "cache": false
+      "dependsOn": ["build"]
     }
   }
 }
