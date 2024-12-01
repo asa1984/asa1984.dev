@@ -6,11 +6,14 @@
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc",
-    "dev": "wrangler dev src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",
-    "start": "wrangler dev src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",
+    "dev": "wrangler dev --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",
+    "start": "wrangler dev --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",
     "migrate:dev": "wrangler d1 migrations apply asa1984-blog --local",
     "migrate:prod": "wrangler d1 migrations apply asa1984-blog",
-    "deploy": "wrangler deploy src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL"
+    "deploy": "wrangler deploy --var FRONTEND_URL:$FRONTEND_URL",
+    "deploy:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler secret bulk",
+    "staging": "wrangler versions upload --var FRONTEND_URL:$FRONTEND_URL",
+    "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk"
   },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",

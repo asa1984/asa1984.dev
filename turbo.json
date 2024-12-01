@@ -28,10 +28,26 @@
       "cache": false,
       "persistent": true
     },
-    "migrate:dev": {},
-    "migrate:prod": {},
+    "migrate:dev": {
+      "dependsOn": ["gen"]
+    },
+    "migrate:prod": {
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"],
+      "dependsOn": ["gen"]
+    },
     "deploy": {
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"],
       "dependsOn": ["build"]
+    },
+    "deploy:secret": {
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"]
+    },
+    "staging": {
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"],
+      "dependsOn": ["build"]
+    },
+    "staging:secret": {
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"]
     }
   }
 }
