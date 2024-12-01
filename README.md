@@ -8,18 +8,25 @@ My personal website.
 gh repo clone asa1984/asa1984.dev
 cd asa1984.dev
 nix develop # or `direnv allow`
+corepack install
 pnpm install
-pnpm dev
+pnpm run dev
 ```
 
 ## Build
 
 ```bash
-pnpm build
+pnpm run build
 ```
 
-## Deploy
+## Migration
 
 ```bash
-pnpm deploy
+DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run migrate:prod
+```
+
+## Deployment
+
+```bash
+DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run deploy
 ```
