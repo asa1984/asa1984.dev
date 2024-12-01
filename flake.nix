@@ -77,19 +77,16 @@
               sharedDeps = with pkgs; [
                 nodejs-slim_22
                 corepack
+                biome
               ];
               devDeps =
                 sharedDeps
                 ++ (with pkgs; [
-                  biome
                   sqlite
                   act
+                  actionlint
                 ]);
-              ciDeps =
-                sharedDeps
-                ++ (with pkgs; [
-                  biome
-                ]);
+              ciDeps = sharedDeps;
             in
             rec {
               default = dev;

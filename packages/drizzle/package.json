@@ -5,9 +5,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "gen": "drizzle-kit generate:sqlite --out migrations --schema src/schema.ts",
-    "lint": "biome lint .",
+    "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "biome check .",
     "typecheck": "tsc"
   },
   "dependencies": {

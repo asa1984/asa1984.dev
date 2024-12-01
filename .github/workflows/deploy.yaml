@@ -4,7 +4,7 @@ on:
   push:
     paths-ignore:
       - "packages/cli/**"
-      - "packages/frontend/**"
+      - README.md
     branches:
       - main
 
@@ -14,7 +14,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     permissions:
       contents: read
       deployments: write

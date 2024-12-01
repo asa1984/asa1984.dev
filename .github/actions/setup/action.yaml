@@ -5,8 +5,9 @@ runs:
   using: composite
   steps:
     - name: Setup Nix
-      uses: cachix/install-nix-action@v27
-    #   uses: DeterminateSystems/nix-installer-action@v14
+      uses: cachix/install-nix-action@v30
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup Nix binary cache
       uses: DeterminateSystems/magic-nix-cache-action@main
     - name: Get pnpm store directory
