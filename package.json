@@ -6,7 +6,6 @@
   "scripts": {
     "gen": "turbo run gen",
     "lint": "turbo run lint",
-    "check": "turbo run check",
     "format": "turbo run format",
     "typecheck": "turbo run typecheck",
     "dev": "dotenvx run -- turbo run dev",

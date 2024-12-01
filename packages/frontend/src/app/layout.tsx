@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
   },
-  metadataBase: env.FRONTEND_URL,
+  metadataBase: new URL(env.FRONTEND_URL),
 };
 
 export default function RootLayout({

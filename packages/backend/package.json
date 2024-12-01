@@ -3,9 +3,8 @@
   "private": true,
   "main": "src/lib.ts",
   "scripts": {
-    "lint": "biome lint .",
+    "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "biome check .",
     "typecheck": "tsc",
     "dev": "wrangler dev src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",
     "start": "wrangler dev src/main.ts --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",

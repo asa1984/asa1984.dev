@@ -3,9 +3,8 @@
   "private": true,
   "type": "module",
   "script": {
-    "lint": "biome lint .",
+    "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "biome check .",
     "typecheck": "tsc --project . --noEmit"
   },
   "main": "src/lib.ts",
