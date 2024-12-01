@@ -3,7 +3,7 @@
   "private": true,
   "main": "src/lib.ts",
   "scripts": {
-    "gen": "pnpm run gen:css && pnpm run gen:schema && pnpm run gen:gql",
+    "gen": "pnpm run gen:css & pnpm run gen:schema & pnpm run gen:gql",
     "gen:css": "panda codegen",
     "gen:gql": "nitrogql generate",
     "gen:schema": "tsx gen-gql-schema.ts",
@@ -13,8 +13,9 @@
     "check": "biome check .",
     "typecheck": "tsc",
     "dev": "rimraf ./next && next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "cloudflare",
+    "start": "wrangler dev --port 3000 --var BACKEND_URL:$BACKEND_URL BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN",
+    "deploy": "wrangler deploy --var BACKEND_URL:$BACKEND_URL BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN"
   },
   "dependencies": {
     "@asa1984.dev/graphql": "workspace:*",
@@ -28,8 +29,6 @@
     "@t3-oss/env-nextjs": "^0.11.1",
     "@types/mdast": "^4.0.4",
     "@urql/exchange-auth": "^2.2.0",
-    "@vercel/analytics": "^1.3.1",
-    "@vercel/speed-insights": "^1.0.12",
     "feed": "^4.2.2",
     "fetch-site-metadata": "^0.2.0",
     "hono": "catalog:",
@@ -62,6 +61,7 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@nitrogql/cli": "1.6.0-beta.1",
     "@nitrogql/graphql-loader": "1.6.0-beta.1",
+    "@opennextjs/cloudflare": "^0.2.1",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -70,6 +70,7 @@
     "graphql": "catalog:",
     "rimraf": "catalog:",
     "tsx": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "wrangler": "catalog:"
   }
 }

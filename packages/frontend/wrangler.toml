@@ -1,0 +1,14 @@
+name = "asa1984-web"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+main = ".worker-next/index.mjs"
+assets = { directory = ".worker-next/assets", binding = "ASSETS" }
+
+[[kv_namespaces]]
+binding = "NEXT_CACHE_WORKERS_KV"
+id = "d237e41bf1cd43b3ac8e12ca58f3a914"
+
+[observability]
+enabled = true
+logs.enabled = true

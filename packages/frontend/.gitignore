@@ -10,3 +10,6 @@ src/generated
 *.d.graphql.ts
 *.d.graphql.ts.map
 .vercel
+
+# OpenNext
+.worker-next/

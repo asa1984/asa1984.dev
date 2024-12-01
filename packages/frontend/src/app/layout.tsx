@@ -1,6 +1,4 @@
 import { env } from "@/libs/env";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import type { Metadata } from "next";
 
 import "./globals.css";
@@ -19,17 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
   },
-
-  metadataBase: new URL(
-    (() => {
-      switch (env.NODE_ENV) {
-        case "production":
-          return "https://asa1984.dev";
-        default:
-          return "http://localhost:3000";
-      }
-    })(),
-  ),
+  metadataBase: env.FRONTEND_URL,
 };
 
 export default function RootLayout({
@@ -40,8 +28,6 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>{children}</body>
-      <Analytics />
-      <SpeedInsights />
     </html>
   );
 }
