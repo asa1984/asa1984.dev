@@ -13,7 +13,10 @@
     "start": "dotenvx run -- turbo run start",
     "migrate:dev": "dotenvx run -- turbo run migrate:dev",
     "migrate:prod": "dotenvx run -- turbo run migrate:prod",
-    "deploy": "dotenvx run -- turbo run deploy"
+    "deploy": "dotenvx run -- turbo run deploy",
+    "deploy:secret": "dotenvx run -- turbo run deploy:secret",
+    "staging": "dotenvx run -- turbo run staging",
+    "staging:secret": "dotenvx run -- turbo run staging:secret"
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.26.0",

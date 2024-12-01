@@ -10,10 +10,22 @@
     },
     "build": {
       "env": ["BACKEND_URL", "BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", ".worker-next/**"]
     },
     "start": {
       "env": ["BACKEND_URL", "BACKEND_API_TOKEN", "FRONTEND_URL", "FRONTEND_API_TOKEN"]
+    },
+    "deploy": {
+      "env": ["BACKEND_URL", "FRONTEND_URL"]
+    },
+    "deploy:secret": {
+      "env": ["BACKEND_API_TOKEN", "FRONTEND_API_TOKEN"]
+    },
+    "staging": {
+      "env": ["BACKEND_URL", "FRONTEND_URL"]
+    },
+    "staging:secret": {
+      "env": ["BACKEND_API_TOKEN", "FRONTEND_API_TOKEN"]
     }
   }
 }

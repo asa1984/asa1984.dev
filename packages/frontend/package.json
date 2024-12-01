@@ -6,7 +6,7 @@
     "gen": "pnpm run gen:css & pnpm run gen:schema & pnpm run gen:gql",
     "gen:css": "panda codegen",
     "gen:gql": "nitrogql generate",
-    "gen:schema": "tsx gen-gql-schema.ts",
+    "gen:schema": "tsx scripts/gen-gql-schema.ts",
     "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:gql'",
     "lint": "biome check .",
     "format": "biome format --write .",
@@ -14,7 +14,10 @@
     "dev": "rimraf ./next && next dev",
     "build": "cloudflare",
     "start": "wrangler dev --port 3000 --var BACKEND_URL:$BACKEND_URL BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN",
-    "deploy": "wrangler deploy --var BACKEND_URL:$BACKEND_URL BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN"
+    "deploy": "wrangler deploy --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
+    "deploy:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler secret bulk",
+    "staging": "wrangler versions upload --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
+    "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk"
   },
   "dependencies": {
     "@asa1984.dev/graphql": "workspace:*",
