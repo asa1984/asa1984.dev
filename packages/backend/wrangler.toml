@@ -1,9 +1,6 @@
 name = "asa1984-api"
 compatibility_date = "2023-01-01"
 
-# [vars]
-# API_TOKEN = "${API_TOKEN}"
-
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "asa1984-image"

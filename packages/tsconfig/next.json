@@ -10,6 +10,7 @@
     "incremental": true,
     "noEmit": true,
     "skipLibCheck": true,
+    "allowJs": true,
 
     /* Module */
     "module": "ESNext",
