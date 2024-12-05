@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import "@fontsource-variable/inter";
-import "@fontsource-variable/noto-sans-jp";
 import "@fontsource-variable/jetbrains-mono";
 import "@fontsource-variable/noto-emoji";
 
