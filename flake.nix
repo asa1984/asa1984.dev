@@ -1,20 +1,14 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    git-hooks.url = "github:cachix/git-hooks.nix";
 
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-    };
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks.inputs.flake-compat.follows = "";
   };
 
   outputs =
@@ -40,6 +34,20 @@
           system,
           ...
         }:
+        let
+          ciDeps = with pkgs; [
+            nodejs-slim_22
+            corepack
+            biome
+          ];
+          devDeps =
+            ciDeps
+            ++ (with pkgs; [
+              sqlite
+              act
+              actionlint
+            ]);
+        in
         {
           packages = rec {
             default = cli;
@@ -49,6 +57,10 @@
               cargoLock = {
                 lockFile = ./packages/cli/Cargo.lock;
               };
+            };
+            ci = pkgs.buildEnv {
+              name = "ci";
+              paths = ciDeps;
             };
           };
 
@@ -72,32 +84,16 @@
             };
           };
 
-          devShells =
-            let
-              sharedDeps = with pkgs; [
-                nodejs-slim_22
-                corepack
-                biome
-              ];
-              devDeps =
-                sharedDeps
-                ++ (with pkgs; [
-                  sqlite
-                  act
-                  actionlint
-                ]);
-              ciDeps = sharedDeps;
-            in
-            rec {
-              default = dev;
-              dev = pkgs.mkShell {
-                packages = devDeps;
-                shellHook = config.pre-commit.installationScript;
-              };
-              ci = pkgs.mkShell {
-                packages = ciDeps;
-              };
+          devShells = rec {
+            default = dev;
+            dev = pkgs.mkShell {
+              packages = devDeps;
+              shellHook = config.pre-commit.installationScript;
             };
+            ci = pkgs.mkShell {
+              packages = ciDeps;
+            };
+          };
         };
     };
 }

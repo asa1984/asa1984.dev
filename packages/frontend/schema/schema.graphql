@@ -20,24 +20,36 @@ type Context {
 }
 
 type Mutation {
-  """Create or update a blog"""
+  """
+  Create or update a blog
+  """
   upsertBlog(input: UpsertBlogInput!): Blog!
 
-  """Upsert a context"""
+  """
+  Upsert a context
+  """
   upsertContext(input: UpsertContextInput!): Context!
 }
 
 type Query {
-  """Get a blog by slug"""
+  """
+  Get a blog by slug
+  """
   blog(slug: String): Blog
 
-  """Get all blogs"""
+  """
+  Get all blogs
+  """
   blogs: [Blog!]!
 
-  """Get a context by slug"""
+  """
+  Get a context by slug
+  """
   context(slug: String): Context
 
-  """Get all contexts"""
+  """
+  Get all contexts
+  """
   contexts: [Context!]!
 }
 
@@ -57,3 +69,4 @@ input UpsertContextInput {
   slug: String!
   title: String!
 }
+
