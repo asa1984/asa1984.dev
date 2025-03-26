@@ -23,4 +23,4 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Deploy
-        run: nix develop .#ci --command pnpm run deploy
+        run: pnpm run deploy

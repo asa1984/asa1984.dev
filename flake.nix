@@ -34,6 +34,20 @@
           system,
           ...
         }:
+        let
+          ciDeps = with pkgs; [
+            nodejs-slim_22
+            corepack
+            biome
+          ];
+          devDeps =
+            ciDeps
+            ++ (with pkgs; [
+              sqlite
+              act
+              actionlint
+            ]);
+        in
         {
           packages = rec {
             default = cli;
@@ -43,6 +57,10 @@
               cargoLock = {
                 lockFile = ./packages/cli/Cargo.lock;
               };
+            };
+            ci = pkgs.buildEnv {
+              name = "ci";
+              paths = ciDeps;
             };
           };
 
@@ -66,32 +84,16 @@
             };
           };
 
-          devShells =
-            let
-              sharedDeps = with pkgs; [
-                nodejs-slim_22
-                corepack
-                biome
-              ];
-              devDeps =
-                sharedDeps
-                ++ (with pkgs; [
-                  sqlite
-                  act
-                  actionlint
-                ]);
-              ciDeps = sharedDeps;
-            in
-            rec {
-              default = dev;
-              dev = pkgs.mkShell {
-                packages = devDeps;
-                shellHook = config.pre-commit.installationScript;
-              };
-              ci = pkgs.mkShell {
-                packages = ciDeps;
-              };
+          devShells = rec {
+            default = dev;
+            dev = pkgs.mkShell {
+              packages = devDeps;
+              shellHook = config.pre-commit.installationScript;
             };
+            ci = pkgs.mkShell {
+              packages = ciDeps;
+            };
+          };
         };
     };
 }

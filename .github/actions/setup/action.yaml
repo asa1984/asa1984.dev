@@ -6,23 +6,27 @@ runs:
   steps:
     - name: Setup Nix
       uses: DeterminateSystems/nix-installer-action@main
-    - name: Setup Nix binary cache
-      uses: DeterminateSystems/magic-nix-cache-action@main
+    - uses: asa1984/ci-binary-cache-action@v1
+      with:
+        packages: .#ci
+    - name: Install requirements
+      shell: bash
+      run: nix profile install .#ci
+    - name: Setup corepack
+      shell: bash
+      run: corepack install
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash
-      run: echo "STORE_PATH=$(nix develop .#ci --command pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      run: echo "PNPM_STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
     - name: Setup pnpm cache
       uses: actions/cache@v4
       with:
-        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+        path: ${{ steps.pnpm-cache.outputs.PNPM_STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: ${{ runner.os }}-pnpm-store-
     - name: Setup Turborepo cache
       uses: rharkor/caching-for-turbo@v1.5
-    - name: Setup corepack
-      shell: bash
-      run: nix develop .#ci --command corepack install
     - name: Install dependencies
       shell: bash
-      run: nix develop .#ci --command pnpm install --frozen-lock
+      run: pnpm install --frozen-lock
