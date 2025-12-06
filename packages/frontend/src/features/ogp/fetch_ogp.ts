@@ -15,7 +15,9 @@ export async function fetch_ogp(href: string): Promise<OGP> {
   const ogp: OGP = {
     href,
     title: root.querySelector("title")?.text,
-    description: root.querySelector("meta[name='description']")?.getAttribute("content"),
+    description: root
+      .querySelector("meta[name='description']")
+      ?.getAttribute("content"),
     image: undefined,
   };
   root

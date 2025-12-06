@@ -14,9 +14,11 @@ export function is_message(node: unknown): node is Paragraph {
 
   const { children } = node;
   const firstChild = children[0];
-  if (!(is_text(firstChild) && firstChild.value.startsWith(MESSAGE_BEGINING))) return false;
+  if (!(is_text(firstChild) && firstChild.value.startsWith(MESSAGE_BEGINING)))
+    return false;
   const lastChild = children[children.length - 1];
-  if (!(is_text(lastChild) && lastChild.value.endsWith(MESSAGE_ENDING))) return false;
+  if (!(is_text(lastChild) && lastChild.value.endsWith(MESSAGE_ENDING)))
+    return false;
 
   return true;
 }

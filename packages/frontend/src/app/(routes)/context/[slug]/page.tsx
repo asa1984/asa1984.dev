@@ -1,9 +1,9 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { IconPen } from "@/components/icons";
 import { get_post, get_published_posts } from "@/features/context";
 import Markdown from "@/features/markdown";
 import { css } from "@/styled-system/css";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 type PageProps = {
   params: {
@@ -16,7 +16,9 @@ export async function generateStaticParams() {
   return posts.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = params;
   const post = await get_post(slug);
   if (!post) return notFound();

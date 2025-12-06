@@ -1,6 +1,6 @@
-import { type Post, get_published_posts } from "@/features/context";
-import { css } from "@/styled-system/css";
 import type { Metadata } from "next";
+import { get_published_posts, type Post } from "@/features/context";
+import { css } from "@/styled-system/css";
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
@@ -63,7 +63,13 @@ export default async function Page() {
               {posts
                 .sort((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
                 .map((post) => {
-                  return <LinkCard key={post.slug} slug={post.slug} meta={post.meta} />;
+                  return (
+                    <LinkCard
+                      key={post.slug}
+                      slug={post.slug}
+                      meta={post.meta}
+                    />
+                  );
                 })}
             </div>
           </div>

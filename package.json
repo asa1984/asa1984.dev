@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "gen": "turbo run gen",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
+    "lint": "biome check",
+    "format": "biome check --write",
     "typecheck": "turbo run typecheck",
     "dev": "dotenvx run -- turbo run dev",
     "build": "dotenvx run -- turbo run build",
@@ -19,6 +19,7 @@
     "staging:secret": "dotenvx run -- turbo run staging:secret"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.8",
     "@dotenvx/dotenvx": "^1.26.0",
     "turbo": "^2.3.3",
     "wrangler": "catalog:"

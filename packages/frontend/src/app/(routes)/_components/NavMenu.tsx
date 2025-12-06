@@ -1,10 +1,10 @@
 "use client";
 
-import { IconArrowDown, IconArrowLeft } from "@/components/icons";
-import { css } from "@/styled-system/css";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { IconArrowDown, IconArrowLeft } from "@/components/icons";
+import { css } from "@/styled-system/css";
 
 const useOnClickOutside = (
   ref: React.RefObject<HTMLDivElement>,
@@ -51,7 +51,10 @@ export const NavMenu = () => {
         alignItems: "center",
       })}
     >
-      <Link href={`/${segment}`} className={css({ fontSize: "lg", fontWeight: "bold" })}>
+      <Link
+        href={`/${segment}`}
+        className={css({ fontSize: "lg", fontWeight: "bold" })}
+      >
         {current.name.toLowerCase()}
       </Link>
       <div
@@ -112,7 +115,9 @@ export const NavMenu = () => {
                 })}
               >
                 <span>{item.name}</span>
-                {item.path === segment && <IconArrowLeft className={css({ fontSize: "2xl" })} />}
+                {item.path === segment && (
+                  <IconArrowLeft className={css({ fontSize: "2xl" })} />
+                )}
               </Link>
             ))}
           </div>

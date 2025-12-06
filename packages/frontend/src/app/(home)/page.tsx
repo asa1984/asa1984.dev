@@ -29,11 +29,27 @@ export default function Page() {
       <div className={links_container_style}>
         <LinkCard title="Profile" description="Who are you?" href="/profile" />
         <LinkCard title="Blog" description="Technology!" href="/blog" />
-        <LinkCard title="Context" description="Feel, Think, Output" href="/context" />
+        <LinkCard
+          title="Context"
+          description="Feel, Think, Output"
+          href="/context"
+        />
         <div className={icons_container_style}>
-          <IconCard icon={<IconX />} toolchip="X" href="https://x.com/asa_high_ost" />
-          <IconCard icon={<IconGitHub />} toolchip="GitHub" href="https://github.com/asa1984" />
-          <IconCard icon={<IconZenn />} toolchip="Zenn" href="https://zenn.dev/asa1984" />
+          <IconCard
+            icon={<IconX />}
+            toolchip="X"
+            href="https://x.com/asa_high_ost"
+          />
+          <IconCard
+            icon={<IconGitHub />}
+            toolchip="GitHub"
+            href="https://github.com/asa1984"
+          />
+          <IconCard
+            icon={<IconZenn />}
+            toolchip="Zenn"
+            href="https://zenn.dev/asa1984"
+          />
           <IconCard
             icon={<IconScrapbox />}
             toolchip="Scrapbox"

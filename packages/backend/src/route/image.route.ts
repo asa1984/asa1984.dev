@@ -2,7 +2,6 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { cache } from "hono/cache";
 import { sha256 } from "hono/utils/crypto";
-import { optimizeImage } from "wasm-image-optimization";
 import { z } from "zod";
 
 import type { Bindings } from "../types";
@@ -17,28 +16,32 @@ const imageCache = cache({
   cacheControl: `max-age=${MAX_AGE}`,
 });
 
-export const imageDeliverRoute = route.get("/delivery/:key", imageCache, async (c) => {
-  const key = c.req.param("key");
-  const reqEtag = c.req.header("if-none-match");
+export const imageDeliverRoute = route.get(
+  "/delivery/:key",
+  imageCache,
+  async (c) => {
+    const key = c.req.param("key");
+    const reqEtag = c.req.header("if-none-match");
 
-  const object = await c.env.BUCKET.get(key);
-  if (!object) return c.notFound();
-  if (reqEtag === object.etag) return c.body(null, 304);
+    const object = await c.env.BUCKET.get(key);
+    if (!object) return c.notFound();
+    if (reqEtag === object.etag) return c.body(null, 304);
 
-  const image = await object.arrayBuffer();
+    const image = await object.arrayBuffer();
 
-  // MEMO: wasm-image-optimization sometimes exceeds the memory limit.
-  // const optimized = await optimizeImage({
-  //   image,
-  //   quality: 80,
-  // });
-  // if (!optimized) return c.body(null, 500);
+    // MEMO: wasm-image-optimization sometimes exceeds the memory limit.
+    // const optimized = await optimizeImage({
+    //   image,
+    //   quality: 80,
+    // });
+    // if (!optimized) return c.body(null, 500);
 
-  return c.body(image, 200, {
-    // "Content-Type": "image/webp",
-    etag: object.etag,
-  });
-});
+    return c.body(image, 200, {
+      // "Content-Type": "image/webp",
+      etag: object.etag,
+    });
+  },
+);
 
 export const imageCacheRoute = route
   .delete(
