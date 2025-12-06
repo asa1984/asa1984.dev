@@ -70,11 +70,8 @@ const ProfileCard = () => {
       <div>
         <h1 className={name_style}>Asahi Sato</h1>
         <Info tag="Age" info={`${get_age()} | 2004-present`} />
-        <Info tag="Location" info="Miyagi, Japan" />
-        <Info
-          tag="Org"
-          info={"National Institue of Technology, Sendai College\n" + "Robotics course, 5th grade"}
-        />
+        <Info tag="Location" info="Tokyo, Japan" />
+        <Info tag="Org" info="HERP, Inc." />
       </div>
       <div className={image_container_style}>
         <NextImage
