@@ -3,7 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["./worker-configuration.d.ts"]
   },
   "include": [
     "next-env.d.ts",

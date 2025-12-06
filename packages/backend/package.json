@@ -3,6 +3,7 @@
   "private": true,
   "main": "src/lib.ts",
   "scripts": {
+    "gen": "wrangler types",
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc",
@@ -28,7 +29,6 @@
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
-    "@cloudflare/workers-types": "catalog:",
     "better-sqlite3": "^9.6.0",
     "drizzle-kit": "^0.20.18",
     "drizzle-orm": "^0.29.5",
