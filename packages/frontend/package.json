@@ -14,10 +14,11 @@
     "dev": "rimraf ./next && next dev",
     "build": "next build",
     "start": "opennextjs-cloudflare build && wrangler dev --port 3000 --var BACKEND_URL:$BACKEND_URL BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
     "deploy:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler secret bulk",
     "staging": "wrangler versions upload --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
-    "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk"
+    "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk",
+    "build:prod": "opennextjs-cloudflare build",
+    "deploy:prod": "wrangler deploy --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL"
   },
   "dependencies": {
     "@asa1984.dev/graphql": "workspace:*",

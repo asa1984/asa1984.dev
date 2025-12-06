@@ -16,7 +16,9 @@
     "deploy": "dotenvx run -- turbo run deploy",
     "deploy:secret": "dotenvx run -- turbo run deploy:secret",
     "staging": "dotenvx run -- turbo run staging",
-    "staging:secret": "dotenvx run -- turbo run staging:secret"
+    "staging:secret": "dotenvx run -- turbo run staging:secret",
+    "build:frontend": "dotenvx run -- pnpm run --filter=frontend build:prod",
+    "deploy:frontend": "dotenvx run -- pnpm run --filter=frontend deploy:prod"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",

@@ -24,3 +24,7 @@ jobs:
         uses: ./.github/actions/setup
       - name: Deploy
         run: nix develop .#ci --command pnpm run deploy
+      - name: Deploy frontend
+        run: |
+          nix develop .#ci --command pnpm run build:frontend
+          nix develop .#ci --command pnpm run deploy:frontend
