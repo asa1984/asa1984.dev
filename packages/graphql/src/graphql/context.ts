@@ -73,7 +73,10 @@ builder.mutationField("upsertContext", (t) =>
       const { slug } = input;
       const db = drizzle(context.DB, { schema });
 
-      const revalidater = new Revalidater(context.FRONTEND_URL, context.FRONTEND_API_TOKEN);
+      const revalidater = new Revalidater(
+        context.FRONTEND_URL,
+        context.FRONTEND_API_TOKEN,
+      );
 
       const oldOne = await db.query.contexts.findFirst({
         where: (context) => eq(context.slug, slug),

@@ -79,7 +79,10 @@ builder.mutationField("upsertBlog", (t) =>
         where: (blog) => eq(blog.slug, slug),
       });
 
-      const revalidater = new Revalidater(context.FRONTEND_URL, context.FRONTEND_API_TOKEN);
+      const revalidater = new Revalidater(
+        context.FRONTEND_URL,
+        context.FRONTEND_API_TOKEN,
+      );
 
       if (oldOne) {
         const result = await db

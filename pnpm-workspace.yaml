@@ -1,6 +1,6 @@
+saveExact: true
 packages:
   - "packages/*"
-
 catalog:
   # TypeScript
   typescript: ~5.7.2

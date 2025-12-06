@@ -39,7 +39,6 @@
               sharedDeps = with pkgs; [
                 nodejs-slim_22
                 corepack
-                biome
               ];
               devDeps =
                 sharedDeps

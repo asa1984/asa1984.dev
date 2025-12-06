@@ -1,5 +1,5 @@
-import { env } from "@/libs/env";
 import type { Metadata } from "next";
+import { env } from "@/libs/env";
 
 import "./globals.css";
 import "@fontsource-variable/inter";

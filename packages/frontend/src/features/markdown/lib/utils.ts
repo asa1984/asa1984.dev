@@ -27,7 +27,9 @@ export function is_paragraph(node: unknown): node is Paragraph {
 
 // https://github.com/syntax-tree/mdast#text
 export function is_text(node: unknown): node is Text {
-  return is_literal(node) && node.type === "text" && typeof node.value === "string";
+  return (
+    is_literal(node) && node.type === "text" && typeof node.value === "string"
+  );
 }
 
 export function is_link(node: unknown): node is Link {
@@ -45,6 +47,7 @@ export function is_linkcard(node: unknown): node is Paragraph & {
     children.length === 1 &&
     child?.type === "link" &&
     child?.children[0]?.type === "text" &&
-    (child.url === child.children[0].value || child.children[0].value === "@card")
+    (child.url === child.children[0].value ||
+      child.children[0].value === "@card")
   );
 }

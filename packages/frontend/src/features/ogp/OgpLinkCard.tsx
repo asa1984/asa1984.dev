@@ -1,5 +1,5 @@
-import { css } from "@/styled-system/css";
 import { Suspense } from "react";
+import { css } from "@/styled-system/css";
 import { fetch_ogp } from "./fetch_ogp";
 
 export type OgpLinkCardPresenterProps = {
@@ -73,7 +73,12 @@ export const OgpLinkCardPresenter = ({
   });
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={container_style}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={container_style}
+    >
       <div className={text_container_style}>
         <div className={title_style}>{title ?? hostname}</div>
         <div>

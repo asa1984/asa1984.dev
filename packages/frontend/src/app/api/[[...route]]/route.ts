@@ -1,5 +1,5 @@
-import { api_route } from "@/features/revalidater";
 import { handle } from "hono/vercel";
+import { api_route } from "@/features/revalidater";
 
 export const runtime = "edge";
 

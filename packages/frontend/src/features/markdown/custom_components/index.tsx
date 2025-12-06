@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
+import Image from "next/image";
+import Link from "next/link";
+import type { MDXRemoteProps } from "next-mdx-remote";
 import LinkCard from "@/features/ogp";
 import { env } from "@/libs/env";
 import { css } from "@/styled-system/css";
-import type { MDXRemoteProps } from "next-mdx-remote";
-import Image from "next/image";
-import Link from "next/link";
 import { Message } from "./message";
 
 const sha256 = (text: string) => {
@@ -65,7 +65,12 @@ export const create_custom_components = ({
 
     // External link
     return (
-      <a target="_blank" rel="noopener noreferrer" className={anchor_style} {...props}>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className={anchor_style}
+        {...props}
+      >
         {children}
       </a>
     );
