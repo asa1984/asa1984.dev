@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "gen": "turbo run gen",
+    "gen": "turbo run gen && biome check --write",
     "lint": "biome check",
     "format": "biome check --write",
     "typecheck": "turbo run typecheck",
