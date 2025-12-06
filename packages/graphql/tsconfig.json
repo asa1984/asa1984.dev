@@ -4,7 +4,6 @@
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["esnext"],
-    "types": ["@cloudflare/workers-types"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "outDir": "dist"
