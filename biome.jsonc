@@ -6,6 +6,9 @@
     "useIgnoreFile": true
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "files": {
+    "includes": ["**", "!**/schema.graphql", "!**/worker-configuration.d.ts"]
+  },
   "linter": {
     "enabled": true,
     "rules": {

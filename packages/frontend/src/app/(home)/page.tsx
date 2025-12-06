@@ -1,3 +1,4 @@
+"use cache";
 import { IconGitHub, IconScrapbox, IconX, IconZenn } from "@/components/icons";
 import { css } from "@/styled-system/css";
 import IconCard from "./_components/IconCard";
@@ -21,7 +22,7 @@ const icons_container_style = css({
   gridGap: 4,
 });
 
-export default function Page() {
+export default async function Page() {
   return (
     <>
       <ProfileCard />

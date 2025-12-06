@@ -1,25 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { IconPen } from "@/components/icons";
-import { get_post, get_published_posts } from "@/features/context";
+import { get_post } from "@/features/context";
 import Markdown from "@/features/markdown";
 import { css } from "@/styled-system/css";
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateStaticParams() {
-  const posts = await get_published_posts();
-  return posts.map(({ slug }) => ({ slug }));
-}
-
-export async function generateMetadata({
+const generateMetadata = async ({
   params,
-}: PageProps): Promise<Metadata> {
-  const { slug } = params;
+}: PageProps<"/context/[slug]">): Promise<Metadata> => {
+  const { slug } = await params;
   const post = await get_post(slug);
   if (!post) return notFound();
   const { title } = post.meta;
@@ -32,11 +22,14 @@ export async function generateMetadata({
       type: "article",
     },
   };
-}
+};
 
-export default async function Page({ params }: PageProps) {
-  const post = await get_post(params.slug);
-  if (!post) return notFound();
+const PageInner = async ({ params }: PageProps<"/context/[slug]">) => {
+  const { slug } = await params;
+  const post = await get_post(slug);
+  if (!post) {
+    return notFound();
+  }
   const { meta, content } = post;
 
   return (
@@ -90,8 +83,19 @@ export default async function Page({ params }: PageProps) {
       </header>
 
       <main>
-        <Markdown source={content} type="context" slug={params.slug} />
+        <Markdown source={content} type="context" slug={slug} />
       </main>
     </article>
   );
-}
+};
+
+const Page = (props: PageProps<"/context/[slug]">) => {
+  return (
+    <Suspense>
+      <PageInner {...props} />
+    </Suspense>
+  );
+};
+
+export default Page;
+export { generateMetadata };
