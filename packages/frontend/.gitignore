@@ -12,4 +12,4 @@ src/generated
 .vercel
 
 # OpenNext
-.worker-next/
+.open-next/
