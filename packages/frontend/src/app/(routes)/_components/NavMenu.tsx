@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { IconArrowDown, IconArrowLeft } from "@/components/icons";
 import { css } from "@/styled-system/css";
 
 const useOnClickOutside = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: RefObject<HTMLDivElement | null>,
   handler: (event: MouseEvent | TouchEvent) => void,
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
+      if (ref === null) {
+        return;
+      }
       if (!ref.current || ref.current.contains(event.target as Node)) {
         return;
       }
@@ -37,12 +40,11 @@ export const NavMenu = () => {
     { path: "profile", name: "Profile" },
     { path: "blog", name: "Blog" },
     { path: "context", name: "Context" },
-  ];
+  ] as const;
 
-  const on_click = () => setOpen((open) => !open);
+  const onClick = () => setOpen((open) => !open);
 
-  // biome-ignore lint/style/noNonNullAssertion: <explanation>
-  const current = items.find((item) => item.path === segment) ?? items[0]!;
+  const current = items.find((item) => item.path === segment) ?? items[0];
 
   return (
     <div
@@ -76,7 +78,7 @@ export const NavMenu = () => {
             fontSize: "2xl",
             cursor: "pointer",
           })}
-          onClick={on_click}
+          onClick={onClick}
         >
           <IconArrowDown />
         </button>

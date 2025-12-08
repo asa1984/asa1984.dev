@@ -1,6 +1,7 @@
 {
   "name": "@asa1984.dev/frontend",
   "private": true,
+  "type": "module",
   "main": "src/lib.ts",
   "scripts": {
     "gen": "pnpm run gen:css & pnpm run gen:schema & pnpm run gen:gql",
@@ -37,8 +38,8 @@
     "hono": "catalog:",
     "katex": "^0.16.11",
     "mdast-util-to-hast": "^13.2.0",
-    "next": "catalog:",
-    "next-mdx-remote": "^4.4.1",
+    "next": "16.0.7",
+    "next-mdx-remote": "5.0.0",
     "node-html-parser": "^6.1.13",
     "react": "catalog:",
     "react-dom": "catalog:",

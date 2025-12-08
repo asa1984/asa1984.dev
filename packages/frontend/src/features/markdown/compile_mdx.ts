@@ -9,12 +9,7 @@ import remark_gemoji from "remark-gemoji";
 import remark_gfm from "remark-gfm";
 import remark_math from "remark-math";
 import { create_custom_components } from "./custom_components";
-import {
-  linkcard_handler,
-  remark_linkcard,
-  remark_zenn_message,
-  // zenn_message_handler,
-} from "./lib";
+import { linkcard_handler, remark_linkcard, remark_zenn_message } from "./lib";
 import moonlight_ii_theme from "./theme/moonlight-ii.json";
 
 type RemarkPlugins = CompileOptions["remarkPlugins"];
@@ -37,7 +32,6 @@ export async function compile_mdx({
     }),
     options: {
       mdxOptions: {
-        // @ts-expect-error FIXME: Remove type assertion when next-mdx-remote is updated
         remarkPlugins: [
           remark_zenn_message,
           remark_comment,
@@ -47,7 +41,6 @@ export async function compile_mdx({
           remark_linkcard,
           remark_breaks,
         ] as RemarkPlugins, // FIXME: Remove type assertion when next-mdx-remote is updated
-        // @ts-expect-error FIXME: Remove type assertion when next-mdx-remote is updated
         rehypePlugins: [
           [
             rehype_pretty_code,
