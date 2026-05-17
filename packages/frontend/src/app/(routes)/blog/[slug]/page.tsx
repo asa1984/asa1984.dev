@@ -7,9 +7,9 @@ import Markdown from "@/features/markdown";
 import { css } from "@/styled-system/css";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateStaticParams() {
@@ -17,9 +17,11 @@ export async function generateStaticParams() {
   return posts.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params: { slug },
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const { slug } = params;
+
   const post = await get_post(slug);
   if (!post) return notFound();
   const { title, description, image } = post.meta;
@@ -38,7 +40,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { slug } = params;
+
   const post = await get_post(slug);
   if (!post) return notFound();
   const { meta, content } = post;
