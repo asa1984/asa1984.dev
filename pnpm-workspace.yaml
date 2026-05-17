@@ -9,7 +9,7 @@ catalog:
   chokidar-cli: ^3.0.0
   graphql: ^16.9.0
   hono: ^3.12.12
-  next: ^14.2.14
+  next: ^14.2.35
   react-dom: ^18.3.1
   react: ^18.3.1
   rimraf: ^5.0.10
