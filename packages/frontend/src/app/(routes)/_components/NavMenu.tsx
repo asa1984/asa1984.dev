@@ -7,7 +7,7 @@ import { IconArrowDown, IconArrowLeft } from "@/components/icons";
 import { css } from "@/styled-system/css";
 
 const useOnClickOutside = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement | null>,
   handler: (event: MouseEvent | TouchEvent) => void,
 ) => {
   useEffect(() => {

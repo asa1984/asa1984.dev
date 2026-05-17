@@ -1,4 +1,3 @@
-import type { CompileOptions } from "@mdx-js/mdx";
 import { compileMDX } from "next-mdx-remote/rsc";
 
 import rehype_katex from "rehype-katex";
@@ -17,9 +16,6 @@ import {
 } from "./lib";
 import moonlight_ii_theme from "./theme/moonlight-ii.json";
 
-type RemarkPlugins = CompileOptions["remarkPlugins"];
-type RehypePlugins = CompileOptions["rehypePlugins"];
-
 export async function compile_mdx({
   source,
   type,
@@ -37,7 +33,6 @@ export async function compile_mdx({
     }),
     options: {
       mdxOptions: {
-        // @ts-expect-error FIXME: Remove type assertion when next-mdx-remote is updated
         remarkPlugins: [
           remark_zenn_message,
           remark_comment,
@@ -46,8 +41,7 @@ export async function compile_mdx({
           remark_math,
           remark_linkcard,
           remark_breaks,
-        ] as RemarkPlugins, // FIXME: Remove type assertion when next-mdx-remote is updated
-        // @ts-expect-error FIXME: Remove type assertion when next-mdx-remote is updated
+        ],
         rehypePlugins: [
           [
             rehype_pretty_code,
@@ -57,7 +51,7 @@ export async function compile_mdx({
             },
           ],
           rehype_katex,
-        ] as RehypePlugins, // FIXME: Remove type assertion when next-mdx-remote is updated
+        ],
         remarkRehypeOptions: {
           footnoteLabel: "脚注",
           footnoteLabelTagName: "span",
