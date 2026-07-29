@@ -1,11 +1,12 @@
 import { createHash } from "node:crypto";
+import type { Components } from "hast-util-to-jsx-runtime";
 import Image from "next/image";
 import Link from "next/link";
-import type { MDXRemoteProps } from "next-mdx-remote";
 import LinkCard from "@/features/ogp";
+import type { OgpLinkCardProps } from "@/features/ogp/OgpLinkCard";
 import { env } from "@/libs/env";
 import { css } from "@/styled-system/css";
-import { Message } from "./message";
+import { Message, type MessageProps } from "./message";
 
 const sha256 = (text: string) => {
   const hash = createHash("sha256");
@@ -33,7 +34,9 @@ const image_style = css({
   overflow: "hidden",
 });
 
-type CustomComponents = MDXRemoteProps["components"];
+// `Components` only knows about intrinsic elements, but the remark plugins emit
+// `message` / `linkcard` elements too.
+type CustomComponents = Partial<Components> & Record<string, unknown>;
 
 export const create_custom_components = ({
   type,
@@ -43,7 +46,7 @@ export const create_custom_components = ({
   slug: string;
 }): CustomComponents => ({
   // Links
-  a: (props) => {
+  a: (props: React.ComponentPropsWithoutRef<"a">) => {
     const { href, children } = props;
 
     if (!href) {
@@ -77,12 +80,13 @@ export const create_custom_components = ({
   },
 
   // Images
-  img: (props) => {
-    if (!props.src) {
+  img: (props: React.ComponentPropsWithoutRef<"img">) => {
+    const src = typeof props.src === "string" ? props.src : undefined;
+    if (!src) {
       return null;
     }
-    if (props.src.startsWith("./")) {
-      const filename = props.src.replace("./", "");
+    if (src.startsWith("./")) {
+      const filename = src.replace("./", "");
       const key = sha256(`${type}/${slug}/${filename}`);
       const image_url = `${env.BACKEND_URL}/image/delivery/${key}`;
       return (
@@ -97,7 +101,7 @@ export const create_custom_components = ({
     }
     return (
       <img
-        src={props.src}
+        src={src}
         alt={props.alt ?? "alt"}
         loading="lazy"
         decoding="async"
@@ -107,8 +111,8 @@ export const create_custom_components = ({
   },
 
   // Special components
-  message: (props) => <Message {...props} />,
-  linkcard: (props) => (
+  message: (props: MessageProps) => <Message {...props} />,
+  linkcard: (props: OgpLinkCardProps) => (
     <div
       className={css({
         mt: 8,
