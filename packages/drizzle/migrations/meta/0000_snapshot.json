@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "3c591ad6-d098-436c-8b10-a398e987ef49",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "blogs": {
       "name": "blogs",
@@ -74,13 +72,16 @@
       "indexes": {
         "blogs_slug_unique": {
           "name": "blogs_slug_unique",
-          "columns": ["slug"],
+          "columns": [
+            "slug"
+          ],
           "isUnique": true
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "contexts": {
       "name": "contexts",
@@ -145,13 +146,16 @@
       "indexes": {
         "contexts_slug_unique": {
           "name": "contexts_slug_unique",
-          "columns": ["slug"],
+          "columns": [
+            "slug"
+          ],
           "isUnique": true
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "task_items": {
       "name": "task_items",
@@ -209,7 +213,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "tasks": {
       "name": "tasks",
@@ -260,19 +265,24 @@
       "indexes": {
         "tasks_slug_unique": {
           "name": "tasks_slug_unique",
-          "columns": ["slug"],
+          "columns": [
+            "slug"
+          ],
           "isUnique": true
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "3c591ad6-d098-436c-8b10-a398e987ef49",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "views": {}
 }

@@ -3,6 +3,9 @@ packages:
   - "packages/*"
 catalog:
   "@pandacss/dev": ^0.22.1
+  better-sqlite3: ^9.6.0
+  drizzle-kit: ^0.31.10
+  drizzle-orm: ^0.45.2
   "@types/node": ^22.10.1
   "@types/react": ^19.0.0
   "@types/react-dom": ^19.0.0
