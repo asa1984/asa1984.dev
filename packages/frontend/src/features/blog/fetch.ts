@@ -21,7 +21,10 @@ export type Post = {
 export const get_published_posts = async (): Promise<Post[]> => {
   const result = await client.query(GetBlogs, {});
   const blogs = result.data?.blogs;
-  if (!blogs) return [];
+  // Fail the build instead of silently prerendering a site without posts
+  if (!blogs) {
+    throw new Error(`Failed to fetch blogs: ${result.error?.message}`);
+  }
   const published_blogs = blogs.filter((blog) => blog.published);
 
   return Promise.all(
