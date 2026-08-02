@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@cloudflare/workers-types':
+      specifier: 5.20260801.1
+      version: 5.20260801.1
     '@pandacss/dev':
       specifier: ^0.22.1
       version: 0.22.1
@@ -70,7 +73,7 @@ importers:
         version: 2.3.3
       wrangler:
         specifier: 'catalog:'
-        version: 4.53.0
+        version: 4.53.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/backend:
     dependencies:
@@ -105,6 +108,9 @@ importers:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 5.20260801.1
       better-sqlite3:
         specifier: ^9.6.0
         version: 9.6.0
@@ -113,13 +119,13 @@ importers:
         version: 0.20.18
       drizzle-orm:
         specifier: ^0.29.5
-        version: 0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
+        version: 0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
       wrangler:
         specifier: 'catalog:'
-        version: 4.53.0
+        version: 4.53.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/cli:
     devDependencies:
@@ -140,10 +146,10 @@ importers:
     dependencies:
       drizzle-orm:
         specifier: ^0.29.5
-        version: 0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
+        version: 0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6))(zod@3.25.76)
+        version: 0.5.1(drizzle-orm@0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6))(zod@3.25.76)
       zod:
         specifier: 'catalog:'
         version: 3.25.76
@@ -151,6 +157,9 @@ importers:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 5.20260801.1
       better-sqlite3:
         specifier: ^9.6.0
         version: 9.6.0
@@ -319,7 +328,7 @@ importers:
         version: 5.7.3
       wrangler:
         specifier: 'catalog:'
-        version: 4.53.0
+        version: 4.53.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/graphql:
     dependencies:
@@ -345,6 +354,9 @@ importers:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 5.20260801.1
       better-sqlite3:
         specifier: ^9.6.0
         version: 9.6.0
@@ -353,7 +365,7 @@ importers:
         version: 0.20.18
       drizzle-orm:
         specifier: ^0.29.5
-        version: 0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
+        version: 0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -497,6 +509,7 @@ packages:
   '@aws-sdk/core@3.974.11':
     resolution: {integrity: sha512-QpnINq5FZH6EOaDEkmHdT7eUunbvD27pDNQypaWjFyYz7Zl1q3UCMQErBZxpmfGfI7MvI2TlK8KTkgNpv8b1ug==}
     engines: {node: '>=20.0.0'}
+    deprecated: Deprecated due to an error deserialization bug in JSON 1.0 protocol services, see https://github.com/aws/aws-sdk-js-v3/pull/8031. Newer version available.
 
   '@aws-sdk/crc64-nvme@3.972.8':
     resolution: {integrity: sha512-fVfUCL/Xh2zINYMPZvj+iBn6XWouQf0DAnjaWCI9MkmqXzL2Iy5FoQB8O7syFe6gN6AH1ecDDU58T51Ou0kFkA==}
@@ -806,6 +819,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@cloudflare/workers-types@5.20260801.1':
+    resolution: {integrity: sha512-XCv5xWi47WQOK0LpLa6997Mrpz8Ct+nZmp/M5Xp8Z4BFsarf7nYjkznGOcOoYK5m1GfbMFEEuQ2OIZnbIWoe9A==}
+
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
@@ -841,11 +857,11 @@ packages:
 
   '@esbuild-kit/core-utils@3.3.2':
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
-    deprecated: 'Merged into tsx: https://tsx.is'
+    deprecated: 'Merged into tsx: https://tsx.hirok.io'
 
   '@esbuild-kit/esm-loader@2.6.5':
     resolution: {integrity: sha512-FxEMIkJKnodyA1OaCUoEvbYRkoZlLZ4d/eXFu9Fh8CbBBgP5EmZxrfTRyN0qpXZ4vOvqnE5YdRdcrmUUXuU+dA==}
-    deprecated: 'Merged into tsx: https://tsx.is'
+    deprecated: 'Merged into tsx: https://tsx.hirok.io'
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -4961,6 +4977,7 @@ packages:
   tsconfck@2.1.2:
     resolution: {integrity: sha512-ghqN1b0puy3MhhviwO2kGF8SeMDNhEbnKxjK7h6+fvY9JAxqvXi8y5NAHSQv687OVboS2uZIByzGd45/YxrRHg==}
     engines: {node: ^14.13.1 || ^16 || >=18}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^4.3.5 || ^5.0.0
@@ -6073,6 +6090,8 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20251202.0':
     optional: true
 
+  '@cloudflare/workers-types@5.20260801.1': {}
+
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -7035,7 +7054,7 @@ snapshots:
       glob: 12.0.0
       next: 15.5.18(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.99.0)
       ts-tqdm: 0.8.6
-      wrangler: 4.53.0
+      wrangler: 4.53.0(@cloudflare/workers-types@5.20260801.1)
       yargs: 18.0.0
     transitivePeerDependencies:
       - aws-crt
@@ -8194,15 +8213,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6):
+  drizzle-orm@0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6):
     optionalDependencies:
+      '@cloudflare/workers-types': 5.20260801.1
       '@types/react': 19.2.14
       better-sqlite3: 9.6.0
       react: 19.2.6
 
-  drizzle-zod@0.5.1(drizzle-orm@0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6))(zod@3.25.76):
+  drizzle-zod@0.5.1(drizzle-orm@0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6))(zod@3.25.76):
     dependencies:
-      drizzle-orm: 0.29.5(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
+      drizzle-orm: 0.29.5(@cloudflare/workers-types@5.20260801.1)(@types/react@19.2.14)(better-sqlite3@9.6.0)(react@19.2.6)
       zod: 3.25.76
 
   dunder-proto@1.0.1:
@@ -10799,7 +10819,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20251202.0
       '@cloudflare/workerd-windows-64': 1.20251202.0
 
-  wrangler@4.53.0:
+  wrangler@4.53.0(@cloudflare/workers-types@5.20260801.1):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.1
       '@cloudflare/unenv-preset': 2.7.13(unenv@2.0.0-rc.24)(workerd@1.20251202.0)
@@ -10810,6 +10830,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20251202.0
     optionalDependencies:
+      '@cloudflare/workers-types': 5.20260801.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - bufferutil
