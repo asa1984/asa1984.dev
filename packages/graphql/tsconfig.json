@@ -1,5 +1,5 @@
 {
-  "extends": "@asa1984.dev/tsconfig/base.json",
+  "extends": "@asa1984.dev/tsconfig/cloudflare-workers.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
