@@ -6,6 +6,14 @@
     "useIgnoreFile": true
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "files": {
+    // Generated files: wrangler types / drizzle-kit output are not ours to lint.
+    "includes": [
+      "**",
+      "!**/worker-configuration.d.ts",
+      "!packages/drizzle/migrations"
+    ]
+  },
   "linter": {
     "enabled": true,
     "rules": {

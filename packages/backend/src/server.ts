@@ -11,7 +11,9 @@ export const schema = builder.toSchema();
 
 export const root = app
   .use("/graphql/*", (c, next) => {
-    const auth = bearerAuth<{ Bindings: Bindings }>({ token: c.env.BACKEND_API_TOKEN });
+    const auth = bearerAuth<{ Bindings: Bindings }>({
+      token: c.env.BACKEND_API_TOKEN,
+    });
     return auth(c, next);
   })
   .get("/graphql", (c) => {
@@ -29,7 +31,9 @@ export const root = app
     return yoga(c.req.raw, {});
   })
   .use("/api/*", (c, next) => {
-    const auth = bearerAuth<{ Bindings: Bindings }>({ token: c.env.BACKEND_API_TOKEN });
+    const auth = bearerAuth<{ Bindings: Bindings }>({
+      token: c.env.BACKEND_API_TOKEN,
+    });
     return auth(c, next);
   })
   .get("/api/hello", (c) => {
