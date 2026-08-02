@@ -7,8 +7,8 @@ import remark_comment from "remark-comment";
 import remark_gemoji from "remark-gemoji";
 import remark_gfm from "remark-gfm";
 import remark_math from "remark-math";
-import { getSingletonHighlighter } from "shiki/bundle/full";
 import { create_custom_components } from "./custom_components";
+import { get_highlighter } from "./highlighter";
 import {
   linkcard_handler,
   remark_linkcard,
@@ -49,7 +49,7 @@ export async function compile_mdx({
             {
               theme: moonlight_ii_theme,
               keepBackground: false,
-              getHighlighter: getSingletonHighlighter,
+              getHighlighter: get_highlighter,
             },
           ],
           rehype_katex,

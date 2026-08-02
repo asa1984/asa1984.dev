@@ -18,7 +18,12 @@ export type Post = {
 export const get_published_posts = async (): Promise<Post[]> => {
   const result = await client.query(GetContexts, {});
   const contexts = result.data?.contexts;
-  if (!contexts) return [];
+  // Fail the build instead of silently prerendering a site without posts.
+  // ALLOW_EMPTY_CONTENT opts out for builds without a backend (CI smoke build).
+  if (!contexts) {
+    if (process.env.ALLOW_EMPTY_CONTENT === "1") return [];
+    throw new Error(`Failed to fetch contexts: ${result.error?.message}`);
+  }
   const published_contexts = contexts.filter((context) => context.published);
 
   return contexts.map((context) => {
