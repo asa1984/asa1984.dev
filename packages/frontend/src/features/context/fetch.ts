@@ -26,7 +26,7 @@ export const get_published_posts = async (): Promise<Post[]> => {
   }
   const published_contexts = contexts.filter((context) => context.published);
 
-  return contexts.map((context) => {
+  return published_contexts.map((context) => {
     const frontmatter: Frontmatter = {
       title: context.title,
       emoji: context.emoji,
