@@ -18,7 +18,8 @@
         "BACKEND_URL",
         "BACKEND_API_TOKEN",
         "FRONTEND_URL",
-        "FRONTEND_API_TOKEN"
+        "FRONTEND_API_TOKEN",
+        "ALLOW_EMPTY_CONTENT"
       ],
       "outputs": [".next/**", "!.next/cache/**", ".worker-next/**"]
     },
