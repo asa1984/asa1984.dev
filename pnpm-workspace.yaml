@@ -2,6 +2,7 @@ saveExact: true
 packages:
   - "packages/*"
 catalog:
+  "@cloudflare/workers-types": 5.20260801.1
   "@pandacss/dev": ^0.22.1
   better-sqlite3: ^9.6.0
   drizzle-kit: ^0.31.10

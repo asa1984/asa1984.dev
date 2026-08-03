@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@cloudflare/workers-types':
+      specifier: 5.20260801.1
+      version: 5.20260801.1
     '@pandacss/dev':
       specifier: ^0.22.1
       version: 0.22.1
@@ -35,7 +38,7 @@ catalogs:
       version: 16.14.0
     hono:
       specifier: ^4.12.33
-      version: 4.12.33
+      version: 4.12.34
     next:
       specifier: ^15.5.21
       version: 15.5.22
@@ -95,7 +98,7 @@ importers:
         version: 2.3.3
       wrangler:
         specifier: 'catalog:'
-        version: 4.118.0
+        version: 4.118.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/backend:
     dependencies:
@@ -107,7 +110,7 @@ importers:
         version: link:../graphql
       '@hono/zod-validator':
         specifier: ^0.4.3
-        version: 0.4.3(hono@4.12.33)(zod@3.25.76)
+        version: 0.4.3(hono@4.12.34)(zod@3.25.76)
       graphql:
         specifier: 'catalog:'
         version: 16.14.0
@@ -116,7 +119,7 @@ importers:
         version: 5.21.0(graphql@16.14.0)
       hono:
         specifier: 'catalog:'
-        version: 4.12.33
+        version: 4.12.34
       ulidx:
         specifier: 'catalog:'
         version: 2.4.1
@@ -130,6 +133,9 @@ importers:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 5.20260801.1
       better-sqlite3:
         specifier: 'catalog:'
         version: 9.6.0
@@ -138,13 +144,13 @@ importers:
         version: 0.31.10
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.45.2(better-sqlite3@9.6.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260801.1)(better-sqlite3@9.6.0)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
       wrangler:
         specifier: 'catalog:'
-        version: 4.118.0
+        version: 4.118.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/cli:
     devDependencies:
@@ -165,11 +171,14 @@ importers:
     dependencies:
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.45.2(better-sqlite3@9.6.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260801.1)(better-sqlite3@9.6.0)
     devDependencies:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 5.20260801.1
       better-sqlite3:
         specifier: 'catalog:'
         version: 9.6.0
@@ -223,7 +232,7 @@ importers:
         version: 0.2.0
       hono:
         specifier: 'catalog:'
-        version: 4.12.33
+        version: 4.12.34
       katex:
         specifier: ^0.16.45
         version: 0.16.47
@@ -308,7 +317,7 @@ importers:
         version: 1.6.0-beta.1(graphql@16.14.0)
       '@opennextjs/cloudflare':
         specifier: ^1.17.1
-        version: 1.20.2(next@15.5.22(@types/node@22.19.19)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.99.0))(wrangler@4.118.0)
+        version: 1.20.2(next@15.5.22(@types/node@22.19.19)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.99.0))(wrangler@4.118.0(@cloudflare/workers-types@5.20260801.1))
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.19
@@ -338,7 +347,7 @@ importers:
         version: 5.7.3
       wrangler:
         specifier: 'catalog:'
-        version: 4.118.0
+        version: 4.118.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/graphql:
     dependencies:
@@ -356,7 +365,7 @@ importers:
         version: 16.14.0
       hono:
         specifier: 'catalog:'
-        version: 4.12.33
+        version: 4.12.34
       ulidx:
         specifier: 'catalog:'
         version: 2.4.1
@@ -364,6 +373,9 @@ importers:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 5.20260801.1
       better-sqlite3:
         specifier: 'catalog:'
         version: 9.6.0
@@ -372,7 +384,7 @@ importers:
         version: 0.31.10
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.45.2(better-sqlite3@9.6.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260801.1)(better-sqlite3@9.6.0)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -774,6 +786,9 @@ packages:
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
+
+  '@cloudflare/workers-types@5.20260801.1':
+    resolution: {integrity: sha512-XCv5xWi47WQOK0LpLa6997Mrpz8Ct+nZmp/M5Xp8Z4BFsarf7nYjkznGOcOoYK5m1GfbMFEEuQ2OIZnbIWoe9A==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -3361,8 +3376,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  hono@4.12.33:
-    resolution: {integrity: sha512-+SwvkaiJtxsiPjhy9LivY/1m7UsNqCJetM1BrZl9A5DkQhlbHQDU730mMiDPWjnoCYOM8Chf3WrCJw27kNTPFQ==}
+  hono@4.12.34:
+    resolution: {integrity: sha512-GqXJqY/xJkJmuloTrnV1ZEXG3fqte+VjkUqoRNZXcrUidiUOP4fMSIHHY4tsqZBK++kVyWmt/AAfSUuy57/eSA==}
     engines: {node: '>=16.9.0'}
 
   hookable@5.5.3:
@@ -3853,8 +3868,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  nanoid@3.3.16:
-    resolution: {integrity: sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q==}
+  nanoid@3.3.17:
+    resolution: {integrity: sha512-xQLf0A3HOMlgHq0n247/LRuAOYmB7dXJ/DvAxGvsSBij45XtBSmQycu+F8ODbHwns/XyFZagyL1+J0Offw1E0g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -4321,6 +4336,11 @@ packages:
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
+
+  semver@7.8.0:
+    resolution: {integrity: sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==}
+    engines: {node: '>=10'}
+    hasBin: true
 
   semver@7.8.5:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
@@ -5554,6 +5574,8 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20260730.1':
     optional: true
 
+  '@cloudflare/workers-types@5.20260801.1': {}
+
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -5998,9 +6020,9 @@ snapshots:
       '@repeaterjs/repeater': 3.0.6
       tslib: 2.8.1
 
-  '@hono/zod-validator@0.4.3(hono@4.12.33)(zod@3.25.76)':
+  '@hono/zod-validator@0.4.3(hono@4.12.34)(zod@3.25.76)':
     dependencies:
-      hono: 4.12.33
+      hono: 4.12.34
       zod: 3.25.76
 
   '@img/colour@1.1.0': {}
@@ -6401,7 +6423,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@opennextjs/cloudflare@1.20.2(next@15.5.22(@types/node@22.19.19)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.99.0))(wrangler@4.118.0)':
+  '@opennextjs/cloudflare@1.20.2(next@15.5.22(@types/node@22.19.19)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.99.0))(wrangler@4.118.0(@cloudflare/workers-types@5.20260801.1))':
     dependencies:
       '@ast-grep/napi': 0.40.5
       '@dotenvx/dotenvx': 1.31.0
@@ -6413,7 +6435,7 @@ snapshots:
       glob: 12.0.0
       next: 15.5.22(@types/node@22.19.19)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.99.0)
       ts-tqdm: 0.8.6
-      wrangler: 4.118.0
+      wrangler: 4.118.0(@cloudflare/workers-types@5.20260801.1)
       yargs: 18.0.0
     transitivePeerDependencies:
       - encoding
@@ -7453,8 +7475,9 @@ snapshots:
       esbuild: 0.25.12
       tsx: 4.22.1
 
-  drizzle-orm@0.45.2(better-sqlite3@9.6.0):
+  drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260801.1)(better-sqlite3@9.6.0):
     optionalDependencies:
+      '@cloudflare/workers-types': 5.20260801.1
       better-sqlite3: 9.6.0
 
   dunder-proto@1.0.1:
@@ -8092,7 +8115,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  hono@4.12.33: {}
+  hono@4.12.34: {}
 
   hookable@5.5.3: {}
 
@@ -8820,7 +8843,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  nanoid@3.3.16: {}
+  nanoid@3.3.17: {}
 
   napi-build-utils@2.0.0: {}
 
@@ -8875,7 +8898,7 @@ snapshots:
 
   node-abi@3.92.0:
     dependencies:
-      semver: 7.8.5
+      semver: 7.8.0
 
   node-addon-api@7.1.1:
     optional: true
@@ -9079,7 +9102,7 @@ snapshots:
 
   postcss@8.5.25:
     dependencies:
-      nanoid: 3.3.16
+      nanoid: 3.3.17
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -9355,6 +9378,8 @@ snapshots:
   sax@1.6.0: {}
 
   scheduler@0.27.0: {}
+
+  semver@7.8.0: {}
 
   semver@7.8.5: {}
 
@@ -9856,7 +9881,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20260730.1
       '@cloudflare/workerd-windows-64': 1.20260730.1
 
-  wrangler@4.118.0:
+  wrangler@4.118.0(@cloudflare/workers-types@5.20260801.1):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260730.1)
@@ -9867,6 +9892,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20260730.1
     optionalDependencies:
+      '@cloudflare/workers-types': 5.20260801.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - bufferutil

@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
+    "@cloudflare/workers-types": "catalog:",
     "better-sqlite3": "catalog:",
     "drizzle-kit": "catalog:",
     "typescript": "catalog:"
