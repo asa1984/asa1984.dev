@@ -21,7 +21,6 @@ async function get_posts_per_years() {
     if (!years.has(year)) {
       years.set(year, []);
     }
-    // biome-ignore lint: This is not null
     years.get(year)!.push(post);
   }
   return years;

@@ -4,8 +4,6 @@
   "main": "src/lib.ts",
   "scripts": {
     "gen": "wrangler types",
-    "lint": "biome check .",
-    "format": "biome format --write .",
     "typecheck": "tsc",
     "dev": "wrangler dev --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",
     "start": "wrangler dev --var BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL",

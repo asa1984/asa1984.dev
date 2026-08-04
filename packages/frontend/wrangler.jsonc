@@ -10,19 +10,19 @@
   "kv_namespaces": [
     {
       "binding": "NEXT_INC_CACHE_KV",
-      "id": "d237e41bf1cd43b3ac8e12ca58f3a914"
-    }
+      "id": "d237e41bf1cd43b3ac8e12ca58f3a914",
+    },
   ],
 
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "asa1984-web"
-    }
+      "service": "asa1984-web",
+    },
   ],
 
   "observability": {
     "enabled": true,
-    "logs": { "enabled": true }
-  }
+    "logs": { "enabled": true },
+  },
 }

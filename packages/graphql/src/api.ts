@@ -11,10 +11,7 @@ export class Revalidater implements RevalidaterInterface {
   constructor(
     public url: string,
     public token: string,
-  ) {
-    this.url = url;
-    this.token = token;
-  }
+  ) {}
 
   async revalidateAllBlog() {
     await fetch(`${this.url}/api/revalidate/blog`, {
