@@ -2,10 +2,7 @@ import { builder } from "@asa1984.dev/graphql";
 import { createYoga } from "graphql-yoga";
 import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
-import { blogRoute } from "./route/blog.route";
-import { contextRoute } from "./route/context.route";
 import { imageCacheRoute, imageDeliverRoute } from "./route/image.route";
-import { taskRoute } from "./route/task.route";
 import type { Bindings } from "./types";
 
 export const app = new Hono<{ Bindings: Bindings }>();
@@ -14,7 +11,9 @@ export const schema = builder.toSchema();
 
 export const root = app
   .use("/graphql/*", (c, next) => {
-    const auth = bearerAuth({ token: c.env.BACKEND_API_TOKEN });
+    const auth = bearerAuth<{ Bindings: Bindings }>({
+      token: c.env.BACKEND_API_TOKEN,
+    });
     return auth(c, next);
   })
   .get("/graphql", (c) => {
@@ -32,15 +31,14 @@ export const root = app
     return yoga(c.req.raw, {});
   })
   .use("/api/*", (c, next) => {
-    const auth = bearerAuth({ token: c.env.BACKEND_API_TOKEN });
+    const auth = bearerAuth<{ Bindings: Bindings }>({
+      token: c.env.BACKEND_API_TOKEN,
+    });
     return auth(c, next);
   })
   .get("/api/hello", (c) => {
     return c.text("Hello, world!");
   })
-  .route("/api", blogRoute)
-  .route("/api", taskRoute)
-  .route("/api", contextRoute)
   .route("/api", imageCacheRoute)
   .route("/image", imageDeliverRoute);
 

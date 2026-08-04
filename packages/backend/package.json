@@ -19,7 +19,7 @@
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
     "@asa1984.dev/graphql": "workspace:*",
-    "@hono/zod-validator": "^0.1.11",
+    "@hono/zod-validator": "^0.4.3",
     "graphql": "catalog:",
     "graphql-yoga": "^5.7.0",
     "hono": "catalog:",
@@ -30,9 +30,9 @@
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
     "@cloudflare/workers-types": "catalog:",
-    "better-sqlite3": "^9.6.0",
-    "drizzle-kit": "^0.20.18",
-    "drizzle-orm": "^0.29.5",
+    "better-sqlite3": "catalog:",
+    "drizzle-kit": "catalog:",
+    "drizzle-orm": "catalog:",
     "typescript": "catalog:",
     "wrangler": "catalog:"
   }
