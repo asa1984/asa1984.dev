@@ -191,6 +191,9 @@ importers:
 
   packages/frontend:
     dependencies:
+      '@asa1984.dev/backend':
+        specifier: workspace:*
+        version: link:../backend
       '@asa1984.dev/graphql':
         specifier: workspace:*
         version: link:../graphql
@@ -363,9 +366,6 @@ importers:
       graphql:
         specifier: 'catalog:'
         version: 16.14.0
-      hono:
-        specifier: 'catalog:'
-        version: 4.12.34
       ulidx:
         specifier: 'catalog:'
         version: 2.4.1

@@ -1,12 +1,10 @@
 import * as schema from "@asa1984.dev/drizzle";
 import { blogs as blogsSchema } from "@asa1984.dev/drizzle";
-import _SimpleObjectsPlugin from "@pothos/plugin-simple-objects";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { ulid } from "ulidx";
-import { Revalidater } from "../api";
 import { CURRENT_TIMESTAMP } from "../utils";
-import { builder } from "./gql-builer";
+import { builder } from "./gql-builder";
 
 const BlogType = builder.simpleObject("Blog", {
   fields: (t) => ({
@@ -79,10 +77,7 @@ builder.mutationField("upsertBlog", (t) =>
         where: (blog) => eq(blog.slug, slug),
       });
 
-      const revalidater = new Revalidater(
-        context.FRONTEND_URL,
-        context.FRONTEND_API_TOKEN,
-      );
+      const { revalidater } = context;
 
       if (oldOne) {
         const result = await db

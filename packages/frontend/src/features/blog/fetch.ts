@@ -1,4 +1,4 @@
-import { sha256 } from "hono/utils/crypto";
+import { imageKey } from "@asa1984.dev/backend/image-key";
 import { env } from "@/libs/env";
 import { client } from "@/libs/graphql";
 import GetBlogBySlug from "./getBlogBySlug.graphql";
@@ -31,7 +31,7 @@ export const get_published_posts = async (): Promise<Post[]> => {
 
   return Promise.all(
     published_blogs.map(async (blog) => {
-      const image_key = await sha256(`blog/${blog.slug}/${blog.image}`);
+      const image_key = await imageKey("blog", blog.slug, blog.image);
       const image_url = `${env.BACKEND_URL}/image/delivery/${image_key}`;
       const frontmatter: Frontmatter = {
         title: blog.title,
@@ -62,7 +62,7 @@ export const get_post = async (slug: string): Promise<Post | null> => {
   const blog = result.data?.blog;
   if (!blog) return null;
 
-  const image_key = await sha256(`blog/${blog.slug}/${blog.image}`);
+  const image_key = await imageKey("blog", blog.slug, blog.image);
   const image_url = `${env.BACKEND_URL}/image/delivery/${image_key}`;
   const frontmatter: Frontmatter = {
     title: blog.title,
