@@ -2,12 +2,10 @@
   "name": "@asa1984.dev/graphql",
   "private": true,
   "type": "module",
+  "main": "src/lib.ts",
   "scripts": {
-    "lint": "biome check .",
-    "format": "biome format --write .",
     "typecheck": "tsc --project . --noEmit"
   },
-  "main": "src/lib.ts",
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
     "@pothos/core": "^3.41.2",

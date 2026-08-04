@@ -8,8 +8,6 @@
     "gen:gql": "nitrogql generate",
     "gen:schema": "tsx scripts/gen-gql-schema.ts",
     "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:gql'",
-    "lint": "biome check .",
-    "format": "biome format --write .",
     "typecheck": "tsc",
     "dev": "rimraf ./next && next dev",
     "build": "next build",

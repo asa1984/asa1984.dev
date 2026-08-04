@@ -7,9 +7,6 @@
 # TypeScript
 *.tsbuildinfo
 
-# Turborepo
-.turbo
-
 # Build Outputs
 dist
 

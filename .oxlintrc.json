@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "ignorePatterns": [
+    "**/worker-configuration.d.ts",
+    "packages/drizzle/migrations",
+    "packages/cli/schema",
+    "packages/frontend/schema",
+    "**/styled-system",
+    "**/src/generated",
+    "**/*.d.graphql.ts",
+    "**/.next",
+    "**/.open-next",
+    "**/.wrangler",
+    "**/dist"
+  ]
+}
