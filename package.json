@@ -18,7 +18,7 @@
     "deploy:secret": "dotenvx run -- pnpm -r --workspace-concurrency=1 run deploy:secret",
     "staging": "pnpm run build && dotenvx run -- pnpm -r --workspace-concurrency=1 run staging",
     "staging:secret": "dotenvx run -- pnpm -r --workspace-concurrency=1 run staging:secret",
-    "build:frontend": "dotenvx run -- pnpm run --filter=frontend build:prod",
+    "build:frontend": "pnpm -r run gen && dotenvx run -- pnpm run --filter=frontend build:prod",
     "deploy:frontend": "dotenvx run -- pnpm run --filter=frontend deploy:prod"
   },
   "devDependencies": {
