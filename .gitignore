@@ -10,6 +10,10 @@
 # Build Outputs
 dist
 
+# Generated (pnpm run gen)
+packages/*/worker-configuration.d.ts
+packages/*/schema/schema.graphql
+
 # Deployment
 .vercel
 .wrangler

@@ -3,10 +3,11 @@
   "private": true,
   "main": "src/lib.ts",
   "scripts": {
-    "gen": "pnpm run gen:css & pnpm run gen:schema & pnpm run gen:gql",
+    "gen": "pnpm run gen:css && pnpm run gen:schema && pnpm run gen:gql && pnpm run gen:types",
     "gen:css": "panda codegen",
     "gen:gql": "nitrogql generate",
     "gen:schema": "tsx scripts/gen-gql-schema.ts",
+    "gen:types": "wrangler types",
     "watch": "chokidar '**/*.graphql' --initial --command 'pnpm gen:gql'",
     "typecheck": "tsc",
     "dev": "rimraf ./next && next dev",
