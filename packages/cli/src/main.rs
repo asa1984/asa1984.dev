@@ -36,14 +36,6 @@ enum Subcommands {
 enum OperationKind {
     /// Initialize file
     Init { slug: String },
-    /// Upsert
-    Up,
-    /// Get
-    Get,
-    /// List all
-    List,
-    /// Delete
-    Delete,
 }
 
 fn main() {
@@ -114,18 +106,6 @@ fn main() {
                     panic!("{}", Colour::Red.paint(err_msg));
                 });
                 println!("Created empty blog file");
-            }
-            OperationKind::Up => {
-                unimplemented!();
-            }
-            OperationKind::Get => {
-                unimplemented!();
-            }
-            OperationKind::List => {
-                unimplemented!();
-            }
-            OperationKind::Delete => {
-                unimplemented!();
             }
         },
     }

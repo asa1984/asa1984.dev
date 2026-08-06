@@ -26,7 +26,6 @@
     "graphql-yoga": "^5.7.0",
     "hono": "catalog:",
     "ulidx": "catalog:",
-    "wasm-image-optimization": "^0.2.4",
     "zod": "catalog:"
   },
   "devDependencies": {

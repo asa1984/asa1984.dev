@@ -29,15 +29,7 @@ export const imageDeliverRoute = route.get(
 
     const image = await object.arrayBuffer();
 
-    // MEMO: wasm-image-optimization sometimes exceeds the memory limit.
-    // const optimized = await optimizeImage({
-    //   image,
-    //   quality: 80,
-    // });
-    // if (!optimized) return c.body(null, 500);
-
     return c.body(image, 200, {
-      // "Content-Type": "image/webp",
       etag: object.etag,
     });
   },
