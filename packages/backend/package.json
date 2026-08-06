@@ -2,6 +2,10 @@
   "name": "@asa1984.dev/backend",
   "private": true,
   "main": "src/lib.ts",
+  "exports": {
+    ".": "./src/lib.ts",
+    "./image-key": "./src/image-key.ts"
+  },
   "scripts": {
     "gen": "wrangler types",
     "typecheck": "tsc",

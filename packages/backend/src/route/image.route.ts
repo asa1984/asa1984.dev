@@ -1,9 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { cache } from "hono/cache";
-import { sha256 } from "hono/utils/crypto";
 import { z } from "zod";
 
+import { imageKey } from "../image-key";
 import type { Bindings } from "../types";
 
 const CACHE_NAME = "image";
@@ -65,7 +65,7 @@ export const imageCacheRoute = route
     const content = c.req.param("content");
     const slug = c.req.param("slug");
     const file = c.req.param("file");
-    const key = await sha256(`${content}/${slug}/${file}`);
+    const key = await imageKey(content, slug, file);
     if (!key) return c.body(null, 500);
     const buffer = await c.req.arrayBuffer();
     await c.env.BUCKET.put(key, buffer);

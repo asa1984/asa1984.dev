@@ -1,12 +1,10 @@
 import * as schema from "@asa1984.dev/drizzle";
 import { contexts as contextsSchema } from "@asa1984.dev/drizzle";
-import _SimpleObjectsPlugin from "@pothos/plugin-simple-objects";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { ulid } from "ulidx";
-import { Revalidater } from "../api";
 import { CURRENT_TIMESTAMP } from "../utils";
-import { builder } from "./gql-builer";
+import { builder } from "./gql-builder";
 
 const ContextType = builder.simpleObject("Context", {
   fields: (t) => ({
@@ -73,10 +71,7 @@ builder.mutationField("upsertContext", (t) =>
       const { slug } = input;
       const db = drizzle(context.DB, { schema });
 
-      const revalidater = new Revalidater(
-        context.FRONTEND_URL,
-        context.FRONTEND_API_TOKEN,
-      );
+      const { revalidater } = context;
 
       const oldOne = await db.query.contexts.findFirst({
         where: (context) => eq(context.slug, slug),

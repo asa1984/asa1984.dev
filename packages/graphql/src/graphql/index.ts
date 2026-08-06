@@ -1,4 +1,4 @@
 import "./blog";
 import "./context";
 
-export * from "./gql-builer";
+export * from "./gql-builder";

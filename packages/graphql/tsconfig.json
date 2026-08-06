@@ -4,8 +4,6 @@
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["esnext"],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
     "outDir": "dist"
   },
   "include": ["src", "bin"],
