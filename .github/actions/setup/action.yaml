@@ -5,15 +5,15 @@ runs:
   using: composite
   steps:
     - name: Setup Nix
-      uses: DeterminateSystems/nix-installer-action@main
+      uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
     - name: Setup Nix binary cache
-      uses: DeterminateSystems/magic-nix-cache-action@main
+      uses: DeterminateSystems/magic-nix-cache-action@908b263ff629f4cc17666315b7fd3ec127c6244d # v14
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash
       run: echo "STORE_PATH=$(nix develop .#ci --command pnpm store path --silent)" >> "$GITHUB_OUTPUT"
     - name: Setup pnpm cache
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
