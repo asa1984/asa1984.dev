@@ -11,16 +11,6 @@ pub struct UpsertBlog;
 #[derive(GraphQLQuery)]
 #[graphql(
     schema_path = "schema/schema.graphql",
-    query_path = "src/get_blogs.graphql",
-    variables_derives = "Debug",
-    response_derives = "Debug",
-    normalization = "rust"
-)]
-pub struct GetBlogs;
-
-#[derive(GraphQLQuery)]
-#[graphql(
-    schema_path = "schema/schema.graphql",
     query_path = "src/upsert_context.graphql",
     variables_derives = "Debug",
     response_derives = "Debug",
@@ -29,7 +19,6 @@ pub struct GetBlogs;
 pub struct UpsertContext;
 
 use anyhow::Result;
-use get_blogs::GetBlogsBlogs;
 use graphql_client::{reqwest::post_graphql_blocking, GraphQLQuery};
 use reqwest::blocking::Client;
 use reqwest::header::{self, HeaderMap, HeaderValue};
@@ -50,18 +39,6 @@ impl GQLClient {
         headers.insert(header::AUTHORIZATION, token);
         let client = Client::builder().default_headers(headers).build()?;
         Ok(Self { client, base_url })
-    }
-
-    #[allow(dead_code)]
-    pub fn get_blogs(&self) -> Result<Vec<GetBlogsBlogs>> {
-        let query = get_blogs::Variables {};
-        let response =
-            post_graphql_blocking::<GetBlogs, _>(&self.client, self.base_url.as_str(), query)?;
-        let blogs = response
-            .data
-            .ok_or(anyhow::Error::msg("Missing response"))?
-            .blogs;
-        Ok(blogs)
     }
 
     pub fn upsert_blog(&self, blog: UpsertBlogInput) -> Result<UpsertBlogUpsertBlog> {

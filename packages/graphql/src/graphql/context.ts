@@ -1,9 +1,11 @@
 import * as schema from "@asa1984.dev/drizzle";
-import { contexts as contextsSchema } from "@asa1984.dev/drizzle";
+import {
+  contexts as contextsSchema,
+  CURRENT_TIMESTAMP,
+} from "@asa1984.dev/drizzle";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { ulid } from "ulidx";
-import { CURRENT_TIMESTAMP } from "../utils";
 import { builder } from "./gql-builder";
 
 const ContextType = builder.simpleObject("Context", {

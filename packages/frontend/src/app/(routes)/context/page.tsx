@@ -4,11 +4,11 @@ import { css } from "@/styled-system/css";
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
-  title: "TrashBox",
-  description: "Blog",
+  title: "Context",
+  description: "Context list",
   openGraph: {
-    title: "TrashBox",
-    description: "Blog",
+    title: "Context",
+    description: "Context list",
   },
 };
 
