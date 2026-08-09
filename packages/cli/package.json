@@ -1,14 +1,19 @@
 {
   "name": "@asa1984.dev/cli",
-  "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "gen": "tsx ./gen-gql-schema.ts"
+    "typecheck": "tsc",
+    "sync": "tsx src/main.ts sync"
+  },
+  "dependencies": {
+    "yaml": "^2.6.0",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@asa1984.dev/graphql": "workspace:*",
+    "@asa1984.dev/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "graphql": "catalog:",
-    "tsx": "catalog:"
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }

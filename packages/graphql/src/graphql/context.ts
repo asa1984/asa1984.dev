@@ -111,3 +111,29 @@ builder.mutationField("upsertContext", (t) =>
     },
   }),
 );
+
+builder.mutationField("deleteContext", (t) =>
+  t.boolean({
+    nullable: false,
+    description:
+      "Delete a context by slug. Returns false if it does not exist.",
+    args: {
+      slug: t.arg.string({ required: true }),
+    },
+    resolve: async (_parent, { slug }, context) => {
+      const db = drizzle(context.DB, { schema });
+      const result = await db
+        .delete(contextsSchema)
+        .where(eq(contextsSchema.slug, slug))
+        .returning();
+      if (result.length === 0) return false;
+
+      // Revalidate frontend cache
+      const { revalidater } = context;
+      await revalidater.revalidateContext(slug);
+      await revalidater.revalidateAllContext();
+
+      return true;
+    },
+  }),
+);

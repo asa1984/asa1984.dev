@@ -1,0 +1,7 @@
+{
+  "extends": "@asa1984.dev/tsconfig/node.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "types": ["node"]
+  }
+}

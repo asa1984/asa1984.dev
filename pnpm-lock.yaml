@@ -150,19 +150,26 @@ importers:
         version: 4.118.0(@cloudflare/workers-types@5.20260801.1)
 
   packages/cli:
+    dependencies:
+      yaml:
+        specifier: ^2.6.0
+        version: 2.9.0
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.76
     devDependencies:
-      '@asa1984.dev/graphql':
+      '@asa1984.dev/tsconfig':
         specifier: workspace:*
-        version: link:../graphql
+        version: link:../tsconfig
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.19
-      graphql:
-        specifier: 'catalog:'
-        version: 16.14.0
       tsx:
         specifier: 'catalog:'
         version: 4.22.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.3
 
   packages/drizzle:
     dependencies:
