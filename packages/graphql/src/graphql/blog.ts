@@ -110,3 +110,28 @@ builder.mutationField("upsertBlog", (t) =>
     },
   }),
 );
+
+builder.mutationField("deleteBlog", (t) =>
+  t.boolean({
+    nullable: false,
+    description: "Delete a blog by slug. Returns false if it does not exist.",
+    args: {
+      slug: t.arg.string({ required: true }),
+    },
+    resolve: async (_root, { slug }, context) => {
+      const db = drizzle(context.DB, { schema });
+      const result = await db
+        .delete(blogsSchema)
+        .where(eq(blogsSchema.slug, slug))
+        .returning();
+      if (result.length === 0) return false;
+
+      // Revalidate frontend cache
+      const { revalidater } = context;
+      await revalidater.revalidateBlog(slug);
+      await revalidater.revalidateAllBlog();
+
+      return true;
+    },
+  }),
+);

@@ -23,17 +23,6 @@
           ...
         }:
         {
-          packages = rec {
-            default = cli;
-            cli = pkgs.rustPlatform.buildRustPackage {
-              name = "cli";
-              src = ./packages/cli;
-              cargoLock = {
-                lockFile = ./packages/cli/Cargo.lock;
-              };
-            };
-          };
-
           devShells =
             let
               sharedDeps = with pkgs; [

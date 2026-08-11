@@ -62,4 +62,26 @@ export const imageCacheRoute = route
     const buffer = await c.req.arrayBuffer();
     await c.env.BUCKET.put(key, buffer);
     return c.body(key, 200);
+  })
+  .get("/image/list", async (c) => {
+    const objects: { key: string; etag: string }[] = [];
+    let cursor: string | undefined;
+    do {
+      const listed = await c.env.BUCKET.list({ cursor });
+      for (const object of listed.objects) {
+        objects.push({ key: object.key, etag: object.etag });
+      }
+      cursor = listed.truncated ? listed.cursor : undefined;
+    } while (cursor);
+    return c.json({ objects });
+  })
+  .delete("/image/object/:key", async (c) => {
+    const key = c.req.param("key");
+    await c.env.BUCKET.delete(key);
+    // Purge the delivery cache so the deleted image stops being served.
+    const deliveryCache = await caches.open(CACHE_NAME);
+    await deliveryCache.delete(
+      new URL(`/image/delivery/${key}`, c.req.url).toString(),
+    );
+    return c.body(null, 204);
   });
