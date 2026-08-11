@@ -64,9 +64,10 @@ export const get_highlighter = async (
   });
   return {
     ...highlighter,
-    // rehype-pretty-code calls loadLanguage with bundle language names, which
-    // a core highlighter cannot resolve. All languages are preloaded above, so
-    // this is a no-op.
+    // rehype-pretty-code may call the loaders with bundled names, which a core
+    // highlighter cannot resolve. Every language and theme it can ask for is
+    // already preloaded above, so both are no-ops.
     loadLanguage: async () => {},
-  } as unknown as Highlighter;
+    loadTheme: async () => {},
+  };
 };

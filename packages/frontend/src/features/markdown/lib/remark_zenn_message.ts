@@ -1,7 +1,6 @@
-import type { Paragraph } from "mdast";
+import type { Paragraph, Parent } from "mdast";
 import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
-import type { Parent } from "unist";
 import { visit } from "unist-util-visit";
 
 import { is_paragraph, is_parent, is_text } from "./utils";
@@ -57,7 +56,7 @@ export const remark_zenn_message = (): Transformer => {
       parent.children[index as number] = {
         type: "message",
         children,
-      } as any; // FIXME: Remove any
+      };
     });
   };
 };
