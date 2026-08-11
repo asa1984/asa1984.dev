@@ -8,21 +8,78 @@ on:
     branches:
       - main
 
-env:
-  DOTENV_PRIVATE_KEY_PRODUCTION: ${{secrets.DOTENV_PRIVATE_KEY_PRODUCTION}}
-
 permissions:
   contents: read
 
+# Queue pipelines instead of interleaving them: a migration must never race
+# the deploy of another commit. Runs are not cancelled mid-deploy.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Setup
         uses: ./.github/actions/setup
-      - name: Deploy
+      - name: Lint
+        run: nix develop .#ci --command pnpm run lint
+      - name: Format check
+        run: nix develop .#ci --command pnpm run format:check
+
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Typecheck
+        run: nix develop .#ci --command pnpm run typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Build
+        run: nix develop .#ci --command pnpm run build
+        env:
+          # The smoke build has no backend to fetch content from
+          ALLOW_EMPTY_CONTENT: "1"
+
+  migrate:
+    needs: [lint, typecheck, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DOTENV_PRIVATE_KEY_PRODUCTION: ${{secrets.DOTENV_PRIVATE_KEY_PRODUCTION}}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      # Idempotent: applies only pending migrations, no-op otherwise
+      - name: Migrate
+        run: nix develop .#ci --command pnpm run migrate:prod
+
+  deploy:
+    needs: migrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DOTENV_PRIVATE_KEY_PRODUCTION: ${{secrets.DOTENV_PRIVATE_KEY_PRODUCTION}}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      # Backend first: the frontend build prerenders content fetched from
+      # the production backend, so the backend must already be current.
+      - name: Deploy backend
         run: nix develop .#ci --command pnpm run deploy
       - name: Deploy frontend
         run: |
