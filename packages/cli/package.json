@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc",
+    "test": "vitest run",
     "sync": "tsx src/main.ts sync"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "@asa1984.dev/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "tsx": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

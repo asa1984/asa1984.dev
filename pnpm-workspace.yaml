@@ -20,6 +20,7 @@ catalog:
   tsx: ^4.19.2
   typescript: ~5.7.2
   ulidx: ^2.4.1
+  vitest: ^4.1.10
   wrangler: 4.118.0
   zod: ^3.24.0
 # Security floors for transitive dependencies (pnpm audit, 2026-08-03).
