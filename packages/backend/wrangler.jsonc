@@ -1,9 +1,13 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "asa1984-api",
-  "compatibility_date": "2023-01-01",
+  "compatibility_date": "2026-08-01",
 
   "main": "src/main.ts",
+
+  "observability": {
+    "enabled": true,
+  },
 
   "r2_buckets": [
     {
