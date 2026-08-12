@@ -18,10 +18,10 @@
 
 ### 二つの Worker
 
-| 対象     | Worker 名     | 実行ディレクトリ    | デプロイ方式                    |
-| -------- | ------------- | ------------------- | ------------------------------- |
-| backend  | `asa1984-api` | `packages/backend`  | `wrangler deploy`               |
-| frontend | `asa1984-web` | `packages/frontend` | `opennextjs-cloudflare deploy`  |
+| 対象     | Worker 名     | 実行ディレクトリ    | デプロイ方式                   |
+| -------- | ------------- | ------------------- | ------------------------------ |
+| backend  | `asa1984-api` | `packages/backend`  | `wrangler deploy`              |
+| frontend | `asa1984-web` | `packages/frontend` | `opennextjs-cloudflare deploy` |
 
 `opennextjs-cloudflare deploy` は、KV (`NEXT_INC_CACHE_KV`) への ISR キャッシュ投入（`populateCache remote`）を済ませてから `wrangler deploy` を呼ぶ。
 どちらも最終的には Workers のバージョン機構に乗るので、`wrangler rollback` と `wrangler versions deploy` がそのまま使える。
