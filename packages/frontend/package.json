@@ -13,9 +13,9 @@
     "dev": "rimraf ./next && next dev",
     "build": "next build",
     "start": "opennextjs-cloudflare build && opennextjs-cloudflare populateCache local && wrangler dev --port 3000 --var BACKEND_URL:$BACKEND_URL BACKEND_API_TOKEN:$BACKEND_API_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN",
-    "deploy:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler secret bulk",
+    "deploy:secret": "node -e 'process.stdout.write(JSON.stringify({ BACKEND_API_TOKEN: process.env.BACKEND_API_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler secret bulk",
     "staging": "opennextjs-cloudflare upload -- --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
-    "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk",
+    "staging:secret": "node -e 'process.stdout.write(JSON.stringify({ BACKEND_API_TOKEN: process.env.BACKEND_API_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler versions secret bulk",
     "build:prod": "opennextjs-cloudflare build",
     "deploy:prod": "opennextjs-cloudflare deploy -- --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL"
   },

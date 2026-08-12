@@ -14,9 +14,9 @@
     "migrate:dev": "wrangler d1 migrations apply asa1984-blog --local",
     "migrate:prod": "wrangler d1 migrations apply asa1984-blog",
     "deploy": "wrangler deploy --var FRONTEND_URL:$FRONTEND_URL",
-    "deploy:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler secret bulk",
+    "deploy:secret": "node -e 'process.stdout.write(JSON.stringify({ BACKEND_API_TOKEN: process.env.BACKEND_API_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler secret bulk",
     "staging": "wrangler versions upload --var FRONTEND_URL:$FRONTEND_URL",
-    "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk"
+    "staging:secret": "node -e 'process.stdout.write(JSON.stringify({ BACKEND_API_TOKEN: process.env.BACKEND_API_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler versions secret bulk"
   },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
