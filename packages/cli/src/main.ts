@@ -3,7 +3,13 @@ import { readFileSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { BackendClient } from "./api";
 import { loadBlogs, loadContexts } from "./content";
-import { collectLocalImages, isEmptyPlan, planSync } from "./sync";
+import {
+  collectLocalImages,
+  isEmptyPlan,
+  planSync,
+  toUpsertBlogInput,
+  toUpsertContextInput,
+} from "./sync";
 
 const USAGE = `Usage: cli sync [options]
 
@@ -115,23 +121,10 @@ async function main() {
     );
   }
   for (const blog of plan.blogUpserts) {
-    await client.upsertBlog({
-      slug: blog.slug,
-      title: blog.title,
-      image: blog.image,
-      description: blog.description,
-      content: blog.content,
-      published: blog.published,
-    });
+    await client.upsertBlog(toUpsertBlogInput(blog));
   }
   for (const context of plan.contextUpserts) {
-    await client.upsertContext({
-      slug: context.slug,
-      title: context.title,
-      emoji: context.emoji,
-      content: context.content,
-      published: context.published,
-    });
+    await client.upsertContext(toUpsertContextInput(context));
   }
   for (const slug of plan.blogDeletes) await client.deleteBlog(slug);
   for (const slug of plan.contextDeletes) await client.deleteContext(slug);

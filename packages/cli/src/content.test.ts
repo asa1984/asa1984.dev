@@ -66,6 +66,21 @@ describe("loadBlogs", () => {
     ]);
   });
 
+  it("carries the optional frontmatter date", () => {
+    const source = [
+      "---",
+      "title: Hello",
+      "image: cover.png",
+      "description: A post",
+      "published: true",
+      "date: 2024-01-15 10:30:00",
+      "---",
+      "# Body",
+    ].join("\n");
+    writePost("blog", "hello", source, ["cover.png"]);
+    expect(loadBlogs(contentDir)[0]?.date).toBe("2024-01-15 10:30:00");
+  });
+
   it("does not treat post.md as an image", () => {
     writePost("blog", "hello", blogSource(), ["cover.png"]);
     const [blog] = loadBlogs(contentDir);

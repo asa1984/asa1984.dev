@@ -8,7 +8,11 @@ import {
   type LocalImage,
   planSync,
   type SyncPlan,
+  toUpsertBlogInput,
+  toUpsertContextInput,
 } from "./sync";
+
+const REMOTE_CREATED_AT = "2024-01-01 00:00:00";
 
 const localBlog = (overrides: Partial<LocalBlog> = {}): LocalBlog => ({
   slug: "hello",
@@ -29,6 +33,7 @@ const remoteBlogOf = (local: LocalBlog): RemoteBlog => ({
   description: local.description,
   published: local.published,
   content: local.content,
+  createdAt: local.date ?? REMOTE_CREATED_AT,
 });
 
 const localContext = (overrides: Partial<LocalContext> = {}): LocalContext => ({
@@ -48,6 +53,7 @@ const remoteContextOf = (local: LocalContext): RemoteContext => ({
   emoji: local.emoji,
   published: local.published,
   content: local.content,
+  createdAt: local.date ?? REMOTE_CREATED_AT,
 });
 
 const localImage = (overrides: Partial<LocalImage> = {}): LocalImage => ({
@@ -121,6 +127,30 @@ describe("planSync: blogs", () => {
     ).toEqual([]);
   });
 
+  it("upserts a blog whose date differs from the remote createdAt", () => {
+    const local = localBlog({ date: "2023-05-05 12:00:00" });
+    const remote = remoteBlogOf(localBlog({ date: REMOTE_CREATED_AT }));
+    expect(
+      plan({ localBlogs: [local], remoteBlogs: [remote] }).blogUpserts,
+    ).toEqual([local]);
+  });
+
+  it("skips a blog whose date already equals the remote createdAt", () => {
+    const local = localBlog({ date: "2023-05-05 12:00:00" });
+    expect(
+      plan({ localBlogs: [local], remoteBlogs: [remoteBlogOf(local)] })
+        .blogUpserts,
+    ).toEqual([]);
+  });
+
+  it("ignores the remote createdAt when the frontmatter has no date", () => {
+    const local = localBlog();
+    const remote = remoteBlogOf(localBlog({ date: "1999-12-31 23:59:59" }));
+    expect(
+      plan({ localBlogs: [local], remoteBlogs: [remote] }).blogUpserts,
+    ).toEqual([]);
+  });
+
   it("deletes a blog that only exists remotely", () => {
     const local = localBlog();
     const orphan = remoteBlogOf(localBlog({ slug: "gone" }));
@@ -163,6 +193,32 @@ describe("planSync: contexts", () => {
       ).toEqual([local]);
     },
   );
+
+  it("upserts a context whose date differs from the remote createdAt", () => {
+    const local = localContext({ date: "2023-05-05 12:00:00" });
+    const remote = remoteContextOf(localContext({ date: REMOTE_CREATED_AT }));
+    expect(
+      plan({ localContexts: [local], remoteContexts: [remote] }).contextUpserts,
+    ).toEqual([local]);
+  });
+
+  it("skips a context whose date already equals the remote createdAt", () => {
+    const local = localContext({ date: "2023-05-05 12:00:00" });
+    expect(
+      plan({ localContexts: [local], remoteContexts: [remoteContextOf(local)] })
+        .contextUpserts,
+    ).toEqual([]);
+  });
+
+  it("ignores the remote createdAt when the frontmatter has no date", () => {
+    const local = localContext();
+    const remote = remoteContextOf(
+      localContext({ date: "1999-12-31 23:59:59" }),
+    );
+    expect(
+      plan({ localContexts: [local], remoteContexts: [remote] }).contextUpserts,
+    ).toEqual([]);
+  });
 
   it("deletes a context that only exists remotely", () => {
     const orphan = remoteContextOf(localContext({ slug: "gone" }));
@@ -281,6 +337,59 @@ describe("collectLocalImages", () => {
 
   it("returns nothing when no post has an image", () => {
     expect(collectLocalImages([], [], () => "md5")).toEqual([]);
+  });
+});
+
+describe("toUpsertBlogInput", () => {
+  it("sends the frontmatter date as createdAt", () => {
+    expect(
+      toUpsertBlogInput(localBlog({ date: "2023-05-05 12:00:00" })),
+    ).toEqual({
+      slug: "hello",
+      title: "Hello",
+      image: "cover.png",
+      description: "A post",
+      content: "# Body",
+      published: true,
+      createdAt: "2023-05-05 12:00:00",
+    });
+  });
+
+  it("omits createdAt entirely when the frontmatter has no date", () => {
+    const input = toUpsertBlogInput(localBlog());
+    expect(Object.hasOwn(input, "createdAt")).toBe(false);
+  });
+
+  it("drops the local-only fields the backend does not accept", () => {
+    const input = toUpsertBlogInput(localBlog());
+    expect(Object.hasOwn(input, "dir")).toBe(false);
+    expect(Object.hasOwn(input, "images")).toBe(false);
+  });
+});
+
+describe("toUpsertContextInput", () => {
+  it("sends the frontmatter date as createdAt", () => {
+    expect(
+      toUpsertContextInput(localContext({ date: "2023-05-05 12:00:00" })),
+    ).toEqual({
+      slug: "nix",
+      title: "Nix",
+      emoji: "❄️",
+      content: "# Body",
+      published: true,
+      createdAt: "2023-05-05 12:00:00",
+    });
+  });
+
+  it("omits createdAt entirely when the frontmatter has no date", () => {
+    const input = toUpsertContextInput(localContext());
+    expect(Object.hasOwn(input, "createdAt")).toBe(false);
+  });
+
+  it("drops the local-only fields the backend does not accept", () => {
+    const input = toUpsertContextInput(localContext());
+    expect(Object.hasOwn(input, "dir")).toBe(false);
+    expect(Object.hasOwn(input, "images")).toBe(false);
   });
 });
 

@@ -56,6 +56,9 @@ const UpsertContextInput = builder.inputType("UpsertContextInput", {
     emoji: t.string({ required: true }),
     content: t.string({ required: true }),
     published: t.boolean({ required: true }),
+    // The content repository is the source of truth for the creation date, so
+    // when it is given it wins over whatever the database holds.
+    createdAt: t.string({ required: false }),
   }),
 });
 
@@ -70,7 +73,9 @@ builder.mutationField("upsertContext", (t) =>
       }),
     },
     resolve: async (_parent, { input }, context) => {
-      const { slug } = input;
+      const { slug, createdAt, ...fields } = input;
+      // Spreading an absent createdAt would overwrite the column with NULL.
+      const createdAtField = createdAt == null ? {} : { createdAt };
       const db = drizzle(context.DB, { schema });
 
       const { revalidater } = context;
@@ -84,7 +89,9 @@ builder.mutationField("upsertContext", (t) =>
           .update(contextsSchema)
           .set({
             updatedAt: CURRENT_TIMESTAMP(),
-            ...input,
+            slug,
+            ...fields,
+            ...createdAtField,
           })
           .where(eq(contextsSchema.slug, slug))
           .returning();
@@ -100,7 +107,9 @@ builder.mutationField("upsertContext", (t) =>
         .insert(contextsSchema)
         .values({
           id,
-          ...input,
+          slug,
+          ...fields,
+          ...createdAtField,
         })
         .returning();
 

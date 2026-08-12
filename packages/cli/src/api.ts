@@ -5,6 +5,7 @@ export type RemoteBlog = {
   description: string;
   content: string;
   published: boolean;
+  createdAt: string;
 };
 
 export type RemoteContext = {
@@ -13,6 +14,20 @@ export type RemoteContext = {
   emoji: string;
   content: string;
   published: boolean;
+  createdAt: string;
+};
+
+/**
+ * `createdAt` is optional: it is only sent when the frontmatter declares a
+ * `date`. Omitting it leaves the stored value alone (or lets the database
+ * default apply on insert).
+ */
+export type UpsertBlogInput = Omit<RemoteBlog, "createdAt"> & {
+  createdAt?: string;
+};
+
+export type UpsertContextInput = Omit<RemoteContext, "createdAt"> & {
+  createdAt?: string;
 };
 
 export type RemoteImage = {
@@ -61,7 +76,7 @@ export class BackendClient {
 
   async blogs(): Promise<RemoteBlog[]> {
     const data = await this.gql<{ blogs: RemoteBlog[] }>(
-      "query { blogs { slug title image description content published } }",
+      "query { blogs { slug title image description content published createdAt } }",
       {},
     );
     return data.blogs;
@@ -69,20 +84,20 @@ export class BackendClient {
 
   async contexts(): Promise<RemoteContext[]> {
     const data = await this.gql<{ contexts: RemoteContext[] }>(
-      "query { contexts { slug title emoji content published } }",
+      "query { contexts { slug title emoji content published createdAt } }",
       {},
     );
     return data.contexts;
   }
 
-  async upsertBlog(input: RemoteBlog): Promise<void> {
+  async upsertBlog(input: UpsertBlogInput): Promise<void> {
     await this.gql(
       "mutation ($input: UpsertBlogInput!) { upsertBlog(input: $input) { slug } }",
       { input },
     );
   }
 
-  async upsertContext(input: RemoteContext): Promise<void> {
+  async upsertContext(input: UpsertContextInput): Promise<void> {
     await this.gql(
       "mutation ($input: UpsertContextInput!) { upsertContext(input: $input) { slug } }",
       { input },

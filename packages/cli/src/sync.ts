@@ -1,4 +1,10 @@
-import type { RemoteBlog, RemoteContext, RemoteImage } from "./api";
+import type {
+  RemoteBlog,
+  RemoteContext,
+  RemoteImage,
+  UpsertBlogInput,
+  UpsertContextInput,
+} from "./api";
 import type { LocalBlog, LocalContext } from "./content";
 import { imageKey } from "./image-key";
 
@@ -28,18 +34,48 @@ export const isEmptyPlan = (plan: SyncPlan): boolean =>
   plan.imageUploads.length === 0 &&
   plan.imageDeletes.length === 0;
 
+// A post without a `date` in its frontmatter leaves createdAt to the backend,
+// so the remote value must not be treated as a difference.
+const createdAtChanged = (
+  local: { date?: string },
+  remote: { createdAt: string },
+): boolean => local.date !== undefined && local.date !== remote.createdAt;
+
 const blogChanged = (local: LocalBlog, remote: RemoteBlog): boolean =>
   local.title !== remote.title ||
   local.image !== remote.image ||
   local.description !== remote.description ||
   local.published !== remote.published ||
-  local.content !== remote.content;
+  local.content !== remote.content ||
+  createdAtChanged(local, remote);
 
 const contextChanged = (local: LocalContext, remote: RemoteContext): boolean =>
   local.title !== remote.title ||
   local.emoji !== remote.emoji ||
   local.published !== remote.published ||
-  local.content !== remote.content;
+  local.content !== remote.content ||
+  createdAtChanged(local, remote);
+
+export const toUpsertBlogInput = (local: LocalBlog): UpsertBlogInput => ({
+  slug: local.slug,
+  title: local.title,
+  image: local.image,
+  description: local.description,
+  content: local.content,
+  published: local.published,
+  ...(local.date === undefined ? {} : { createdAt: local.date }),
+});
+
+export const toUpsertContextInput = (
+  local: LocalContext,
+): UpsertContextInput => ({
+  slug: local.slug,
+  title: local.title,
+  emoji: local.emoji,
+  content: local.content,
+  published: local.published,
+  ...(local.date === undefined ? {} : { createdAt: local.date }),
+});
 
 export function collectLocalImages(
   blogs: LocalBlog[],
