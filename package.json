@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "1.26.0",
-    "oxfmt": "0.62.0",
-    "oxlint": "1.77.0",
+    "oxfmt": "0.63.0",
+    "oxlint": "1.78.0",
     "wrangler": "catalog:"
   },
   "packageManager": "pnpm@10.24.0"
