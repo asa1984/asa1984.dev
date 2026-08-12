@@ -10,64 +10,64 @@ catalogs:
       specifier: 5.20260812.1
       version: 5.20260812.1
     '@pandacss/dev':
-      specifier: ^0.22.1
+      specifier: 0.22.1
       version: 0.22.1
     '@types/node':
-      specifier: ^22.10.1
+      specifier: 22.19.19
       version: 22.19.19
     '@types/react':
-      specifier: ^19.2.18
+      specifier: 19.2.18
       version: 19.2.18
     '@types/react-dom':
-      specifier: ^19.2.4
+      specifier: 19.2.4
       version: 19.2.4
     better-sqlite3:
-      specifier: ^9.6.0
+      specifier: 9.6.0
       version: 9.6.0
     chokidar-cli:
-      specifier: ^3.0.0
+      specifier: 3.0.0
       version: 3.0.0
     drizzle-kit:
-      specifier: ^0.31.10
+      specifier: 0.31.10
       version: 0.31.10
     drizzle-orm:
-      specifier: ^0.45.2
+      specifier: 0.45.2
       version: 0.45.2
     graphql:
-      specifier: ^16.9.0
+      specifier: 16.14.0
       version: 16.14.0
     hono:
-      specifier: ^4.13.1
+      specifier: 4.13.1
       version: 4.13.1
     next:
-      specifier: ^15.5.21
+      specifier: 15.5.22
       version: 15.5.22
     react:
-      specifier: ^19.2.8
+      specifier: 19.2.8
       version: 19.2.8
     react-dom:
-      specifier: ^19.2.8
+      specifier: 19.2.8
       version: 19.2.8
     rimraf:
-      specifier: ^5.0.10
+      specifier: 5.0.10
       version: 5.0.10
     tsx:
-      specifier: ^4.23.12
+      specifier: 4.23.12
       version: 4.23.12
     typescript:
-      specifier: ~5.7.2
+      specifier: 5.7.3
       version: 5.7.3
     ulidx:
-      specifier: ^2.4.1
+      specifier: 2.4.1
       version: 2.4.1
     vitest:
-      specifier: ^4.1.10
+      specifier: 4.1.10
       version: 4.1.10
     wrangler:
       specifier: 4.121.0
       version: 4.121.0
     zod:
-      specifier: ^3.24.0
+      specifier: 3.25.76
       version: 3.25.76
 
 overrides:
@@ -113,13 +113,13 @@ importers:
         specifier: workspace:*
         version: link:../graphql
       '@hono/zod-validator':
-        specifier: ^0.4.3
+        specifier: 0.4.3
         version: 0.4.3(hono@4.13.1)(zod@3.25.76)
       graphql:
         specifier: 'catalog:'
         version: 16.14.0
       graphql-yoga:
-        specifier: ^5.21.2
+        specifier: 5.21.2
         version: 5.21.2(graphql@16.14.0)
       hono:
         specifier: 'catalog:'
@@ -156,7 +156,7 @@ importers:
   packages/cli:
     dependencies:
       yaml:
-        specifier: ^2.6.0
+        specifier: 2.9.0
         version: 2.9.0
       zod:
         specifier: 'catalog:'
@@ -209,46 +209,46 @@ importers:
         specifier: workspace:*
         version: link:../graphql
       '@fontsource-variable/inter':
-        specifier: ^5.3.0
+        specifier: 5.3.0
         version: 5.3.0
       '@fontsource-variable/jetbrains-mono':
-        specifier: ^5.3.0
+        specifier: 5.3.0
         version: 5.3.0
       '@fontsource-variable/noto-emoji':
-        specifier: ^5.3.0
+        specifier: 5.3.0
         version: 5.3.0
       '@fontsource-variable/noto-sans-jp':
-        specifier: ^5.3.0
+        specifier: 5.3.0
         version: 5.3.0
       '@mdx-js/mdx':
-        specifier: ^3.0.1
+        specifier: 3.1.1
         version: 3.1.1
       '@pandacss/dev':
         specifier: 'catalog:'
         version: 0.22.1(typescript@5.7.3)
       '@types/mdast':
-        specifier: ^4.0.4
+        specifier: 4.0.4
         version: 4.0.4
       feed:
-        specifier: ^4.2.2
+        specifier: 4.2.2
         version: 4.2.2
       hono:
         specifier: 'catalog:'
         version: 4.13.1
       katex:
-        specifier: ^0.16.45
+        specifier: 0.16.47
         version: 0.16.47
       mdast-util-to-hast:
-        specifier: ^13.2.1
+        specifier: 13.2.1
         version: 13.2.1
       next:
         specifier: 'catalog:'
         version: 15.5.22(@types/node@22.19.19)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0)
       next-mdx-remote:
-        specifier: ^6.0.0
+        specifier: 6.0.0
         version: 6.0.0(@types/react@19.2.18)(react@19.2.8)
       node-html-parser:
-        specifier: ^6.1.13
+        specifier: 6.1.13
         version: 6.1.13
       react:
         specifier: 'catalog:'
@@ -257,46 +257,46 @@ importers:
         specifier: 'catalog:'
         version: 19.2.8(react@19.2.8)
       react-icons:
-        specifier: ^4.12.0
+        specifier: 4.12.0
         version: 4.12.0(react@19.2.8)
       rehype-katex:
-        specifier: ^7.0.1
+        specifier: 7.0.1
         version: 7.0.1
       rehype-pretty-code:
-        specifier: ^0.14.5
+        specifier: 0.14.5
         version: 0.14.5(shiki@1.29.2)
       remark-breaks:
-        specifier: ^4.0.0
+        specifier: 4.0.0
         version: 4.0.0
       remark-comment:
-        specifier: ^1.0.0
+        specifier: 1.0.0
         version: 1.0.0
       remark-gemoji:
-        specifier: ^8.0.0
+        specifier: 8.0.0
         version: 8.0.0
       remark-gfm:
-        specifier: ^4.0.1
+        specifier: 4.0.1
         version: 4.0.1
       remark-math:
-        specifier: ^6.0.0
+        specifier: 6.0.0
         version: 6.0.0
       sass:
-        specifier: ^1.102.0
+        specifier: 1.102.0
         version: 1.102.0
       sharp:
-        specifier: ^0.35.0
+        specifier: 0.35.3
         version: 0.35.3(@types/node@22.19.19)
       shiki:
-        specifier: ^1.29.2
+        specifier: 1.29.2
         version: 1.29.2
       unified:
-        specifier: ^11.0.5
+        specifier: 11.0.5
         version: 11.0.5
       unist-util-visit:
-        specifier: ^5.0.0
+        specifier: 5.1.0
         version: 5.1.0
       urql:
-        specifier: ^4.1.0
+        specifier: 4.2.2
         version: 4.2.2(@urql/core@5.2.0(graphql@16.14.0))(react@19.2.8)
       zod:
         specifier: 'catalog:'
@@ -306,7 +306,7 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig
       '@graphql-typed-document-node/core':
-        specifier: ^3.2.0
+        specifier: 3.2.0
         version: 3.2.0(graphql@16.14.0)
       '@nitrogql/cli':
         specifier: 1.6.0-beta.1
@@ -315,7 +315,7 @@ importers:
         specifier: 1.6.0-beta.1
         version: 1.6.0-beta.1(graphql@16.14.0)
       '@opennextjs/cloudflare':
-        specifier: ^1.17.1
+        specifier: 1.20.2
         version: 1.20.2(next@15.5.22(@types/node@22.19.19)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0))(wrangler@4.121.0(@cloudflare/workers-types@5.20260812.1))
       '@types/node':
         specifier: 'catalog:'
@@ -327,7 +327,7 @@ importers:
         specifier: 'catalog:'
         version: 19.2.4(@types/react@19.2.18)
       '@types/unist':
-        specifier: ^3.0.3
+        specifier: 3.0.3
         version: 3.0.3
       chokidar-cli:
         specifier: 'catalog:'
@@ -354,10 +354,10 @@ importers:
         specifier: workspace:*
         version: link:../drizzle
       '@pothos/core':
-        specifier: ^3.41.2
+        specifier: 3.41.2
         version: 3.41.2(graphql@16.14.0)
       '@pothos/plugin-simple-objects':
-        specifier: ^3.7.1
+        specifier: 3.7.1
         version: 3.7.1(@pothos/core@3.41.2(graphql@16.14.0))(graphql@16.14.0)
       graphql:
         specifier: 'catalog:'
@@ -4735,11 +4735,6 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.22.1:
-    resolution: {integrity: sha512-TvncJykhxAzFCk0VQZKBTClall4Pm7qXDSodb6uxi8QFa8X8mT6ABjxxsQ2opDRYxG7AzcRWXaFtruz5HJKuWg==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-
   tsx@4.23.12:
     resolution: {integrity: sha512-FDf4L4sYzKtzWYhU/Xm0AQFdTjdIxNo9ElTf2mxXM6k8YMHXzYUe4yODVaXP4V9uMFbVg8c0qyBccK2OOxb45Q==}
     engines: {node: '>=18.0.0'}
@@ -7712,7 +7707,7 @@ snapshots:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5
       esbuild: 0.25.12
-      tsx: 4.22.1
+      tsx: 4.23.12
 
   drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260812.1)(better-sqlite3@9.6.0):
     optionalDependencies:
@@ -9976,12 +9971,6 @@ snapshots:
       typescript: 5.7.3
 
   tslib@2.8.1: {}
-
-  tsx@4.22.1:
-    dependencies:
-      esbuild: 0.28.1
-    optionalDependencies:
-      fsevents: 2.3.3
 
   tsx@4.23.12:
     dependencies:

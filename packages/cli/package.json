@@ -8,7 +8,7 @@
     "sync": "tsx src/main.ts sync"
   },
   "dependencies": {
-    "yaml": "^2.6.0",
+    "yaml": "2.9.0",
     "zod": "catalog:"
   },
   "devDependencies": {
