@@ -30,3 +30,7 @@ DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run migrate:prod
 ```bash
 DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run deploy
 ```
+
+## Rollback
+
+障害時のロールバック手順は [docs/rollback.md](docs/rollback.md) を参照。
