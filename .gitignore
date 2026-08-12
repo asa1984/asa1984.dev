@@ -9,6 +9,7 @@
 
 # Build Outputs
 dist
+.size-check
 
 # Generated (pnpm run gen)
 packages/*/worker-configuration.d.ts
