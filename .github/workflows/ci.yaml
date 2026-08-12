@@ -44,6 +44,21 @@ jobs:
       - name: Test
         run: nix develop .#ci --command pnpm run test
 
+  workers-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Generate
+        run: nix develop .#ci --command pnpm run gen
+      # Bundle-size budgets + workerd smoke over the production bundling
+      # path (opennextjs-cloudflare), which a plain `next build` never
+      # exercises — see issue #31.
+      - name: Check worker bundles
+        run: nix develop .#ci --command scripts/workers-check.sh
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
