@@ -1,6 +1,6 @@
+import type { Parent } from "mdast";
 import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
-import type { Parent } from "unist";
 import { visit } from "unist-util-visit";
 import { is_linkcard, is_parent } from "./utils";
 

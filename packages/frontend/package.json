@@ -28,7 +28,6 @@
     "@fontsource-variable/noto-sans-jp": "^5.1.0",
     "@mdx-js/mdx": "^3.0.1",
     "@pandacss/dev": "catalog:",
-    "@t3-oss/env-nextjs": "^0.13.11",
     "@types/mdast": "^4.0.4",
     "feed": "^4.2.2",
     "hono": "catalog:",

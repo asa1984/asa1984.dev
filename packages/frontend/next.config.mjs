@@ -2,9 +2,6 @@ import path from "node:path";
 
 /** @type {import('next').NextConfig} */
 const next_config = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   // Next 15 externalizes shiki by default, which makes OpenNext inline the
   // whole package (every grammar and theme) into the Cloudflare worker and
   // exceed its size limit. Opt shiki back into webpack bundling so only the

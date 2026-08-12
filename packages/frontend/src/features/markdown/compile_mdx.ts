@@ -58,7 +58,6 @@ export async function compile_mdx({
           footnoteLabel: "脚注",
           footnoteLabelTagName: "span",
           handlers: {
-            // @ts-expect-error FIXME: Why?
             linkcard: linkcard_handler,
           },
         },
