@@ -354,11 +354,11 @@ importers:
         specifier: workspace:*
         version: link:../drizzle
       '@pothos/core':
-        specifier: 3.41.2
-        version: 3.41.2(graphql@16.14.0)
+        specifier: 4.13.1
+        version: 4.13.1(graphql@16.14.0)
       '@pothos/plugin-simple-objects':
-        specifier: 3.7.1
-        version: 3.7.1(@pothos/core@3.41.2(graphql@16.14.0))(graphql@16.14.0)
+        specifier: 4.1.4
+        version: 4.1.4(@pothos/core@4.13.1(graphql@16.14.0))(graphql@16.14.0)
       graphql:
         specifier: 'catalog:'
         version: 16.14.0
@@ -2120,16 +2120,16 @@ packages:
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
 
-  '@pothos/core@3.41.2':
-    resolution: {integrity: sha512-iR1gqd93IyD/snTW47HwKSsRCrvnJaYwjVNcUG8BztZPqMxyJKPAnjPHAgu1XB82KEdysrNqIUnXqnzZIs08QA==}
+  '@pothos/core@4.13.1':
+    resolution: {integrity: sha512-2hkLxmvrT7VnbiWAfYhfF09PjaHeflZ5HrBHYzU6Tn/P9tDviuZS7IS5xO4k/KnK5GkRo3YxDzXyn+HnkEkVNw==}
     peerDependencies:
-      graphql: '>=15.1.0'
+      graphql: ^16.10.0 || ^17.0.0
 
-  '@pothos/plugin-simple-objects@3.7.1':
-    resolution: {integrity: sha512-641qxavEa4GJGIYfZuhOdlUy6MjQ/z0gWS5x4pSU72GIJFPSyMAFjHI8O413TzmMf4SpDGWPq0S6UNNXcrGCBQ==}
+  '@pothos/plugin-simple-objects@4.1.4':
+    resolution: {integrity: sha512-mkDn640l/y1u3wg7LRNr/HaCpQypGJwjokeoJeHLHNvxsIQ+vLOjpNgwoAb+DhUusa75xWjVnMsbGsIGEr3Z3w==}
     peerDependencies:
       '@pothos/core': '*'
-      graphql: '>=15.1.0'
+      graphql: ^16.10.0 || ^17.0.0
 
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
@@ -6861,13 +6861,13 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
-  '@pothos/core@3.41.2(graphql@16.14.0)':
+  '@pothos/core@4.13.1(graphql@16.14.0)':
     dependencies:
       graphql: 16.14.0
 
-  '@pothos/plugin-simple-objects@3.7.1(@pothos/core@3.41.2(graphql@16.14.0))(graphql@16.14.0)':
+  '@pothos/plugin-simple-objects@4.1.4(@pothos/core@4.13.1(graphql@16.14.0))(graphql@16.14.0)':
     dependencies:
-      '@pothos/core': 3.41.2(graphql@16.14.0)
+      '@pothos/core': 4.13.1(graphql@16.14.0)
       graphql: 16.14.0
 
   '@repeaterjs/repeater@3.0.6': {}
