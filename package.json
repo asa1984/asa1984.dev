@@ -24,7 +24,7 @@
     "deploy:frontend": "dotenvx run -- pnpm run --filter=frontend deploy:prod"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "1.26.0",
+    "@dotenvx/dotenvx": "2.21.0",
     "oxfmt": "0.63.0",
     "oxlint": "1.78.0",
     "wrangler": "catalog:"
