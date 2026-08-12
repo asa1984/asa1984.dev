@@ -83,6 +83,51 @@ describe("parseBlogPost", () => {
     });
   });
 
+  it("omits date when the frontmatter does not declare one", () => {
+    const source = blogSource(
+      [
+        "title: Hello",
+        "image: cover.png",
+        "description: A post",
+        "published: true",
+      ].join("\n"),
+    );
+    expect(Object.hasOwn(parseBlogPost(source).frontmatter, "date")).toBe(
+      false,
+    );
+  });
+
+  it.each([
+    ["a space separated timestamp", "2024-01-15 10:30:00"],
+    ["an ISO timestamp", "2024-01-15T10:30:00Z"],
+    ["an offset timestamp", "2024-01-15T10:30:00+09:00"],
+    ["a bare day", "2024-01-15"],
+  ])("keeps %s verbatim", (_name, date) => {
+    const source = blogSource(
+      [
+        "title: Hello",
+        "image: cover.png",
+        "description: A post",
+        "published: true",
+        `date: ${date}`,
+      ].join("\n"),
+    );
+    expect(parseBlogPost(source).frontmatter.date).toBe(date);
+  });
+
+  it("strips the quotes of a quoted date", () => {
+    const source = blogSource(
+      [
+        "title: Hello",
+        "image: cover.png",
+        "description: A post",
+        "published: true",
+        'date: "2024-01-15T10:30:00Z"',
+      ].join("\n"),
+    );
+    expect(parseBlogPost(source).frontmatter.date).toBe("2024-01-15T10:30:00Z");
+  });
+
   it.each([
     [
       "title is an empty string",
@@ -91,6 +136,36 @@ describe("parseBlogPost", () => {
         "image: cover.png",
         "description: A post",
         "published: true",
+      ],
+    ],
+    [
+      "date is not a parseable date",
+      [
+        "title: Hello",
+        "image: cover.png",
+        "description: A post",
+        "published: true",
+        "date: yesterday",
+      ],
+    ],
+    [
+      "date is an empty string",
+      [
+        "title: Hello",
+        "image: cover.png",
+        "description: A post",
+        "published: true",
+        'date: ""',
+      ],
+    ],
+    [
+      "date is not a string",
+      [
+        "title: Hello",
+        "image: cover.png",
+        "description: A post",
+        "published: true",
+        "date: true",
       ],
     ],
     [
@@ -139,8 +214,26 @@ describe("parseContextPost", () => {
     });
   });
 
+  it("parses an optional date", () => {
+    const source = blogSource(
+      [
+        "title: Hello",
+        "emoji: 🐧",
+        "published: false",
+        "date: 2024-01-15 10:30:00",
+      ].join("\n"),
+    );
+    expect(parseContextPost(source).frontmatter.date).toBe(
+      "2024-01-15 10:30:00",
+    );
+  });
+
   it.each([
     ["title is an empty string", ['title: ""', "emoji: 🐧", "published: true"]],
+    [
+      "date is not a parseable date",
+      ["title: Hello", "emoji: 🐧", "published: true", "date: nope"],
+    ],
     [
       "emoji is an empty string",
       ["title: Hello", 'emoji: ""', "published: true"],

@@ -55,6 +55,9 @@ const UpsertBlogInput = builder.inputType("UpsertBlogInput", {
     description: t.string({ required: true }),
     content: t.string({ required: true }),
     published: t.boolean({ required: true }),
+    // The content repository is the source of truth for the creation date, so
+    // when it is given it wins over whatever the database holds.
+    createdAt: t.string({ required: false }),
   }),
 });
 
@@ -69,7 +72,9 @@ builder.mutationField("upsertBlog", (t) =>
       }),
     },
     resolve: async (_root, { input }, context) => {
-      const { slug } = input;
+      const { slug, createdAt, ...fields } = input;
+      // Spreading an absent createdAt would overwrite the column with NULL.
+      const createdAtField = createdAt == null ? {} : { createdAt };
 
       const db = drizzle(context.DB, { schema });
       const oldOne = await db.query.blogs.findFirst({
@@ -83,7 +88,9 @@ builder.mutationField("upsertBlog", (t) =>
           .update(blogsSchema)
           .set({
             updatedAt: CURRENT_TIMESTAMP(),
-            ...input,
+            slug,
+            ...fields,
+            ...createdAtField,
           })
           .where(eq(blogsSchema.slug, slug))
           .returning();
@@ -99,7 +106,9 @@ builder.mutationField("upsertBlog", (t) =>
         .insert(blogsSchema)
         .values({
           id,
-          ...input,
+          slug,
+          ...fields,
+          ...createdAtField,
         })
         .returning();
 
