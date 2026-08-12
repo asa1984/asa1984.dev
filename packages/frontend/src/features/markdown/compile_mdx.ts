@@ -11,6 +11,7 @@ import { create_custom_components } from "./custom_components";
 import { get_highlighter } from "./highlighter";
 import {
   linkcard_handler,
+  remark_inline_footnote,
   remark_linkcard,
   remark_zenn_message,
   // zenn_message_handler,
@@ -36,6 +37,7 @@ export async function compile_mdx({
       mdxOptions: {
         remarkPlugins: [
           remark_zenn_message,
+          remark_inline_footnote,
           remark_comment,
           remark_gfm,
           remark_gemoji,

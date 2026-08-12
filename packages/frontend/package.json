@@ -17,7 +17,8 @@
     "staging": "opennextjs-cloudflare upload -- --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
     "staging:secret": "echo \"{\\\"BACKEND_API_TOKEN\\\": \\\"$BACKEND_API_TOKEN\\\", \\\"FRONTEND_API_TOKEN\\\": \\\"$FRONTEND_API_TOKEN\\\"}\" | wrangler versions secret bulk",
     "build:prod": "opennextjs-cloudflare build",
-    "deploy:prod": "opennextjs-cloudflare deploy -- --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL"
+    "deploy:prod": "opennextjs-cloudflare deploy -- --var BACKEND_URL:$BACKEND_URL FRONTEND_URL:$FRONTEND_URL",
+    "test": "vitest run"
   },
   "dependencies": {
     "@asa1984.dev/backend": "workspace:*",
@@ -66,9 +67,11 @@
     "@types/unist": "3.0.3",
     "chokidar-cli": "catalog:",
     "graphql": "catalog:",
+    "remark-parse": "11.0.0",
     "rimraf": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
+    "vitest": "catalog:",
     "wrangler": "catalog:"
   }
 }
