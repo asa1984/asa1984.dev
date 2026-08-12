@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
-    "@pothos/core": "^3.41.2",
-    "@pothos/plugin-simple-objects": "^3.7.1",
+    "@pothos/core": "3.41.2",
+    "@pothos/plugin-simple-objects": "3.7.1",
     "graphql": "catalog:",
     "ulidx": "catalog:"
   },
