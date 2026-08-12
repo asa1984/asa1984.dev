@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 const shape = {
-  BACKEND_URL: z.string().url(),
+  BACKEND_URL: z.url(),
   BACKEND_API_TOKEN: z.string().min(1),
-  FRONTEND_URL: z.string().url(),
+  FRONTEND_URL: z.url(),
   FRONTEND_API_TOKEN: z.string().min(1),
 };
 

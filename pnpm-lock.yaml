@@ -67,8 +67,8 @@ catalogs:
       specifier: 4.121.0
       version: 4.121.0
     zod:
-      specifier: 3.25.76
-      version: 3.25.76
+      specifier: 4.4.3
+      version: 4.4.3
 
 overrides:
   fast-xml-parser@4: ^4.5.5
@@ -113,8 +113,8 @@ importers:
         specifier: workspace:*
         version: link:../graphql
       '@hono/zod-validator':
-        specifier: 0.4.3
-        version: 0.4.3(hono@4.13.1)(zod@3.25.76)
+        specifier: 0.9.0
+        version: 0.9.0(hono@4.13.1)(zod@4.4.3)
       graphql:
         specifier: 'catalog:'
         version: 16.14.0
@@ -129,7 +129,7 @@ importers:
         version: 2.4.1
       zod:
         specifier: 'catalog:'
-        version: 3.25.76
+        version: 4.4.3
     devDependencies:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
@@ -160,7 +160,7 @@ importers:
         version: 2.9.0
       zod:
         specifier: 'catalog:'
-        version: 3.25.76
+        version: 4.4.3
     devDependencies:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
@@ -300,7 +300,7 @@ importers:
         version: 4.2.2(@urql/core@5.2.0(graphql@16.14.0))(react@19.2.8)
       zod:
         specifier: 'catalog:'
-        version: 3.25.76
+        version: 4.4.3
     devDependencies:
       '@asa1984.dev/tsconfig':
         specifier: workspace:*
@@ -1287,11 +1287,11 @@ packages:
     resolution: {integrity: sha512-ZpJxMqB+Qfe3rp6uszCQoag4nSw42icURnBRfFYSOmTgEeOe4rD0vYlbA8spvCu2TlCesNTlEN9BLWtQqLxabA==}
     engines: {node: '>=18.0.0'}
 
-  '@hono/zod-validator@0.4.3':
-    resolution: {integrity: sha512-xIgMYXDyJ4Hj6ekm9T9Y27s080Nl9NXHcJkOvkXPhubOLj8hZkOL8pDnnXfvCf5xEE8Q4oMFenQUZZREUY2gqQ==}
+  '@hono/zod-validator@0.9.0':
+    resolution: {integrity: sha512-n0ZSXmCiHVIp4Y5wlOOyZCeTd/rsawA/qW1cipB8QOYKZ9N8Tk0nZUZCXho9cu374AN4JpDNKioNKBJ/W+LBug==}
     peerDependencies:
-      hono: '>=3.9.0'
-      zod: ^3.19.1
+      hono: '>=4.11.2'
+      zod: ^3.25.0 || ^4.0.0
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -5052,8 +5052,8 @@ packages:
   youch@4.1.0-beta.10:
     resolution: {integrity: sha512-rLfVLB4FgQneDr0dv1oddCVZmKjcJ6yX6mS4pU82Mq/Dt9a3cLZQ62pDBL4AUO+uVrCvtWz3ZFUL2HFAFJ/BXQ==}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -6083,10 +6083,10 @@ snapshots:
       '@repeaterjs/repeater': 3.0.6
       tslib: 2.8.1
 
-  '@hono/zod-validator@0.4.3(hono@4.13.1)(zod@3.25.76)':
+  '@hono/zod-validator@0.9.0(hono@4.13.1)(zod@4.4.3)':
     dependencies:
       hono: 4.13.1
-      zod: 3.25.76
+      zod: 4.4.3
 
   '@img/colour@1.1.0': {}
 
@@ -10285,6 +10285,6 @@ snapshots:
       cookie: 1.1.1
       youch-core: 0.3.3
 
-  zod@3.25.76: {}
+  zod@4.4.3: {}
 
   zwitch@2.0.4: {}
