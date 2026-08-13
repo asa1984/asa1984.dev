@@ -50,7 +50,7 @@
     "remark-math": "6.0.0",
     "sass": "1.102.0",
     "sharp": "0.35.3",
-    "shiki": "1.29.2",
+    "shiki": "4.4.3",
     "unified": "11.0.5",
     "unist-util-visit": "5.1.0",
     "urql": "5.0.3",

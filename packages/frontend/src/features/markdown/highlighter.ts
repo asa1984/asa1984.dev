@@ -1,4 +1,11 @@
-import type { BundledHighlighterOptions, Highlighter } from "shiki";
+import type {
+  BundledHighlighterOptions,
+  BundledLanguage,
+  BundledTheme,
+  Highlighter,
+  LanguageInput,
+  ThemeInput,
+} from "shiki";
 import { getSingletonHighlighterCore } from "shiki/core";
 import lang_css from "shiki/dist/langs/css.mjs";
 import lang_diff from "shiki/dist/langs/diff.mjs";
@@ -66,8 +73,11 @@ export const get_highlighter = async (
     ...highlighter,
     // rehype-pretty-code may call the loaders with bundled names, which a core
     // highlighter cannot resolve. Every language and theme it can ask for is
-    // already preloaded above, so both are no-ops.
+    // already preloaded above, so both are no-ops. The getBundled* pair only
+    // exists to satisfy the bundled Highlighter type; nothing calls it.
     loadLanguage: async () => {},
     loadTheme: async () => {},
+    getBundledLanguages: () => ({}) as Record<BundledLanguage, LanguageInput>,
+    getBundledThemes: () => ({}) as Record<BundledTheme, ThemeInput>,
   };
 };
