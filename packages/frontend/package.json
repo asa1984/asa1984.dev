@@ -58,8 +58,8 @@
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
     "@graphql-typed-document-node/core": "3.2.0",
-    "@nitrogql/cli": "1.6.0-beta.1",
-    "@nitrogql/graphql-loader": "1.6.0-beta.1",
+    "@nitrogql/cli": "2.0.0",
+    "@nitrogql/graphql-loader": "2.0.0",
     "@opennextjs/cloudflare": "1.20.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
