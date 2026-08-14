@@ -40,7 +40,10 @@ describe("remark_zenn_message", () => {
     expect(found).toHaveLength(1);
     const types = found[0]?.children.map((c) => c.type);
     expect(types).toEqual(["text", "strong", "text"]);
-    expect((found[0]?.children[0] as Text).value).toBe("注意: ");
+    expect(found[0]?.children[0]).toMatchObject({
+      type: "text",
+      value: "注意: ",
+    });
   });
 
   it("マーカーだけの行は捨てて中身だけ残す (複数行)", () => {
