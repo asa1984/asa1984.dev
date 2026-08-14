@@ -4,7 +4,8 @@
   "type": "module",
   "main": "src/lib.ts",
   "scripts": {
-    "typecheck": "tsc --project . --noEmit"
+    "typecheck": "tsc --project . --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
@@ -15,10 +16,12 @@
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
+    "@cloudflare/vitest-pool-workers": "0.21.3",
     "@cloudflare/workers-types": "catalog:",
     "better-sqlite3": "catalog:",
     "drizzle-kit": "catalog:",
     "drizzle-orm": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

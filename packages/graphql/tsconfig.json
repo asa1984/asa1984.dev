@@ -6,6 +6,6 @@
     "lib": ["esnext"],
     "outDir": "dist"
   },
-  "include": ["src", "bin"],
+  "include": ["src", "bin", "test", "vitest.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
