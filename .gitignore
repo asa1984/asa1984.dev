@@ -1,4 +1,4 @@
-# dotenvx
+# local secrets — never commit
 .env.keys
 
 # Dependencies

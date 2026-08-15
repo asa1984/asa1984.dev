@@ -65,7 +65,7 @@ expect() { # url expected_status
 }
 
 echo "=== frontend: production bundle (opennextjs-cloudflare) ==="
-(cd "$ROOT/packages/frontend" && ALLOW_EMPTY_CONTENT=1 pnpm run build:prod >/dev/null)
+(cd "$ROOT/packages/frontend" && ALLOW_EMPTY_CONTENT=1 pnpm run build:worker >/dev/null)
 (cd "$ROOT/packages/frontend" && pnpm exec wrangler deploy --dry-run --outdir .size-check >/dev/null 2>&1)
 check_budget frontend "$(gzip_size "$(bundle_of "$ROOT/packages/frontend/.size-check")")" "$FRONTEND_BUDGET"
 

@@ -7,13 +7,22 @@
   "main": ".open-next/worker.js",
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
 
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true },
+  },
+
+  // The top level is only used by local `wrangler dev` and dry-run size
+  // checks. Real deploys always go through `--env production` / `--env dev`
+  // (non-inheritable keys — vars, bindings, routes — are therefore repeated
+  // per environment).
+  "vars": { "FRONTEND_URL": "http://localhost:3000" },
   "kv_namespaces": [
     {
       "binding": "NEXT_INC_CACHE_KV",
       "id": "d237e41bf1cd43b3ac8e12ca58f3a914",
     },
   ],
-
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
@@ -21,8 +30,41 @@
     },
   ],
 
-  "observability": {
-    "enabled": true,
-    "logs": { "enabled": true },
+  "env": {
+    "production": {
+      "name": "asa1984-web",
+      "vars": { "FRONTEND_URL": "https://asa1984.dev" },
+      "kv_namespaces": [
+        {
+          "binding": "NEXT_INC_CACHE_KV",
+          "id": "d237e41bf1cd43b3ac8e12ca58f3a914",
+        },
+      ],
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "asa1984-web",
+        },
+      ],
+    },
+    "dev": {
+      "name": "asa1984-web-dev",
+      // Custom domain so Cloudflare Access can sit in front of it
+      // (scripts/setup-dev-access.sh).
+      "routes": [{ "pattern": "dev.asa1984.dev", "custom_domain": true }],
+      "vars": { "FRONTEND_URL": "https://dev.asa1984.dev" },
+      "kv_namespaces": [
+        {
+          "binding": "NEXT_INC_CACHE_KV",
+          "id": "769aa223fd044c86aa2558c0d0568adf",
+        },
+      ],
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "asa1984-web-dev",
+        },
+      ],
+    },
   },
 }
