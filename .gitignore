@@ -1,3 +1,8 @@
+# Never commit env files — opennextjs-cloudflare bakes them into the worker
+.env
+.env.*
+!.env.1password
+
 # local secrets — never commit
 .env.keys
 
