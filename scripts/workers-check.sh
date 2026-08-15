@@ -66,6 +66,17 @@ expect() { # url expected_status
 
 echo "=== frontend: production bundle (opennextjs-cloudflare) ==="
 (cd "$ROOT/packages/frontend" && ALLOW_EMPTY_CONTENT=1 pnpm run build:worker >/dev/null)
+
+# opennextjs-cloudflare bakes any .env file into the worker (next-env.mjs),
+# where its values apply at runtime and can shadow real worker secrets.
+# No .env is tracked, so the baked objects must stay empty.
+NEXT_ENV="$ROOT/packages/frontend/.open-next/cloudflare/next-env.mjs"
+if [ -f "$NEXT_ENV" ] && grep -qE '\{"' "$NEXT_ENV"; then
+  echo "FAIL: $NEXT_ENV contains baked env values:"
+  cat "$NEXT_ENV"
+  exit 1
+fi
+echo "OK: no env values baked into the worker"
 (cd "$ROOT/packages/frontend" && pnpm exec wrangler deploy --dry-run --outdir .size-check >/dev/null 2>&1)
 check_budget frontend "$(gzip_size "$(bundle_of "$ROOT/packages/frontend/.size-check")")" "$FRONTEND_BUDGET"
 

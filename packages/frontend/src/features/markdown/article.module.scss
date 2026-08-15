@@ -140,7 +140,7 @@
     border-radius: var(--radii-md);
   }
 
-  [data-rehype-pretty-code-fragment] {
+  [data-rehype-pretty-code-figure] {
     font-family: var(--fonts-monospace);
     margin-top: var(--spacing-6);
     pre {
@@ -169,7 +169,7 @@
     }
   }
 
-  [data-rehype-pretty-code-fragment]:has(> [data-rehype-pretty-code-title]) {
+  [data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) {
     [data-rehype-pretty-code-title] {
       width: max-content;
       padding: var(--spacing-1) var(--spacing-3) var(--spacing-0);
