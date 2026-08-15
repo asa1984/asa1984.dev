@@ -21,9 +21,9 @@
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
     "@asa1984.dev/graphql": "workspace:*",
-    "@hono/zod-validator": "0.9.0",
+    "@hono/zod-validator": "catalog:",
     "graphql": "catalog:",
-    "graphql-yoga": "5.21.2",
+    "graphql-yoga": "catalog:",
     "hono": "catalog:",
     "ulidx": "catalog:",
     "zod": "catalog:"

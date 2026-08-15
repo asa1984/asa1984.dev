@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "@asa1984.dev/drizzle": "workspace:*",
-    "@pothos/core": "4.13.1",
-    "@pothos/plugin-simple-objects": "4.1.4",
+    "@pothos/core": "catalog:",
+    "@pothos/plugin-simple-objects": "catalog:",
     "graphql": "catalog:",
     "ulidx": "catalog:"
   },
   "devDependencies": {
     "@asa1984.dev/tsconfig": "workspace:*",
-    "@cloudflare/vitest-pool-workers": "0.21.3",
+    "@cloudflare/vitest-pool-workers": "catalog:",
     "@cloudflare/workers-types": "catalog:",
     "better-sqlite3": "catalog:",
     "drizzle-kit": "catalog:",
