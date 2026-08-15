@@ -69,5 +69,5 @@ jobs:
       - name: Build
         run: nix develop .#ci --command pnpm run build
         env:
-          # The smoke build has no backend to fetch content from
+          # The smoke build has no GitHub token to pull content with
           ALLOW_EMPTY_CONTENT: "1"
