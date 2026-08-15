@@ -1,6 +1,8 @@
-import { client } from "@/libs/graphql";
-import GetContextBySlug from "./getContextBySlug.graphql";
-import GetContexts from "./getContexts.graphql";
+import { parse_context_post } from "@/features/content/frontmatter";
+import {
+  fetch_content_text,
+  list_content_paths,
+} from "@/features/content/github";
 
 export type Frontmatter = {
   title: string;
@@ -15,54 +17,48 @@ export type Post = {
   content: string;
 };
 
-export const get_published_posts = async (): Promise<Post[]> => {
-  const result = await client.query(GetContexts, {});
-  const contexts = result.data?.contexts;
-  // Fail the build instead of silently prerendering a site without posts.
-  // ALLOW_EMPTY_CONTENT opts out for builds without a backend (CI smoke build).
-  if (!contexts) {
-    if (process.env.ALLOW_EMPTY_CONTENT === "1") return [];
-    throw new Error(`Failed to fetch contexts: ${result.error?.message}`);
-  }
-  const published_contexts = contexts.filter((context) => context.published);
+const POST_PATH = /^context\/([^/]+)\/post\.md$/;
 
-  return published_contexts.map((context) => {
-    const frontmatter: Frontmatter = {
-      title: context.title,
-      emoji: context.emoji,
-      date: new Date(context.createdAt),
-      published: context.published,
-    };
-    return {
-      slug: context.slug,
-      meta: frontmatter,
-      content: context.content,
-    };
-  });
+const list_slugs = async (): Promise<string[]> => {
+  const paths = await list_content_paths();
+  return paths
+    .map((path) => POST_PATH.exec(path)?.[1])
+    .filter((slug): slug is string => slug !== undefined);
+};
+
+const load_post = async (slug: string): Promise<Post> => {
+  const source = await fetch_content_text(`context/${slug}/post.md`);
+  const { frontmatter, content } = parse_context_post(source);
+  return {
+    slug,
+    meta: {
+      title: frontmatter.title,
+      emoji: frontmatter.emoji,
+      date: new Date(frontmatter.date),
+      published: frontmatter.published,
+    },
+    content,
+  };
+};
+
+export const get_published_posts = async (): Promise<Post[]> => {
+  const slugs = await list_slugs();
+  const posts = await Promise.all(slugs.map(load_post));
+  return posts.filter((post) => post.meta.published);
 };
 
 // Newer posts first
 export const get_posts_date_sorted = async (): Promise<Post[]> => {
   const posts = await get_published_posts();
-  return posts.sort((prev, next) => {
+  return posts.toSorted((prev, next) => {
     return next.meta.date.getTime() - prev.meta.date.getTime();
   });
 };
 
 export const get_post = async (slug: string): Promise<Post | null> => {
-  const result = await client.query(GetContextBySlug, { slug });
-  const context = result.data?.context;
-  if (!context) return null;
-
-  const frontmatter: Frontmatter = {
-    title: context.title,
-    emoji: context.emoji,
-    date: new Date(context.createdAt),
-    published: context.published,
-  };
-  return {
-    slug: context.slug,
-    meta: frontmatter,
-    content: context.content,
-  };
+  const slugs = await list_slugs();
+  if (!slugs.includes(slug)) return null;
+  const post = await load_post(slug);
+  // Drafts are invisible, not just unlisted.
+  return post.meta.published ? post : null;
 };

@@ -1,28 +1,18 @@
 import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
+import { CONTENT_CACHE_TAG } from "@/features/content/github";
 import { env } from "@/libs/env";
 
 const app = new Hono().basePath("/api");
 
+// Called by the content repository's CI on push. Every content fetch is
+// tagged CONTENT_CACHE_TAG, so revalidating the one tag refreshes all
+// articles, lists, RSS, and images on their next request — no redeploy.
 export const api_route = app
   .use(bearerAuth({ token: env.FRONTEND_API_TOKEN }))
-  .post("/revalidate/blog", (c) => {
-    revalidatePath("/blog");
-    return c.json({ ok: true });
-  })
-  .post("/revalidate/blog/:slug", (c) => {
-    const { slug } = c.req.param();
-    revalidatePath(`/blog/${slug}`);
-    return c.json({ ok: true });
-  })
-  .post("/revalidate/context", (c) => {
-    revalidatePath("/context");
-    return c.json({ ok: true });
-  })
-  .post("/revalidate/context/:slug", (c) => {
-    const { slug } = c.req.param();
-    revalidatePath(`/context/${slug}`);
+  .post("/revalidate", (c) => {
+    revalidateTag(CONTENT_CACHE_TAG, "max");
     return c.json({ ok: true });
   });
 

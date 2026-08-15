@@ -12,9 +12,10 @@ type PageProps = {
   }>;
 };
 
-// MDX compilation calls new Function(), which Cloudflare Workers forbids at
-// runtime, so every page must be prerendered and unknown slugs must 404.
-export const dynamicParams = false;
+// Known posts are prerendered at build time; slugs that appear in the
+// content repo afterwards are rendered on demand and cached until the next
+// content push revalidates them — publishing never requires a deploy.
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const posts = await get_published_posts();

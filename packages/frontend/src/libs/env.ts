@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 const shape = {
-  BACKEND_URL: z.url(),
-  BACKEND_API_TOKEN: z.string().min(1),
+  CONTENT_GITHUB_TOKEN: z.string().min(1),
   FRONTEND_URL: z.url(),
   FRONTEND_API_TOKEN: z.string().min(1),
 };
@@ -11,12 +10,11 @@ type Key = keyof typeof shape;
 
 export type Env = Readonly<Record<Key, string>>;
 
-// The CI smoke build (ALLOW_EMPTY_CONTENT=1) runs without a backend and
+// The CI smoke build (ALLOW_EMPTY_CONTENT=1) runs without a GitHub token and
 // without secrets; hand it inert-but-wellformed values so module init and
 // `new URL(...)` still work. Everything else gets validated on first access.
 const smoke: Env = {
-  BACKEND_URL: "http://smoke-build.invalid",
-  BACKEND_API_TOKEN: "smoke-build",
+  CONTENT_GITHUB_TOKEN: "smoke-build",
   FRONTEND_URL: "http://smoke-build.invalid",
   FRONTEND_API_TOKEN: "smoke-build",
 };
