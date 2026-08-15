@@ -34,7 +34,13 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/production/CONTENT_GITHUB_TOKEN
           CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
-      - name: Deploy to production
-        run: nix develop .#ci --command pnpm run deploy:production
+      - name: Codegen
+        run: pnpm run codegen
+      - name: Build worker
+        run: pnpm --filter @asa1984.dev/frontend run build:worker
         env:
           FRONTEND_URL: https://asa1984.dev
+      - name: Deploy to production
+        run: pnpm --filter @asa1984.dev/frontend run deploy:production
+      - name: Sync worker secrets
+        run: pnpm --filter @asa1984.dev/frontend run secret:production

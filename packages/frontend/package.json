@@ -2,9 +2,9 @@
   "name": "@asa1984.dev/frontend",
   "private": true,
   "scripts": {
-    "gen": "pnpm run gen:css && pnpm run gen:types",
-    "gen:css": "panda codegen",
-    "gen:types": "wrangler types",
+    "codegen": "pnpm run codegen:css && pnpm run codegen:types",
+    "codegen:css": "panda codegen",
+    "codegen:types": "wrangler types",
     "typecheck": "tsc",
     "dev": "rimraf ./next && next dev",
     "build": "next build",

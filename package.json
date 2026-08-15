@@ -4,17 +4,15 @@
   "description": "asa1984's personal website",
   "type": "module",
   "scripts": {
-    "gen": "pnpm -r run gen",
+    "codegen": "pnpm -r run codegen",
     "lint": "oxlint",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "typecheck": "pnpm -r run gen && pnpm -r run typecheck",
-    "test": "pnpm -r run gen && pnpm -r run test",
-    "dev": "pnpm -r run gen && pnpm -r --parallel run dev",
-    "build": "pnpm -r run gen && pnpm -r run build",
-    "start": "pnpm -r --parallel run start",
-    "deploy:dev": "pnpm -r run gen && pnpm --filter @asa1984.dev/frontend run build:worker && pnpm --filter @asa1984.dev/frontend run deploy:dev && pnpm --filter @asa1984.dev/frontend run secret:dev",
-    "deploy:production": "pnpm -r run gen && pnpm --filter @asa1984.dev/frontend run build:worker && pnpm --filter @asa1984.dev/frontend run deploy:production && pnpm --filter @asa1984.dev/frontend run secret:production"
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "dev": "pnpm run codegen && pnpm -r --parallel run dev",
+    "build": "pnpm -r run build",
+    "start": "pnpm -r --parallel run start"
   },
   "devDependencies": {
     "oxfmt": "catalog:",

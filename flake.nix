@@ -22,31 +22,40 @@
           system,
           ...
         }:
+        let
+          sharedDeps = with pkgs; [
+            nodejs-slim_22
+            corepack
+          ];
+          devDeps =
+            sharedDeps
+            ++ (with pkgs; [
+              sqlite
+              act
+              actionlint
+            ]);
+          ciDeps = sharedDeps;
+        in
         {
-          devShells =
-            let
-              sharedDeps = with pkgs; [
-                nodejs-slim_22
-                corepack
-              ];
-              devDeps =
-                sharedDeps
-                ++ (with pkgs; [
-                  sqlite
-                  act
-                  actionlint
-                ]);
-              ciDeps = sharedDeps;
-            in
-            rec {
-              default = dev;
-              dev = pkgs.mkShell {
-                packages = devDeps;
-              };
-              ci = pkgs.mkShell {
-                packages = ciDeps;
-              };
+          # CI は devShell ではなくこの closure を `nix profile install .#ci` する
+          # (ステップごとの `nix develop` 評価をなくすため)。
+          packages.ci = pkgs.buildEnv {
+            name = "ci-tools";
+            paths = ciDeps;
+            # nodejs-slim と corepack が両方 bin/corepack を提供する。
+            # mkShell と同じく先頭側 (nodejs-slim) を優先する。
+            ignoreCollisions = true;
+          };
+
+          devShells = rec {
+            default = dev;
+            dev = pkgs.mkShell {
+              packages = devDeps;
             };
+            ci = pkgs.mkShell {
+              packages = ciDeps;
+            };
+          };
         };
     };
 }

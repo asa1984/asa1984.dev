@@ -8,7 +8,7 @@
 # bundle in the real runtime instead.
 #
 # Usage: scripts/workers-check.sh   (from anywhere; needs pnpm deps installed
-# and generated files present — run `pnpm run gen` first)
+# and generated files present — run `pnpm run codegen` first)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
