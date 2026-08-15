@@ -12,38 +12,32 @@ permissions:
   contents: read
 
 jobs:
-  lint:
+  # lint / format / typecheck / test を 1 ジョブに集約し parallel steps で
+  # 並列実行する(ジョブを分けるとセットアップがジョブ数分かかる)。
+  # gen は生成物を共有するため並列化せず先に 1 回だけ実行する。
+  checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Setup
         uses: ./.github/actions/setup
-      - name: Lint
-        run: nix develop .#ci --command pnpm run lint
-      - name: Format check
-        run: nix develop .#ci --command pnpm run format:check
+      - name: Generate
+        run: pnpm run gen
+      - parallel:
+          - name: Lint
+            run: pnpm run lint
+          - name: Format check
+            run: pnpm run format:check
+          - name: Typecheck
+            run: pnpm --filter @asa1984.dev/frontend run typecheck
+          - name: Test
+            run: pnpm --filter @asa1984.dev/frontend run test
 
-  typecheck:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Typecheck
-        run: nix develop .#ci --command pnpm run typecheck
-
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Test
-        run: nix develop .#ci --command pnpm run test
-
+  # Bundle-size budgets + workerd smoke over the production bundling
+  # path (opennextjs-cloudflare), which a plain `next build` never
+  # exercises — see issue #31. 素の `next build` はこのビルドに包含される
+  # ため独立した build ジョブは持たない。
   workers-check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -52,22 +46,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Generate
-        run: nix develop .#ci --command pnpm run gen
-      # Bundle-size budgets + workerd smoke over the production bundling
-      # path (opennextjs-cloudflare), which a plain `next build` never
-      # exercises — see issue #31.
-      - name: Check worker bundles
-        run: nix develop .#ci --command scripts/workers-check.sh
-
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Build
-        run: nix develop .#ci --command pnpm run build
-        env:
-          # The smoke build has no GitHub token to pull content with
-          ALLOW_EMPTY_CONTENT: "1"
+        run: pnpm run gen
+      - name: Check worker bundle
+        run: scripts/workers-check.sh

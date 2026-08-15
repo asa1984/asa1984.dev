@@ -7,20 +7,29 @@ runs:
     - name: Setup Nix
       uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
     - name: Setup Nix binary cache
-      uses: DeterminateSystems/magic-nix-cache-action@908b263ff629f4cc17666315b7fd3ec127c6244d # v14
+      uses: asa1984/ci-binary-cache-action@f4c67cca6ec115e08a73883b158d07743471e01f # v1
+      with:
+        packages: .#ci
+    # devShell を都度 `nix develop --command` で包む代わりに、CI ツール一式を
+    # profile に入れて以降のステップから直接呼ぶ。
+    - name: Install CI toolchain
+      shell: bash
+      run: |
+        nix profile install .#ci
+        echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
+    - name: Setup corepack
+      shell: bash
+      run: corepack install
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash
-      run: echo "STORE_PATH=$(nix develop .#ci --command pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
     - name: Setup pnpm cache
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: ${{ runner.os }}-pnpm-store-
-    - name: Setup corepack
-      shell: bash
-      run: nix develop .#ci --command corepack install
     - name: Install dependencies
       shell: bash
-      run: nix develop .#ci --command pnpm install --frozen-lock
+      run: pnpm install --frozen-lockfile

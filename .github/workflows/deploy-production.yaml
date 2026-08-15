@@ -35,6 +35,6 @@ jobs:
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/production/CONTENT_GITHUB_TOKEN
           CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
       - name: Deploy to production
-        run: nix develop .#ci --command pnpm run deploy:production
+        run: pnpm run deploy:production
         env:
           FRONTEND_URL: https://asa1984.dev

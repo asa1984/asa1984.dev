@@ -10,7 +10,8 @@ permissions:
 jobs:
   create-release:
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    # gh CLI を叩くだけの軽量ジョブなので ubuntu-slim (1 vCPU) で足りる
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     steps:
       - name: Create release

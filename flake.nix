@@ -22,31 +22,37 @@
           system,
           ...
         }:
+        let
+          sharedDeps = with pkgs; [
+            nodejs-slim_22
+            corepack
+          ];
+          devDeps =
+            sharedDeps
+            ++ (with pkgs; [
+              sqlite
+              act
+              actionlint
+            ]);
+          ciDeps = sharedDeps;
+        in
         {
-          devShells =
-            let
-              sharedDeps = with pkgs; [
-                nodejs-slim_22
-                corepack
-              ];
-              devDeps =
-                sharedDeps
-                ++ (with pkgs; [
-                  sqlite
-                  act
-                  actionlint
-                ]);
-              ciDeps = sharedDeps;
-            in
-            rec {
-              default = dev;
-              dev = pkgs.mkShell {
-                packages = devDeps;
-              };
-              ci = pkgs.mkShell {
-                packages = ciDeps;
-              };
+          # CI は devShell ではなくこの closure を `nix profile install .#ci` する
+          # (ステップごとの `nix develop` 評価をなくすため)。
+          packages.ci = pkgs.buildEnv {
+            name = "ci-tools";
+            paths = ciDeps;
+          };
+
+          devShells = rec {
+            default = dev;
+            dev = pkgs.mkShell {
+              packages = devDeps;
             };
+            ci = pkgs.mkShell {
+              packages = ciDeps;
+            };
+          };
         };
     };
 }
