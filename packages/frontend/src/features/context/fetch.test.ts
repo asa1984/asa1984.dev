@@ -1,78 +1,62 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch";
 
-const query = vi.fn();
+const list_content_paths = vi.fn();
+const fetch_content_text = vi.fn();
 
-vi.mock("@/libs/graphql", () => ({
-  client: { query: (...args: unknown[]) => query(...args) },
+vi.mock("@/features/content/github", () => ({
+  list_content_paths: (...args: unknown[]) => list_content_paths(...args),
+  fetch_content_text: (...args: unknown[]) => fetch_content_text(...args),
 }));
-vi.mock("./getContexts.graphql", () => ({ default: "GetContexts" }));
-vi.mock("./getContextBySlug.graphql", () => ({ default: "GetContextBySlug" }));
 
-const context = (overrides: Record<string, unknown> = {}) => ({
-  slug: "voice",
-  title: "声帯",
-  emoji: "🗣️",
-  content: "本文",
-  published: true,
-  createdAt: "2024-01-12T09:02:49.671Z",
-  updatedAt: "2024-01-12T09:02:49.671Z",
-  ...overrides,
-});
+const post_md = ({
+  published = true,
+  date = "2024-01-08T11:25:53.246Z",
+} = {}) => `---
+title: タイトル
+emoji: 📕
+published: ${published}
+date: ${date}
+---
 
-beforeEach(() => {
-  vi.stubEnv("ALLOW_EMPTY_CONTENT", "");
-});
+本文`;
 
 afterEach(() => {
-  vi.unstubAllEnvs();
-  query.mockReset();
+  list_content_paths.mockReset();
+  fetch_content_text.mockReset();
 });
 
 describe("get_published_posts", () => {
-  // commit 8ef7e8e まで published フィルタの欠落で未公開記事が公開されていた。
-  // その回帰を検知するためのテスト。
-  it("published: false の記事を除外する", async () => {
-    query.mockResolvedValue({
-      data: {
-        contexts: [
-          context({ slug: "public" }),
-          context({ slug: "draft", published: false }),
-        ],
-      },
-    });
+  it("context/*/post.md だけを拾い、下書きを除外する", async () => {
+    list_content_paths.mockResolvedValue([
+      "blog/first/post.md",
+      "context/public/post.md",
+      "context/draft/post.md",
+    ]);
+    fetch_content_text.mockImplementation(async (path: string) =>
+      post_md({ published: !String(path).includes("draft") }),
+    );
 
     const posts = await get_published_posts();
 
     expect(posts.map((p) => p.slug)).toEqual(["public"]);
-  });
-
-  it("フェッチ失敗時はビルドを落とす (throw)", async () => {
-    query.mockResolvedValue({ data: undefined, error: { message: "boom" } });
-
-    await expect(get_published_posts()).rejects.toThrow(
-      "Failed to fetch contexts: boom",
-    );
-  });
-
-  it("ALLOW_EMPTY_CONTENT=1 のときは空配列で継続する", async () => {
-    vi.stubEnv("ALLOW_EMPTY_CONTENT", "1");
-    query.mockResolvedValue({ data: undefined, error: { message: "boom" } });
-
-    await expect(get_published_posts()).resolves.toEqual([]);
+    expect(posts[0]?.meta.emoji).toBe("📕");
   });
 });
 
 describe("get_posts_date_sorted", () => {
-  it("新しい記事から順に並べる", async () => {
-    query.mockResolvedValue({
-      data: {
-        contexts: [
-          context({ slug: "old", createdAt: "2024-01-08T11:25:53.246Z" }),
-          context({ slug: "new", createdAt: "2024-01-12T09:02:49.671Z" }),
-        ],
-      },
-    });
+  it("新しい記事が先頭に来る", async () => {
+    list_content_paths.mockResolvedValue([
+      "context/old/post.md",
+      "context/new/post.md",
+    ]);
+    fetch_content_text.mockImplementation(async (path: string) =>
+      post_md({
+        date: String(path).includes("new")
+          ? "2024-06-01T00:00:00.000Z"
+          : "2022-01-01T00:00:00.000Z",
+      }),
+    );
 
     const posts = await get_posts_date_sorted();
 
@@ -81,26 +65,11 @@ describe("get_posts_date_sorted", () => {
 });
 
 describe("get_post", () => {
-  it("存在しない slug は null を返す", async () => {
-    query.mockResolvedValue({ data: { context: null } });
+  it("存在する slug の記事を返し、未知の slug は null", async () => {
+    list_content_paths.mockResolvedValue(["context/first/post.md"]);
+    fetch_content_text.mockResolvedValue(post_md());
 
-    await expect(get_post("missing")).resolves.toBeNull();
-  });
-
-  it("記事をメタデータ付きで返す", async () => {
-    query.mockResolvedValue({ data: { context: context() } });
-
-    const post = await get_post("voice");
-
-    expect(post).toMatchObject({
-      slug: "voice",
-      content: "本文",
-      meta: {
-        title: "声帯",
-        emoji: "🗣️",
-        date: new Date("2024-01-12T09:02:49.671Z"),
-        published: true,
-      },
-    });
+    expect((await get_post("first"))?.slug).toBe("first");
+    expect(await get_post("unknown")).toBeNull();
   });
 });

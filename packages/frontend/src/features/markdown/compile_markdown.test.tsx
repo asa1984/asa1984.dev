@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it, vi } from "vitest";
@@ -53,7 +52,6 @@ describe("compile_markdown", () => {
   let html: string;
 
   beforeAll(async () => {
-    process.env.BACKEND_URL = "https://api.example.com";
     html = await render();
   });
 
@@ -109,11 +107,13 @@ describe("compile_markdown", () => {
     expect(html).toContain("<table>");
   });
 
-  it("routes local images through the backend delivery URL", () => {
-    const key = createHash("sha256")
-      .update("blog/test-post/photo.webp")
-      .digest("hex");
-    expect(html).toContain(key);
+  it("routes local images through the content-assets route", () => {
+    // next/image may wrap the src in /_next/image?url=<encoded> depending on
+    // loader config, so accept the path in either raw or encoded form.
+    const path = "/content-assets/blog/test-post/photo.webp";
+    expect(html.includes(path) || html.includes(encodeURIComponent(path))).toBe(
+      true,
+    );
   });
 
   it("renders remote images as plain lazy img tags", () => {
