@@ -48,9 +48,6 @@ catalogs:
     hast-util-to-jsx-runtime:
       specifier: 2.3.6
       version: 2.3.6
-    hono:
-      specifier: 4.13.1
-      version: 4.13.1
     katex:
       specifier: 0.16.47
       version: 0.16.47
@@ -199,9 +196,6 @@ importers:
       hast-util-to-jsx-runtime:
         specifier: 'catalog:'
         version: 2.3.6(supports-color@10.2.2)
-      hono:
-        specifier: 'catalog:'
-        version: 4.13.1
       katex:
         specifier: 'catalog:'
         version: 0.16.47
@@ -3024,10 +3018,6 @@ packages:
 
   hastscript@9.0.1:
     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
-
-  hono@4.13.1:
-    resolution: {integrity: sha512-kdJoFVv2xmayw6cY09H7AbMJMt8Jn5jdlEdXsP7AGBdF2DIptVlKlOLKXP41yPip4/a3yQPv9gVcJYI8YY04dw==}
-    engines: {node: '>=16.9.0'}
 
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
@@ -7211,8 +7201,6 @@ snapshots:
       hast-util-parse-selector: 4.0.0
       property-information: 7.1.0
       space-separated-tokens: 2.0.2
-
-  hono@4.13.1: {}
 
   html-void-elements@3.0.0: {}
 

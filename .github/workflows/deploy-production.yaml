@@ -33,7 +33,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/CLOUDFLARE_API_TOKEN
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/production/CONTENT_GITHUB_TOKEN
-          FRONTEND_API_TOKEN: op://asa1984.dev/production/FRONTEND_API_TOKEN
+          CONTENT_WEBHOOK_SECRET: op://asa1984.dev/production/CONTENT_WEBHOOK_SECRET
       - name: Deploy to production
         run: nix develop .#ci --command pnpm run deploy:production
         env:

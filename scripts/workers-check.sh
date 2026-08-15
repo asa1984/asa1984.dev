@@ -71,8 +71,8 @@ check_budget frontend "$(gzip_size "$(bundle_of "$ROOT/packages/frontend/.size-c
 
 echo "=== frontend: workerd smoke ==="
 (cd "$ROOT/packages/frontend" && pnpm exec wrangler dev --port $FRONTEND_PORT \
-  --var CONTENT_GITHUB_TOKEN:smoke \
-  --var FRONTEND_URL:http://smoke.invalid --var FRONTEND_API_TOKEN:smoke \
+  --var CONTENT_GITHUB_TOKEN:smoke --var CONTENT_WEBHOOK_SECRET:smoke \
+  --var FRONTEND_URL:http://smoke.invalid \
   --var ALLOW_EMPTY_CONTENT:1 >/dev/null 2>&1 &)
 wait_for "http://127.0.0.1:$FRONTEND_PORT/" 200 90
 expect "http://127.0.0.1:$FRONTEND_PORT/blog" 200

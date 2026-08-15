@@ -8,9 +8,15 @@ const CONTENT_REF = "main";
 const API_ROOT = `https://api.github.com/repos/${CONTENT_REPO}`;
 
 // Every fetch below is cached in Next's data cache under this tag. The
-// content repo's CI hits POST /api/revalidate on push, which revalidates the
-// tag and thereby every page/route rendered from it — no redeploy involved.
+// content repo's GitHub webhook hits POST /api/revalidate on push, which
+// revalidates the tag and thereby every page/route rendered from it — no
+// redeploy involved.
 export const CONTENT_CACHE_TAG = "content";
+
+// Fallback freshness: GitHub webhooks are not auto-retried, so every cached
+// fetch also revalidates on this interval. dev (which has no webhook) relies
+// on this alone.
+const CONTENT_REVALIDATE_SECONDS = 3600;
 
 const github_headers = (accept: string) => ({
   Accept: accept,
@@ -19,9 +25,8 @@ const github_headers = (accept: string) => ({
   "User-Agent": "asa1984.dev",
 });
 
-const cache_options: { cache: RequestCache; next: { tags: string[] } } = {
-  cache: "force-cache",
-  next: { tags: [CONTENT_CACHE_TAG] },
+const cache_options: { next: { revalidate: number; tags: string[] } } = {
+  next: { revalidate: CONTENT_REVALIDATE_SECONDS, tags: [CONTENT_CACHE_TAG] },
 };
 
 const encode_path = (path: string) =>
