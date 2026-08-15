@@ -9,7 +9,7 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "typecheck": "pnpm -r run gen && pnpm -r run typecheck",
-    "test": "pnpm -r run test",
+    "test": "pnpm -r run gen && pnpm -r run test",
     "dev": "pnpm -r run gen && dotenvx run -- pnpm -r --parallel run dev",
     "build": "pnpm -r run gen && dotenvx run -- pnpm -r run build",
     "start": "dotenvx run -- pnpm -r --parallel run start",
