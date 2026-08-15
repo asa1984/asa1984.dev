@@ -2,7 +2,7 @@ import { IconInfo } from "@/components/icons";
 import { css } from "@/styled-system/css";
 
 export type MessageProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const Message = ({ children }: MessageProps) => {

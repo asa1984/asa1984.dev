@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
+import type { Components } from "hast-util-to-jsx-runtime";
 import Image from "next/image";
 import Link from "next/link";
-import type { MDXRemoteProps } from "next-mdx-remote";
 import LinkCard from "@/features/ogp";
 import { env } from "@/libs/env";
 import { css } from "@/styled-system/css";
@@ -33,7 +33,14 @@ const image_style = css({
   overflow: "hidden",
 });
 
-type CustomComponents = MDXRemoteProps["components"];
+// hast-util-to-jsx-runtime resolves any hast tag name against this record at
+// runtime, but its Components type only covers intrinsic elements — the
+// custom <message>/<linkcard> elements produced by our remark plugins ride
+// along as extra keys.
+type CustomComponents = Partial<Components> & {
+  message: (props: { children?: React.ReactNode }) => React.ReactNode;
+  linkcard: (props: { href?: string }) => React.ReactNode;
+};
 
 export const create_custom_components = ({
   type,
@@ -108,13 +115,14 @@ export const create_custom_components = ({
 
   // Special components
   message: (props) => <Message {...props} />,
-  linkcard: (props) => (
-    <div
-      className={css({
-        mt: 8,
-      })}
-    >
-      <LinkCard {...props} />
-    </div>
-  ),
+  linkcard: ({ href }) =>
+    href ? (
+      <div
+        className={css({
+          mt: 8,
+        })}
+      >
+        <LinkCard href={href} />
+      </div>
+    ) : null,
 });

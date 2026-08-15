@@ -1,5 +1,5 @@
 import style from "./article.module.scss";
-import { compile_mdx } from "./compile_mdx";
+import { compile_markdown } from "./compile_markdown";
 import "katex/dist/katex.min.css";
 
 export type MarkdownProps = {
@@ -9,7 +9,7 @@ export type MarkdownProps = {
 };
 
 export const Markdown = async ({ source, type, slug }: MarkdownProps) => {
-  const compiled = await compile_mdx({
+  const compiled = await compile_markdown({
     source,
     type,
     slug,
