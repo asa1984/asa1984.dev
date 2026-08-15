@@ -8,8 +8,23 @@ export type OGP = {
 };
 
 export async function fetch_ogp(href: string): Promise<OGP> {
-  const response = await fetch(href);
-  const html = await response.text();
+  const fallback: OGP = {
+    href,
+    title: undefined,
+    description: undefined,
+    image: undefined,
+  };
+
+  // Runs at request/revalidate time now, not only at build time: a slow or
+  // dead link target must degrade to a bare card, never fail the page.
+  let html: string;
+  try {
+    const response = await fetch(href, { signal: AbortSignal.timeout(5000) });
+    if (!response.ok) return fallback;
+    html = await response.text();
+  } catch {
+    return fallback;
+  }
 
   const root = parse(html);
   const ogp: OGP = {

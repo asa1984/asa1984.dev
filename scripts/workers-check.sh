@@ -85,7 +85,7 @@ wait_for "http://127.0.0.1:$BACKEND_PORT/graphql" 401 60
 
 echo "=== frontend: workerd smoke ==="
 (cd "$ROOT/packages/frontend" && pnpm exec wrangler dev --port $FRONTEND_PORT \
-  --var BACKEND_URL:http://smoke.invalid --var BACKEND_API_TOKEN:smoke \
+  --var CONTENT_GITHUB_TOKEN:smoke \
   --var FRONTEND_URL:http://smoke.invalid --var FRONTEND_API_TOKEN:smoke \
   --var ALLOW_EMPTY_CONTENT:1 >/dev/null 2>&1 &)
 wait_for "http://127.0.0.1:$FRONTEND_PORT/" 200 90

@@ -1,17 +1,9 @@
-import { createHash } from "node:crypto";
 import type { Components } from "hast-util-to-jsx-runtime";
 import Image from "next/image";
 import Link from "next/link";
 import LinkCard from "@/features/ogp";
-import { env } from "@/libs/env";
 import { css } from "@/styled-system/css";
 import { Message } from "./message";
-
-const sha256 = (text: string) => {
-  const hash = createHash("sha256");
-  hash.update(text);
-  return hash.digest("hex");
-};
 
 const anchor_style = css({
   color: "blue.500",
@@ -90,8 +82,7 @@ export const create_custom_components = ({
     }
     if (props.src.startsWith("./")) {
       const filename = props.src.replace("./", "");
-      const key = sha256(`${type}/${slug}/${filename}`);
-      const image_url = `${env.BACKEND_URL}/image/delivery/${key}`;
+      const image_url = `/content-assets/${type}/${slug}/${filename}`;
       return (
         <Image
           src={image_url}

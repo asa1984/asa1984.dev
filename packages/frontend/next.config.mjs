@@ -6,32 +6,11 @@ const next_config = {
   // fine-grained imports in src/features/markdown/highlighter.ts remain.
   transpilePackages: ["shiki"],
   images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8787",
-      },
-      {
-        protocol: "https",
-        hostname: "api.asa1984.dev",
-      },
-    ],
+    // Article images are tiny webp files served by the /content-assets route;
+    // sharp is unavailable in workerd, so skip the optimization pipeline.
+    unoptimized: true,
   },
   turbopack: {
-    rules: {
-      "*.graphql": {
-        loaders: [
-          {
-            loader: "@nitrogql/graphql-loader",
-            options: {
-              configFile: "./graphql.config.yaml",
-            },
-          },
-        ],
-        as: "*.js",
-      },
-    },
     // The bare "shiki" entry is only imported as rehype-pretty-code's unused
     // default highlighter; stub it out to keep the full bundle out of the
     // worker. Subpaths (shiki/core, shiki/dist/langs/*) are not affected.

@@ -1,125 +1,137 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch";
 
-const query = vi.fn();
+const list_content_paths = vi.fn();
+const fetch_content_text = vi.fn();
 
-vi.mock("@/libs/graphql", () => ({
-  client: { query: (...args: unknown[]) => query(...args) },
+vi.mock("@/features/content/github", () => ({
+  list_content_paths: (...args: unknown[]) => list_content_paths(...args),
+  fetch_content_text: (...args: unknown[]) => fetch_content_text(...args),
 }));
-vi.mock("./getBlogs.graphql", () => ({ default: "GetBlogs" }));
-vi.mock("./getBlogBySlug.graphql", () => ({ default: "GetBlogBySlug" }));
 
-const blog = (overrides: Record<string, unknown> = {}) => ({
-  slug: "first",
-  title: "タイトル",
-  description: "説明",
-  image: "cover.webp",
-  content: "本文",
-  published: true,
-  createdAt: "2023-10-23T00:00:00.000Z",
-  updatedAt: "2023-10-23T00:00:00.000Z",
-  ...overrides,
-});
+const post_md = ({
+  title = "タイトル",
+  image = "cover.webp",
+  published = true,
+  date = "2023-10-23T00:00:00.000Z",
+} = {}) => `---
+title: ${title}
+image: ${image}
+description: 説明
+published: ${published}
+date: ${date}
+---
+
+本文`;
 
 beforeEach(() => {
-  vi.stubEnv("BACKEND_URL", "http://backend.test");
-  vi.stubEnv("ALLOW_EMPTY_CONTENT", "");
+  vi.stubEnv("FRONTEND_URL", "https://site.test");
 });
 
 afterEach(() => {
   vi.unstubAllEnvs();
-  query.mockReset();
+  list_content_paths.mockReset();
+  fetch_content_text.mockReset();
 });
 
 describe("get_published_posts", () => {
+  it("blog/*/post.md だけを記事として拾う", async () => {
+    list_content_paths.mockResolvedValue([
+      "README.md",
+      "blog/first/post.md",
+      "blog/first/cover.webp",
+      "context/other/post.md",
+    ]);
+    fetch_content_text.mockResolvedValue(post_md());
+
+    const posts = await get_published_posts();
+
+    expect(posts.map((p) => p.slug)).toEqual(["first"]);
+    expect(fetch_content_text).toHaveBeenCalledOnce();
+    expect(fetch_content_text).toHaveBeenCalledWith("blog/first/post.md");
+  });
+
   it("published: false の記事を除外する", async () => {
-    query.mockResolvedValue({
-      data: {
-        blogs: [
-          blog({ slug: "public" }),
-          blog({ slug: "draft", published: false }),
-        ],
-      },
-    });
+    list_content_paths.mockResolvedValue([
+      "blog/public/post.md",
+      "blog/draft/post.md",
+    ]);
+    fetch_content_text.mockImplementation(async (path: string) =>
+      post_md({ published: !String(path).includes("draft") }),
+    );
 
     const posts = await get_published_posts();
 
     expect(posts.map((p) => p.slug)).toEqual(["public"]);
   });
 
-  it("画像 URL を BACKEND_URL と sha256 キーから組み立てる", async () => {
-    query.mockResolvedValue({ data: { blogs: [blog()] } });
+  it("画像 URL を FRONTEND_URL と slug から組み立てる", async () => {
+    list_content_paths.mockResolvedValue(["blog/first/post.md"]);
+    fetch_content_text.mockResolvedValue(post_md({ image: "cover.webp" }));
 
     const [post] = await get_published_posts();
 
-    // sha256("blog/first/cover.webp")
-    const hash = Buffer.from(
-      await crypto.subtle.digest(
-        "SHA-256",
-        new TextEncoder().encode("blog/first/cover.webp"),
-      ),
-    ).toString("hex");
-    expect(post?.meta.image).toBe(`http://backend.test/image/delivery/${hash}`);
-  });
-
-  it("フェッチ失敗時はビルドを落とす (throw)", async () => {
-    query.mockResolvedValue({
-      data: undefined,
-      error: { message: "boom" },
-    });
-
-    await expect(get_published_posts()).rejects.toThrow(
-      "Failed to fetch blogs: boom",
+    expect(post?.meta.image).toBe(
+      "https://site.test/content-assets/blog/first/cover.webp",
     );
   });
 
-  it("ALLOW_EMPTY_CONTENT=1 のときは空配列で継続する", async () => {
-    vi.stubEnv("ALLOW_EMPTY_CONTENT", "1");
-    query.mockResolvedValue({ data: undefined, error: { message: "boom" } });
+  it("frontmatter が不正なら失敗する", async () => {
+    list_content_paths.mockResolvedValue(["blog/broken/post.md"]);
+    fetch_content_text.mockResolvedValue("---\ntitle: only-title\n---\n本文");
 
-    await expect(get_published_posts()).resolves.toEqual([]);
+    await expect(get_published_posts()).rejects.toThrow();
   });
 });
 
 describe("get_posts_date_sorted", () => {
-  it("新しい記事から順に並べる", async () => {
-    query.mockResolvedValue({
-      data: {
-        blogs: [
-          blog({ slug: "old", createdAt: "2022-11-15T15:00:00.000Z" }),
-          blog({ slug: "new", createdAt: "2024-03-08T11:39:03.680Z" }),
-          blog({ slug: "mid", createdAt: "2023-10-23T00:00:00.000Z" }),
-        ],
-      },
-    });
+  it("新しい記事が先頭に来る", async () => {
+    list_content_paths.mockResolvedValue([
+      "blog/old/post.md",
+      "blog/new/post.md",
+    ]);
+    fetch_content_text.mockImplementation(async (path: string) =>
+      post_md({
+        date: String(path).includes("new")
+          ? "2024-06-01T00:00:00.000Z"
+          : "2022-01-01T00:00:00.000Z",
+      }),
+    );
 
     const posts = await get_posts_date_sorted();
 
-    expect(posts.map((p) => p.slug)).toEqual(["new", "mid", "old"]);
+    expect(posts.map((p) => p.slug)).toEqual(["new", "old"]);
   });
 });
 
 describe("get_post", () => {
-  it("存在しない slug は null を返す", async () => {
-    query.mockResolvedValue({ data: { blog: null } });
-
-    await expect(get_post("missing")).resolves.toBeNull();
-  });
-
-  it("記事をメタデータ付きで返す", async () => {
-    query.mockResolvedValue({ data: { blog: blog() } });
+  it("存在する slug の記事を返す", async () => {
+    list_content_paths.mockResolvedValue(["blog/first/post.md"]);
+    fetch_content_text.mockResolvedValue(post_md());
 
     const post = await get_post("first");
 
-    expect(post).toMatchObject({
-      slug: "first",
-      content: "本文",
-      meta: {
-        title: "タイトル",
-        description: "説明",
-        date: new Date("2023-10-23T00:00:00.000Z"),
-        published: true,
-      },
-    });
+    expect(post?.slug).toBe("first");
+    expect(post?.meta.title).toBe("タイトル");
+    expect(post?.meta.date.toISOString()).toBe("2023-10-23T00:00:00.000Z");
+    expect(post?.content.trim()).toBe("本文");
+  });
+
+  it("未知の slug は GitHub を叩かずに null を返す", async () => {
+    list_content_paths.mockResolvedValue(["blog/first/post.md"]);
+
+    const post = await get_post("unknown");
+
+    expect(post).toBeNull();
+    expect(fetch_content_text).not.toHaveBeenCalled();
+  });
+
+  it("下書き記事は null を返す", async () => {
+    list_content_paths.mockResolvedValue(["blog/draft/post.md"]);
+    fetch_content_text.mockResolvedValue(post_md({ published: false }));
+
+    const post = await get_post("draft");
+
+    expect(post).toBeNull();
   });
 });
