@@ -148,6 +148,10 @@
       overflow-x: auto;
       border-radius: var(--radii-lg);
       background-color: #222436;
+      // Moonlight II の前景色。shiki は plaintext フェンスにトークン色の
+      // inline style を付けないため、デフォルトの文字色をテーマ前景に
+      // 合わせておかないと暗背景に同化する。
+      color: #c8d3f5;
       code {
         counter-reset: line;
       }
