@@ -42,6 +42,9 @@
           packages.ci = pkgs.buildEnv {
             name = "ci-tools";
             paths = ciDeps;
+            # nodejs-slim と corepack が両方 bin/corepack を提供する。
+            # mkShell と同じく先頭側 (nodejs-slim) を優先する。
+            ignoreCollisions = true;
           };
 
           devShells = rec {
