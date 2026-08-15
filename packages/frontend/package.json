@@ -9,12 +9,12 @@
     "typecheck": "tsc",
     "dev": "rimraf ./next && next dev",
     "build": "next build",
-    "start": "opennextjs-cloudflare build && opennextjs-cloudflare populateCache local && wrangler dev --port 3000 --var CONTENT_GITHUB_TOKEN:$CONTENT_GITHUB_TOKEN FRONTEND_URL:$FRONTEND_URL FRONTEND_API_TOKEN:$FRONTEND_API_TOKEN",
-    "deploy:secret": "node -e 'process.stdout.write(JSON.stringify({ CONTENT_GITHUB_TOKEN: process.env.CONTENT_GITHUB_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler secret bulk",
-    "staging": "opennextjs-cloudflare upload -- --var FRONTEND_URL:$FRONTEND_URL",
-    "staging:secret": "node -e 'process.stdout.write(JSON.stringify({ CONTENT_GITHUB_TOKEN: process.env.CONTENT_GITHUB_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler versions secret bulk",
-    "build:prod": "opennextjs-cloudflare build",
-    "deploy:prod": "opennextjs-cloudflare deploy -- --var FRONTEND_URL:$FRONTEND_URL",
+    "start": "opennextjs-cloudflare build && opennextjs-cloudflare populateCache local && wrangler dev --port 3000 --var ALLOW_EMPTY_CONTENT:${ALLOW_EMPTY_CONTENT:-1} --var CONTENT_GITHUB_TOKEN:${CONTENT_GITHUB_TOKEN:-local-dummy} --var FRONTEND_API_TOKEN:${FRONTEND_API_TOKEN:-local-dev}",
+    "build:worker": "opennextjs-cloudflare build",
+    "deploy:dev": "CLOUDFLARE_ENV=dev opennextjs-cloudflare deploy -- --env dev",
+    "deploy:production": "CLOUDFLARE_ENV=production opennextjs-cloudflare deploy -- --env production",
+    "secret:dev": "node -e 'process.stdout.write(JSON.stringify({ CONTENT_GITHUB_TOKEN: process.env.CONTENT_GITHUB_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler secret bulk --env dev",
+    "secret:production": "node -e 'process.stdout.write(JSON.stringify({ CONTENT_GITHUB_TOKEN: process.env.CONTENT_GITHUB_TOKEN, FRONTEND_API_TOKEN: process.env.FRONTEND_API_TOKEN }))' | wrangler secret bulk --env production",
     "test": "vitest run"
   },
   "dependencies": {

@@ -1,0 +1,40 @@
+name: Deploy (production)
+
+on:
+  # Manual releases (`gh release create release-...`) trigger this directly.
+  # Releases cut by the Release workflow use the workflow_call path instead,
+  # because events created with the workflow's own GITHUB_TOKEN never start
+  # new workflow runs.
+  release:
+    types: [published]
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.event_name != 'release' || startsWith(github.event.release.tag_name, 'release-')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Load secrets from 1Password
+        uses: 1password/load-secrets-action@e544b780808654ba8ceba5fb2fe2897103d92ff4 # v5.0.0
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/CLOUDFLARE_API_TOKEN
+          CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
+          CONTENT_GITHUB_TOKEN: op://asa1984.dev/production/CONTENT_GITHUB_TOKEN
+          FRONTEND_API_TOKEN: op://asa1984.dev/production/FRONTEND_API_TOKEN
+      - name: Deploy to production
+        run: nix develop .#ci --command pnpm run deploy:production
+        env:
+          FRONTEND_URL: https://asa1984.dev

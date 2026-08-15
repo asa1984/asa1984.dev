@@ -10,17 +10,13 @@
     "format:check": "oxfmt --check",
     "typecheck": "pnpm -r run gen && pnpm -r run typecheck",
     "test": "pnpm -r run test",
-    "dev": "pnpm -r run gen && dotenvx run -- pnpm -r --parallel run dev",
-    "build": "pnpm -r run gen && dotenvx run -- pnpm -r run build",
-    "start": "dotenvx run -- pnpm -r --parallel run start",
-    "deploy:secret": "dotenvx run -- pnpm -r --workspace-concurrency=1 run deploy:secret",
-    "staging": "pnpm run build && dotenvx run -- pnpm -r --workspace-concurrency=1 run staging",
-    "staging:secret": "dotenvx run -- pnpm -r --workspace-concurrency=1 run staging:secret",
-    "build:frontend": "pnpm -r run gen && dotenvx run -- pnpm run --filter=frontend build:prod",
-    "deploy:frontend": "dotenvx run -- pnpm run --filter=frontend deploy:prod"
+    "dev": "pnpm -r run gen && pnpm -r --parallel run dev",
+    "build": "pnpm -r run gen && pnpm -r run build",
+    "start": "pnpm -r --parallel run start",
+    "deploy:dev": "pnpm -r run gen && pnpm --filter @asa1984.dev/frontend run build:worker && pnpm --filter @asa1984.dev/frontend run deploy:dev && pnpm --filter @asa1984.dev/frontend run secret:dev",
+    "deploy:production": "pnpm -r run gen && pnpm --filter @asa1984.dev/frontend run build:worker && pnpm --filter @asa1984.dev/frontend run deploy:production && pnpm --filter @asa1984.dev/frontend run secret:production"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "wrangler": "catalog:"

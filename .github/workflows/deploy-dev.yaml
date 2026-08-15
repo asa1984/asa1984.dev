@@ -1,0 +1,57 @@
+name: Deploy (dev)
+
+on:
+  push:
+    paths-ignore:
+      - README.md
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Lint
+        run: nix develop .#ci --command pnpm run lint
+      - name: Format check
+        run: nix develop .#ci --command pnpm run format:check
+      - name: Typecheck
+        run: nix develop .#ci --command pnpm run typecheck
+      - name: Test
+        run: nix develop .#ci --command pnpm run test
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup
+        uses: ./.github/actions/setup
+      # The only GitHub secret is OP_SERVICE_ACCOUNT_TOKEN; every real
+      # credential lives in the 1Password vault "asa1984.dev".
+      - name: Load secrets from 1Password
+        uses: 1password/load-secrets-action@e544b780808654ba8ceba5fb2fe2897103d92ff4 # v5.0.0
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/CLOUDFLARE_API_TOKEN
+          CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
+          CONTENT_GITHUB_TOKEN: op://asa1984.dev/dev/CONTENT_GITHUB_TOKEN
+          FRONTEND_API_TOKEN: op://asa1984.dev/dev/FRONTEND_API_TOKEN
+      - name: Deploy to dev
+        run: nix develop .#ci --command pnpm run deploy:dev
+        env:
+          FRONTEND_URL: https://dev.asa1984.dev
