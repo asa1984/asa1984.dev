@@ -47,10 +47,10 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/CLOUDFLARE_API_TOKEN
+          CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/credential
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/dev/CONTENT_GITHUB_TOKEN
-          CONTENT_WEBHOOK_SECRET: op://asa1984.dev/dev/CONTENT_WEBHOOK_SECRET
+          CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
       - name: Deploy to dev
         run: nix develop .#ci --command pnpm run deploy:dev
         env:
