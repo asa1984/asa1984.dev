@@ -19,14 +19,15 @@ pnpm run dev
 pnpm run build
 ```
 
-## Migration
+## Content
 
-```bash
-DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run migrate:prod
-```
+記事の正本は private リポジトリ [asa1984.dev-content](https://github.com/asa1984/asa1984.dev-content)。
+サイトはランタイムに GitHub API から pull する。コンテンツ側の push が
+`POST /api/revalidate` を叩き、キャッシュが破棄されて次のリクエストで
+再取得される — コンテンツ更新にデプロイは不要。
 
 ## Deployment
 
 ```bash
-DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run deploy
+DOTENV_PRIVATE_KEY_PRODUCTION=<secret-key> pnpm run deploy:frontend
 ```

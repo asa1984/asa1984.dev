@@ -1,4 +1,0 @@
-{
-  "extends": "@asa1984.dev/tsconfig/lib.json",
-  "include": ["src"]
-}

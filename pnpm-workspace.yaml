@@ -2,42 +2,25 @@ saveExact: true
 packages:
   - "packages/*"
 catalog:
-  "@cloudflare/vitest-pool-workers": 0.21.3
-  "@cloudflare/workers-types": 5.20260812.1
   "@dotenvx/dotenvx": 2.21.0
   "@fontsource-variable/inter": 5.3.0
   "@fontsource-variable/jetbrains-mono": 5.3.0
   "@fontsource-variable/noto-emoji": 5.3.0
   "@fontsource-variable/noto-sans-jp": 5.3.0
-  "@graphql-typed-document-node/core": 3.2.0
-  "@hono/zod-validator": 0.9.0
-  "@mdx-js/mdx": 3.1.1
-  "@nitrogql/cli": 2.0.0
-  "@nitrogql/graphql-loader": 2.0.0
   "@opennextjs/cloudflare": 1.20.2
   "@pandacss/dev": 1.12.0
-  "@pothos/core": 4.13.1
-  "@pothos/plugin-simple-objects": 4.1.4
   "@types/hast": 3.0.5
   "@types/mdast": 4.0.4
   "@types/node": 22.19.19
   "@types/react": 19.2.18
   "@types/react-dom": 19.2.4
   "@types/unist": 3.0.3
-  "@urql/core": 6.0.3
-  better-sqlite3: 13.0.3
-  chokidar-cli: 3.0.0
-  drizzle-kit: 0.31.10
-  drizzle-orm: 0.45.2
   feed: 6.0.0
-  graphql: 16.14.0
-  graphql-yoga: 5.21.2
   hast-util-to-jsx-runtime: 2.3.6
   hono: 4.13.1
   katex: 0.16.47
   mdast-util-to-hast: 13.2.1
   next: 16.3.0
-  next-mdx-remote: 6.0.0
   node-html-parser: 9.0.1
   oxfmt: 0.63.0
   oxlint: 1.78.0
@@ -57,12 +40,9 @@ catalog:
   sass: 1.102.0
   sharp: 0.35.3
   shiki: 4.4.3
-  tsx: 4.23.12
   typescript: 5.7.3
-  ulidx: 2.4.1
   unified: 11.0.5
   unist-util-visit: 5.1.0
-  urql: 5.0.3
   vitest: 4.1.10
   wrangler: 4.121.0
   yaml: 2.9.0
@@ -87,6 +67,5 @@ overrides:
   "sharp@<0.35.0": ^0.35.0
 allowBuilds:
   "@parcel/watcher": true
-  better-sqlite3: true
   esbuild: true
   workerd: true

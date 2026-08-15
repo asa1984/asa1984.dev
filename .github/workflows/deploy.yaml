@@ -3,7 +3,6 @@ name: Deployment
 on:
   push:
     paths-ignore:
-      - "packages/cli/**"
       - README.md
     branches:
       - main
@@ -11,8 +10,8 @@ on:
 permissions:
   contents: read
 
-# Queue pipelines instead of interleaving them: a migration must never race
-# the deploy of another commit. Runs are not cancelled mid-deploy.
+# Queue pipelines instead of interleaving them. Runs are not cancelled
+# mid-deploy.
 concurrency:
   group: deploy
   cancel-in-progress: false
@@ -63,7 +62,7 @@ jobs:
       - name: Test
         run: nix develop .#ci --command pnpm run test
 
-  migrate:
+  deploy:
     needs: [lint, typecheck, build, test]
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -73,24 +72,6 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Setup
         uses: ./.github/actions/setup
-      # Idempotent: applies only pending migrations, no-op otherwise
-      - name: Migrate
-        run: nix develop .#ci --command pnpm run migrate:prod
-
-  deploy:
-    needs: migrate
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      DOTENV_PRIVATE_KEY_PRODUCTION: ${{secrets.DOTENV_PRIVATE_KEY_PRODUCTION}}
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - name: Setup
-        uses: ./.github/actions/setup
-      # Backend first: the frontend build prerenders content fetched from
-      # the production backend, so the backend must already be current.
-      - name: Deploy backend
-        run: nix develop .#ci --command pnpm run deploy
       - name: Deploy frontend
         run: |
           nix develop .#ci --command pnpm run build:frontend
