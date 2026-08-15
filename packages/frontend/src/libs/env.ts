@@ -2,8 +2,8 @@ import { z } from "zod";
 
 const shape = {
   CONTENT_GITHUB_TOKEN: z.string().min(1),
+  CONTENT_WEBHOOK_SECRET: z.string().min(1),
   FRONTEND_URL: z.url(),
-  FRONTEND_API_TOKEN: z.string().min(1),
 };
 
 type Key = keyof typeof shape;
@@ -15,8 +15,8 @@ export type Env = Readonly<Record<Key, string>>;
 // `new URL(...)` still work. Everything else gets validated on first access.
 const smoke: Env = {
   CONTENT_GITHUB_TOKEN: "smoke-build",
+  CONTENT_WEBHOOK_SECRET: "smoke-build",
   FRONTEND_URL: "http://smoke-build.invalid",
-  FRONTEND_API_TOKEN: "smoke-build",
 };
 
 // Lazy per-key validation: on Cloudflare, process.env is populated from the
