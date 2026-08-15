@@ -24,17 +24,17 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Setup
         uses: ./.github/actions/setup
-      - name: Generate
-        run: pnpm run gen
+      - name: Codegen
+        run: pnpm run codegen
       - parallel:
           - name: Lint
             run: pnpm run lint
           - name: Format check
             run: pnpm run format:check
           - name: Typecheck
-            run: pnpm --filter @asa1984.dev/frontend run typecheck
+            run: pnpm run typecheck
           - name: Test
-            run: pnpm --filter @asa1984.dev/frontend run test
+            run: pnpm run test
       # The only GitHub secret is OP_SERVICE_ACCOUNT_TOKEN; every real
       # credential lives in the 1Password vault "asa1984.dev".
       - name: Load secrets from 1Password
@@ -47,7 +47,11 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/dev/CONTENT_GITHUB_TOKEN
           CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
-      - name: Deploy to dev
-        run: pnpm run deploy:dev
+      - name: Build worker
+        run: pnpm --filter @asa1984.dev/frontend run build:worker
         env:
           FRONTEND_URL: https://dev.asa1984.dev
+      - name: Deploy to dev
+        run: pnpm --filter @asa1984.dev/frontend run deploy:dev
+      - name: Sync worker secrets
+        run: pnpm --filter @asa1984.dev/frontend run secret:dev
