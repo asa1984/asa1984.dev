@@ -7,7 +7,7 @@ runs:
     - name: Setup Nix
       uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
     - name: Setup Nix binary cache
-      uses: asa1984/ci-binary-cache-action@f4c67cca6ec115e08a73883b158d07743471e01f # v1
+      uses: asa1984/ci-binary-cache-action@421b2c4599cbff03e101af7118404bf2ddb120b0 # fix/packages-input-typo (PR #1)
       with:
         packages: .#ci
     # devShell を都度 `nix develop --command` で包む代わりに、CI ツール一式を
