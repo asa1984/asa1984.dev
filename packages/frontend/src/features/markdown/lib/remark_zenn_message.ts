@@ -1,6 +1,7 @@
 import type { Paragraph, Parent } from "mdast";
 import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
+
 import { visit } from "unist-util-visit";
 
 import { is_paragraph, is_parent, is_text } from "./utils";
@@ -9,15 +10,19 @@ const MESSAGE_BEGINING = ":::message\n";
 const MESSAGE_ENDING = "\n:::";
 
 export function is_message(node: unknown): node is Paragraph {
-  if (!is_paragraph(node)) return false;
+  if (!is_paragraph(node)) {
+    return false;
+  }
 
   const { children } = node;
   const firstChild = children[0];
-  if (!(is_text(firstChild) && firstChild.value.startsWith(MESSAGE_BEGINING)))
+  if (!(is_text(firstChild) && firstChild.value.startsWith(MESSAGE_BEGINING))) {
     return false;
-  const lastChild = children[children.length - 1];
-  if (!(is_text(lastChild) && lastChild.value.endsWith(MESSAGE_ENDING)))
+  }
+  const lastChild = children.at(-1);
+  if (!(is_text(lastChild) && lastChild.value.endsWith(MESSAGE_ENDING))) {
     return false;
+  }
 
   return true;
 }
@@ -25,12 +30,16 @@ export function is_message(node: unknown): node is Paragraph {
 export const remark_zenn_message = (): Transformer => {
   return (tree) => {
     visit(tree, is_message, (node, index, parent: Parent | undefined) => {
-      if (!is_parent(parent)) return;
+      if (!is_parent(parent)) {
+        return;
+      }
 
       const children = [...node.children];
 
       const first_child = children.at(0);
-      if (!first_child || first_child.type !== "text") return;
+      if (!first_child || first_child.type !== "text") {
+        return;
+      }
       const first_value = first_child.value;
       if (first_value === MESSAGE_BEGINING) {
         children.shift();
@@ -42,7 +51,9 @@ export const remark_zenn_message = (): Transformer => {
       }
 
       const last_child = children.at(-1);
-      if (!last_child || last_child.type !== "text") return;
+      if (!last_child || last_child.type !== "text") {
+        return;
+      }
       const last_value = last_child.value;
       if (last_value === MESSAGE_ENDING) {
         children.pop();

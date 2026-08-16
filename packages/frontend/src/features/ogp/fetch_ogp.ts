@@ -20,7 +20,9 @@ export async function fetch_ogp(href: string): Promise<OGP> {
   let html: string;
   try {
     const response = await fetch(href, { signal: AbortSignal.timeout(5000) });
-    if (!response.ok) return fallback;
+    if (!response.ok) {
+      return fallback;
+    }
     html = await response.text();
   } catch {
     return fallback;
@@ -30,44 +32,48 @@ export async function fetch_ogp(href: string): Promise<OGP> {
   const ogp: OGP = {
     href,
     title: root.querySelector("title")?.text,
-    description: root
-      .querySelector("meta[name='description']")
-      ?.getAttribute("content"),
+    description: root.querySelector("meta[name='description']")?.getAttribute("content"),
     image: undefined,
   };
-  root
-    .getElementsByTagName("meta")
-    .filter((elem) => elem.getAttribute("property"))
-    .forEach((elem) => {
-      const property = elem.getAttribute("property");
-      switch (property) {
-        case "og:title": {
-          const content = elem.getAttribute("content");
+  const property_metas = root
+    .querySelectorAll("meta")
+    .filter((elem) => elem.getAttribute("property") !== undefined);
+  for (const elem of property_metas) {
+    const property = elem.getAttribute("property");
+    switch (property) {
+      case "og:title": {
+        const content = elem.getAttribute("content");
 
-          if (content) ogp.title = content;
-          break;
+        if (content !== undefined && content !== "") {
+          ogp.title = content;
         }
-        case "og:description": {
-          const content = elem.getAttribute("content");
-          if (content) ogp.description = content;
-          break;
-        }
-        case "og:image": {
-          const content = elem.getAttribute("content");
-          if (content) {
-            const url = new URL(content, href);
-            ogp.image = url.toString();
-          }
-
-          break;
-        }
-        case "og:url": {
-          const content = elem.getAttribute("content");
-          if (content) ogp.href = content;
-          break;
-        }
+        break;
       }
-    });
+      case "og:description": {
+        const content = elem.getAttribute("content");
+        if (content !== undefined && content !== "") {
+          ogp.description = content;
+        }
+        break;
+      }
+      case "og:image": {
+        const content = elem.getAttribute("content");
+        if (content !== undefined && content !== "") {
+          const url = new URL(content, href);
+          ogp.image = url.toString();
+        }
+
+        break;
+      }
+      case "og:url": {
+        const content = elem.getAttribute("content");
+        if (content !== undefined && content !== "") {
+          ogp.href = content;
+        }
+        break;
+      }
+    }
+  }
   return {
     ...ogp,
   };

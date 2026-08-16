@@ -1,34 +1,35 @@
 import type { FootnoteDefinition, FootnoteReference, Root } from "mdast";
+
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { describe, expect, it } from "vitest";
+
 import { remark_inline_footnote } from "./remark_inline_footnote";
 
 const parse = (markdown: string): Root => {
   const processor = unified().use(remarkParse).use(remarkGfm);
   const tree = processor.parse(markdown);
-  remark_inline_footnote()(tree, undefined as never, undefined as never);
-  return tree as Root;
+  void remark_inline_footnote()(tree, undefined as never, undefined as never);
+  return tree;
 };
 
-const collect = <T extends { type: string }>(
-  root: Root,
-  type: T["type"],
-): T[] => {
+const collect = <T extends { type: string }>(root: Root, type: T["type"]): T[] => {
   const found: T[] = [];
   const walk = (node: { type: string; children?: { type: string }[] }) => {
-    if (node.type === type) found.push(node as unknown as T);
-    for (const child of node.children ?? []) walk(child);
+    if (node.type === type) {
+      found.push(node as unknown as T);
+    }
+    for (const child of node.children ?? []) {
+      walk(child);
+    }
   };
   walk(root);
   return found;
 };
 
-const references = (root: Root) =>
-  collect<FootnoteReference>(root, "footnoteReference");
-const definitions = (root: Root) =>
-  collect<FootnoteDefinition>(root, "footnoteDefinition");
+const references = (root: Root) => collect<FootnoteReference>(root, "footnoteReference");
+const definitions = (root: Root) => collect<FootnoteDefinition>(root, "footnoteDefinition");
 
 describe("remark_inline_footnote", () => {
   it("converts ^[...] into a footnote reference and definition", () => {
@@ -48,7 +49,9 @@ describe("remark_inline_footnote", () => {
     const tree = parse("本文^[脚注]の続き。");
 
     const paragraph = tree.children[0];
-    if (paragraph?.type !== "paragraph") throw new Error("expected paragraph");
+    if (paragraph?.type !== "paragraph") {
+      throw new Error("expected paragraph");
+    }
     expect(paragraph.children).toEqual([
       { type: "text", value: "本文" },
       expect.objectContaining({ type: "footnoteReference" }),
@@ -59,14 +62,16 @@ describe("remark_inline_footnote", () => {
   it("handles a footnote at the start and end of a text node", () => {
     const start = parse("^[先頭]です。");
     const startParagraph = start.children[0];
-    if (startParagraph?.type !== "paragraph")
+    if (startParagraph?.type !== "paragraph") {
       throw new Error("expected paragraph");
+    }
     expect(startParagraph.children[0]?.type).toBe("footnoteReference");
 
     const end = parse("これは^[末尾]");
     const endParagraph = end.children[0];
-    if (endParagraph?.type !== "paragraph")
+    if (endParagraph?.type !== "paragraph") {
       throw new Error("expected paragraph");
+    }
     expect(endParagraph.children.at(-1)?.type).toBe("footnoteReference");
   });
 
@@ -77,9 +82,7 @@ describe("remark_inline_footnote", () => {
     const defs = definitions(tree);
     expect(refs).toHaveLength(3);
     expect(defs).toHaveLength(3);
-    expect(refs.map((r) => r.identifier)).toEqual(
-      defs.map((d) => d.identifier),
-    );
+    expect(refs.map((r) => r.identifier)).toEqual(defs.map((d) => d.identifier));
     expect(new Set(refs.map((r) => r.identifier)).size).toBe(3);
   });
 
@@ -87,7 +90,9 @@ describe("remark_inline_footnote", () => {
     const tree = parse("A^[one]B^[two]C");
 
     const paragraph = tree.children[0];
-    if (paragraph?.type !== "paragraph") throw new Error("expected paragraph");
+    if (paragraph?.type !== "paragraph") {
+      throw new Error("expected paragraph");
+    }
     expect(paragraph.children.map((c) => c.type)).toEqual([
       "text",
       "footnoteReference",
@@ -120,9 +125,7 @@ describe("remark_inline_footnote", () => {
   });
 
   it("does not clash with handwritten GFM footnotes", () => {
-    const tree = parse(
-      "参照形式[^a]とインライン^[インライン注]。\n\n[^a]: 手書きの定義",
-    );
+    const tree = parse("参照形式[^a]とインライン^[インライン注]。\n\n[^a]: 手書きの定義");
 
     const refs = references(tree);
     const defs = definitions(tree);

@@ -25,12 +25,16 @@ const smoke: Env = {
 // collecting page data).
 export const env: Env = new Proxy({} as Env, {
   get(_target, key: string) {
-    if (!(key in shape)) return undefined;
-    if (process.env.ALLOW_EMPTY_CONTENT === "1") return smoke[key as Key];
+    if (!(key in shape)) {
+      return;
+    }
+    if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
+      return smoke[key as Key];
+    }
     const result = shape[key as Key].safeParse(process.env[key]);
     if (!result.success) {
       throw new Error(
-        `Invalid environment variable ${key}: ${result.error.issues[0]?.message}`,
+        `Invalid environment variable ${key}: ${result.error.issues[0]?.message ?? "unknown"}`,
       );
     }
     return result.data;

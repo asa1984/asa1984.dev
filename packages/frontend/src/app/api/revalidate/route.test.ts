@@ -1,10 +1,13 @@
 import { createHmac } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { POST } from "./route";
 
-const revalidateTag = vi.fn();
+const revalidateTag = vi.fn<(tag: string, profile?: string) => void>();
 vi.mock("next/cache", () => ({
-  revalidateTag: (...args: unknown[]) => revalidateTag(...args),
+  revalidateTag: (tag: string, profile?: string) => {
+    revalidateTag(tag, profile);
+  },
 }));
 
 const SECRET = "test-webhook-secret";
@@ -12,10 +15,7 @@ const SECRET = "test-webhook-secret";
 const sign = (body: string, secret = SECRET) =>
   `sha256=${createHmac("sha256", secret).update(body).digest("hex")}`;
 
-const request = (
-  body: string,
-  { event = "push", signature = sign(body) } = {},
-) =>
+const request = (body: string, { event = "push", signature = sign(body) } = {}) =>
   new Request("http://site.test/api/revalidate", {
     method: "POST",
     headers: {
@@ -45,9 +45,7 @@ describe("POST /api/revalidate", () => {
   });
 
   it("署名が不正なら 401 を返し revalidate しない", async () => {
-    const res = await POST(
-      request(push_body, { signature: sign(push_body, "wrong-secret") }),
-    );
+    const res = await POST(request(push_body, { signature: sign(push_body, "wrong-secret") }));
 
     expect(res.status).toBe(401);
     expect(revalidateTag).not.toHaveBeenCalled();

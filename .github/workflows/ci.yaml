@@ -14,7 +14,7 @@ permissions:
 jobs:
   # lint / format / typecheck / test を 1 ジョブに集約し parallel steps で
   # 並列実行する(ジョブを分けるとセットアップがジョブ数分かかる)。
-  # gen は生成物を共有するため並列化せず先に 1 回だけ実行する。
+  # codegen は生成物を共有するため並列化せず先に 1 回だけ実行する。
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -23,16 +23,16 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
-        run: pnpm run codegen
+        run: pnpm exec vp run codegen
       - parallel:
           - name: Lint
-            run: pnpm run lint
+            run: pnpm exec vp lint
           - name: Format check
-            run: pnpm run format:check
+            run: pnpm exec vp fmt --check
           - name: Typecheck
-            run: pnpm run typecheck
+            run: pnpm exec vp run typecheck
           - name: Test
-            run: pnpm run test
+            run: pnpm exec vp run test
 
   # Bundle-size budgets + workerd smoke over the production bundling
   # path (opennextjs-cloudflare), which a plain `next build` never
@@ -46,6 +46,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
-        run: pnpm run codegen
+        run: pnpm exec vp run codegen
       - name: Check worker bundle
         run: scripts/workers-check.sh

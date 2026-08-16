@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import type { Frontmatter } from "@/features/context";
+
 import { css } from "@/styled-system/css";
 
 export type LinkCardProps = {
@@ -86,10 +88,7 @@ export const LinkCard = ({ slug, meta }: LinkCardProps) => {
           >
             {meta.title}
           </h3>
-          <time
-            dateTime={date.toISOString()}
-            className={css({ color: "gray.500" })}
-          >
+          <time dateTime={date.toISOString()} className={css({ color: "gray.500" })}>
             {month}/{day}
           </time>
         </div>

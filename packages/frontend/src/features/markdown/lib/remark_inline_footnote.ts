@@ -1,5 +1,6 @@
 import type { FootnoteDefinition, PhrasingContent, Root, Text } from "mdast";
 import type { Transformer } from "unified";
+
 import { visit } from "unist-util-visit";
 
 // Zenn-compatible inline footnotes: ^[note] inside prose. The note body is
@@ -16,10 +17,14 @@ export const remark_inline_footnote = (): Transformer<Root> => {
     const definitions: FootnoteDefinition[] = [];
 
     visit(tree, "text", (node: Text, index, parent) => {
-      if (!parent || index === undefined) return;
+      if (!parent || index === undefined) {
+        return;
+      }
 
       const matches = [...node.value.matchAll(INLINE_FOOTNOTE)];
-      if (matches.length === 0) return;
+      if (matches.length === 0) {
+        return;
+      }
 
       const parts: PhrasingContent[] = [];
       let consumed = 0;
@@ -37,7 +42,7 @@ export const remark_inline_footnote = (): Transformer<Root> => {
           children: [
             {
               type: "paragraph",
-              children: [{ type: "text", value: match[1]! }],
+              children: [{ type: "text", value: match[1] ?? "" }],
             },
           ],
         });

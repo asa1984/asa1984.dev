@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { get_published_posts, type Post } from "@/features/context";
+
+import type { Post } from "@/features/context";
+
+import { get_published_posts } from "@/features/context";
 import { css } from "@/styled-system/css";
+
 import { LinkCard } from "./_components/LinkCard";
 
 export const metadata: Metadata = {
@@ -18,17 +22,16 @@ async function get_posts_per_years() {
   const years: Years = new Map();
   for (const post of posts) {
     const year = post.meta.date.getFullYear();
-    if (!years.has(year)) {
-      years.set(year, []);
-    }
-    years.get(year)!.push(post);
+    const posts_of_year = years.get(year) ?? [];
+    posts_of_year.push(post);
+    years.set(year, posts_of_year);
   }
   return years;
 }
 
 export default async function Page() {
   const years_posts = await get_posts_per_years();
-  const years = [...years_posts.entries()].sort(([a], [b]) => b - a);
+  const years = [...years_posts.entries()].toSorted(([a], [b]) => b - a);
 
   return (
     <div
@@ -60,15 +63,9 @@ export default async function Page() {
               })}
             >
               {posts
-                .sort((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
+                .toSorted((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
                 .map((post) => {
-                  return (
-                    <LinkCard
-                      key={post.slug}
-                      slug={post.slug}
-                      meta={post.meta}
-                    />
-                  );
+                  return <LinkCard key={post.slug} slug={post.slug} meta={post.meta} />;
                 })}
             </div>
           </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { css } from "@/styled-system/css";
 
 export type CardProps = {
@@ -38,7 +39,7 @@ const description_style = css({
   color: "gray.600",
 });
 
-export default ({ title, href, description }: CardProps) => {
+const LinkCard = ({ title, href, description }: CardProps) => {
   return (
     <Link href={href} className={container_style}>
       <p className={title_style}>{title}</p>
@@ -46,3 +47,5 @@ export default ({ title, href, description }: CardProps) => {
     </Link>
   );
 };
+
+export default LinkCard;

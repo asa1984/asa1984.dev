@@ -26,8 +26,8 @@ export async function GET(
     return new Response("Not Found", { status: 404 });
   }
   const extension = file.split(".").at(-1)?.toLowerCase();
-  const content_type = extension && CONTENT_TYPES[extension];
-  if (!content_type) {
+  const content_type = extension === undefined ? undefined : CONTENT_TYPES[extension];
+  if (content_type === undefined) {
     return new Response("Not Found", { status: 404 });
   }
 

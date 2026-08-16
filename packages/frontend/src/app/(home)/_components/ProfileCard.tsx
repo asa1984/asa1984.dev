@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { css } from "@/styled-system/css";
 
 const container_style = css({
@@ -27,7 +28,7 @@ const text_sub_style = css({
   color: "gray.600",
 });
 
-export default () => {
+const ProfileCard = () => {
   return (
     <div className={container_style}>
       <Image
@@ -46,3 +47,5 @@ export default () => {
     </div>
   );
 };
+
+export default ProfileCard;

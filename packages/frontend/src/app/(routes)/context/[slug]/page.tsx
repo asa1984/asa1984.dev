@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+
 import { notFound } from "next/navigation";
+
 import { IconPen } from "@/components/icons";
 import { get_post, get_published_posts } from "@/features/context";
 import Markdown from "@/features/markdown";
@@ -25,7 +27,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
   const { slug } = params;
   const post = await get_post(slug);
-  if (!post) return notFound();
+  if (!post) {
+    return notFound();
+  }
   const { title } = post.meta;
   return {
     title,
@@ -41,7 +45,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 export default async function Page(props: PageProps) {
   const params = await props.params;
   const post = await get_post(params.slug);
-  if (!post) return notFound();
+  if (!post) {
+    return notFound();
+  }
   const { meta, content } = post;
 
   return (

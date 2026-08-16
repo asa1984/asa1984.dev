@@ -1,6 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it, vi } from "vitest";
+
 import { compile_markdown } from "./compile_markdown";
 
 // LinkCard fetches OGP metadata over the network at render time; replace it
@@ -61,9 +62,7 @@ describe("compile_markdown", () => {
 
   it("renders internal links as Next links and external links in new tabs", () => {
     expect(html).toMatch(/<a[^>]*href="\/blog"/);
-    expect(html).toMatch(
-      /<a[^>]*target="_blank"[^>]*href="https:\/\/example\.com\/page"/,
-    );
+    expect(html).toMatch(/<a[^>]*target="_blank"[^>]*href="https:\/\/example\.com\/page"/);
   });
 
   it("expands gemoji shortcodes", () => {
@@ -93,9 +92,7 @@ describe("compile_markdown", () => {
   });
 
   it("renders bare URLs as link cards", () => {
-    expect(html).toMatch(
-      /data-testid="linkcard" data-href="https:\/\/example\.com\/card"/,
-    );
+    expect(html).toMatch(/data-testid="linkcard" data-href="https:\/\/example\.com\/card"/);
   });
 
   it("highlights code fences with shiki", () => {
@@ -111,14 +108,10 @@ describe("compile_markdown", () => {
     // next/image may wrap the src in /_next/image?url=<encoded> depending on
     // loader config, so accept the path in either raw or encoded form.
     const path = "/content-assets/blog/test-post/photo.webp";
-    expect(html.includes(path) || html.includes(encodeURIComponent(path))).toBe(
-      true,
-    );
+    expect(html.includes(path) || html.includes(encodeURIComponent(path))).toBe(true);
   });
 
   it("renders remote images as plain lazy img tags", () => {
-    expect(html).toMatch(
-      /<img[^>]*src="https:\/\/example\.com\/pic\.png"[^>]*loading="lazy"/,
-    );
+    expect(html).toMatch(/<img[^>]*src="https:\/\/example\.com\/pic\.png"[^>]*loading="lazy"/);
   });
 });

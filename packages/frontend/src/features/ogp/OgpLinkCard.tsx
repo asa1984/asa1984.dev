@@ -1,5 +1,7 @@
 import { Suspense } from "react";
+
 import { css } from "@/styled-system/css";
+
 import { fetch_ogp } from "./fetch_ogp";
 
 export type OgpLinkCardPresenterProps = {
@@ -62,7 +64,7 @@ export const OgpLinkCardPresenter = ({
   image,
 }: OgpLinkCardPresenterProps) => {
   const url = new URL(href);
-  const hostname = url.hostname;
+  const { hostname } = url;
 
   const image_style = css({
     maxWidth: "50%",
@@ -73,12 +75,7 @@ export const OgpLinkCardPresenter = ({
   });
 
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={container_style}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" className={container_style}>
       <div className={text_container_style}>
         <div className={title_style}>{title ?? hostname}</div>
         <div>
@@ -97,7 +94,7 @@ export const OgpLinkCardPresenter = ({
           </div>
         </div>
       </div>
-      {image && (
+      {image !== undefined && image !== "" && (
         <img
           src={image}
           alt={`og:image of ${hostname}`}

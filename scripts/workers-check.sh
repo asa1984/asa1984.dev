@@ -8,7 +8,7 @@
 # bundle in the real runtime instead.
 #
 # Usage: scripts/workers-check.sh   (from anywhere; needs pnpm deps installed
-# and generated files present — run `pnpm run codegen` first)
+# and generated files present — run `vp run codegen` first)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -65,7 +65,7 @@ expect() { # url expected_status
 }
 
 echo "=== frontend: production bundle (opennextjs-cloudflare) ==="
-(cd "$ROOT/packages/frontend" && ALLOW_EMPTY_CONTENT=1 pnpm run build:worker >/dev/null)
+(cd "$ROOT/packages/frontend" && ALLOW_EMPTY_CONTENT=1 pnpm exec vp run build:worker >/dev/null)
 
 # opennextjs-cloudflare bakes any .env file into the worker (next-env.mjs),
 # where its values apply at runtime and can shadow real worker secrets.

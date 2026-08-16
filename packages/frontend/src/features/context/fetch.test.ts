@@ -1,21 +1,19 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch";
 
-const list_content_paths = vi.fn();
-const fetch_content_text = vi.fn();
+const list_content_paths = vi.fn<() => Promise<string[]>>();
+const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
 
 vi.mock("@/features/content/github", () => ({
-  list_content_paths: (...args: unknown[]) => list_content_paths(...args),
-  fetch_content_text: (...args: unknown[]) => fetch_content_text(...args),
+  list_content_paths: () => list_content_paths(),
+  fetch_content_text: (path: string) => fetch_content_text(path),
 }));
 
-const post_md = ({
-  published = true,
-  date = "2024-01-08T11:25:53.246Z",
-} = {}) => `---
+const post_md = ({ published = true, date = "2024-01-08T11:25:53.246Z" } = {}) => `---
 title: タイトル
 emoji: 📕
-published: ${published}
+published: ${String(published)}
 date: ${date}
 ---
 
@@ -33,8 +31,8 @@ describe("get_published_posts", () => {
       "context/public/post.md",
       "context/draft/post.md",
     ]);
-    fetch_content_text.mockImplementation(async (path: string) =>
-      post_md({ published: !String(path).includes("draft") }),
+    fetch_content_text.mockImplementation((path) =>
+      Promise.resolve(post_md({ published: !path.includes("draft") })),
     );
 
     const posts = await get_published_posts();
@@ -46,16 +44,13 @@ describe("get_published_posts", () => {
 
 describe("get_posts_date_sorted", () => {
   it("新しい記事が先頭に来る", async () => {
-    list_content_paths.mockResolvedValue([
-      "context/old/post.md",
-      "context/new/post.md",
-    ]);
-    fetch_content_text.mockImplementation(async (path: string) =>
-      post_md({
-        date: String(path).includes("new")
-          ? "2024-06-01T00:00:00.000Z"
-          : "2022-01-01T00:00:00.000Z",
-      }),
+    list_content_paths.mockResolvedValue(["context/old/post.md", "context/new/post.md"]);
+    fetch_content_text.mockImplementation((path) =>
+      Promise.resolve(
+        post_md({
+          date: path.includes("new") ? "2024-06-01T00:00:00.000Z" : "2022-01-01T00:00:00.000Z",
+        }),
+      ),
     );
 
     const posts = await get_posts_date_sorted();
@@ -69,7 +64,8 @@ describe("get_post", () => {
     list_content_paths.mockResolvedValue(["context/first/post.md"]);
     fetch_content_text.mockResolvedValue(post_md());
 
-    expect((await get_post("first"))?.slug).toBe("first");
+    const first = await get_post("first");
+    expect(first?.slug).toBe("first");
     expect(await get_post("unknown")).toBeNull();
   });
 });

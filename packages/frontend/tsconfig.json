@@ -1,6 +1,21 @@
 {
-  "extends": "@asa1984.dev/tsconfig/next.json",
+  "extends": "@asa1984/configs/tsconfig",
   "compilerOptions": {
+    /* Next.js */
+    "target": "ES2022",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "jsx": "preserve",
+    "allowJs": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -11,7 +26,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     ".next/types/**/*.ts",
-    "panda.config.ts"
+    "panda.config.ts",
+    "vite.config.ts"
   ],
   "exclude": ["node_modules"]
 }

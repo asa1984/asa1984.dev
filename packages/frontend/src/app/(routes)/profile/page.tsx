@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
+
 import Image from "next/image";
-import {
-  IconNixOS,
-  IconReact,
-  IconRust,
-  IconTypescript,
-} from "@/components/icons";
+
+import { IconNixOS, IconReact, IconRust, IconTypescript } from "@/components/icons";
 import LinkCard from "@/features/ogp";
 import { css } from "@/styled-system/css";
 

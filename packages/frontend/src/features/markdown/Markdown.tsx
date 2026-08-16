@@ -14,5 +14,5 @@ export const Markdown = async ({ source, type, slug }: MarkdownProps) => {
     type,
     slug,
   });
-  return <div className={style.article}>{compiled} </div>;
+  return <div className={style["article"]}>{compiled} </div>;
 };

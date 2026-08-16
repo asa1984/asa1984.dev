@@ -1,8 +1,11 @@
 import type { Components } from "hast-util-to-jsx-runtime";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import LinkCard from "@/features/ogp";
 import { css } from "@/styled-system/css";
+
 import { Message } from "./message";
 
 const anchor_style = css({
@@ -64,12 +67,7 @@ export const create_custom_components = ({
 
     // External link
     return (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        className={anchor_style}
-        {...props}
-      >
+      <a target="_blank" rel="noopener noreferrer" className={anchor_style} {...props}>
         {children}
       </a>
     );

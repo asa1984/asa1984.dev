@@ -1,13 +1,17 @@
 import type { Parent } from "mdast";
 import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
+
 import { visit } from "unist-util-visit";
+
 import { is_linkcard, is_parent } from "./utils";
 
 export const remark_linkcard = (): Transformer => {
   return (tree) => {
     visit(tree, is_linkcard, (node, index, parent: Parent | undefined) => {
-      if (!is_parent(parent)) return;
+      if (!is_parent(parent)) {
+        return;
+      }
 
       const child = node.children[0];
 

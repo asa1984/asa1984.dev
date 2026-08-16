@@ -1,10 +1,9 @@
-import type { Root } from "hast";
+import type { Options as PrettyCodeOptions } from "rehype-pretty-code";
+
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehype_katex from "rehype-katex";
-import rehype_pretty_code, {
-  type Options as PrettyCodeOptions,
-} from "rehype-pretty-code";
+import rehype_pretty_code from "rehype-pretty-code";
 import rehype_raw from "rehype-raw";
 import remark_breaks from "remark-breaks";
 import remark_gemoji from "remark-gemoji";
@@ -13,6 +12,7 @@ import remark_math from "remark-math";
 import remark_parse from "remark-parse";
 import remark_rehype from "remark-rehype";
 import { unified } from "unified";
+
 import { create_custom_components } from "./custom_components";
 import { get_highlighter } from "./highlighter";
 import {
@@ -73,7 +73,7 @@ export async function compile_markdown({
   slug: string;
 }) {
   const mdast = processor.parse(source);
-  const hast = (await processor.run(mdast)) as Root;
+  const hast = await processor.run(mdast);
 
   return toJsxRuntime(hast, {
     Fragment,

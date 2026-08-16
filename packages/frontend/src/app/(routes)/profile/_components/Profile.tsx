@@ -1,5 +1,7 @@
-import NextImage from "next/image";
 import type { ReactNode } from "react";
+
+import NextImage from "next/image";
+
 import { css } from "@/styled-system/css";
 
 const tag_style = css({
@@ -69,7 +71,7 @@ const ProfileCard = () => {
     <div className={profile_container_style}>
       <div>
         <h1 className={name_style}>Asahi Sato</h1>
-        <Info tag="Age" info={`${get_age()} | 2004-present`} />
+        <Info tag="Age" info={`${String(get_age())} | 2004-present`} />
         <Info tag="Location" info="Tokyo, Japan" />
         <Info tag="Org" info="HERP, Inc." />
       </div>
