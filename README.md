@@ -7,8 +7,21 @@ My personal website.
 ```bash
 gh repo clone asa1984/asa1984.dev
 cd asa1984.dev
-nix develop # or `direnv allow`
+direnv allow # nix devshell + node_modules/.bin on PATH
 corepack install
 pnpm install
-pnpm run dev
+vp run dev
 ```
+
+Scripts are managed by [Vite+](https://viteplus.dev/) tasks (`vite.config.ts`), not package.json scripts:
+
+```bash
+vp run dev        # codegen + next dev
+vp run codegen    # panda codegen + wrangler types
+vp run test       # vitest (run codegen first)
+vp run typecheck  # tsc (run codegen first)
+vp lint           # oxlint (config: @asa1984/configs via vite.config.ts)
+vp fmt            # oxfmt
+```
+
+Without direnv, prefix commands with `pnpm exec` (e.g. `pnpm exec vp run dev`).

@@ -25,16 +25,16 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
-        run: pnpm run codegen
+        run: pnpm exec vp run codegen
       - parallel:
           - name: Lint
-            run: pnpm run lint
+            run: pnpm exec vp lint
           - name: Format check
-            run: pnpm run format:check
+            run: pnpm exec vp fmt --check
           - name: Typecheck
-            run: pnpm run typecheck
+            run: pnpm exec vp run typecheck
           - name: Test
-            run: pnpm run test
+            run: pnpm exec vp run test
       # The only GitHub secret is OP_SERVICE_ACCOUNT_TOKEN; every real
       # credential lives in the 1Password vault "asa1984.dev".
       - name: Load secrets from 1Password
@@ -48,10 +48,10 @@ jobs:
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/dev/CONTENT_GITHUB_TOKEN
           CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
       - name: Build worker
-        run: pnpm --filter @asa1984.dev/frontend run build:worker
+        run: pnpm exec vp run "@asa1984.dev/frontend#build:worker"
         env:
           FRONTEND_URL: https://dev.asa1984.dev
       - name: Deploy to dev
-        run: pnpm --filter @asa1984.dev/frontend run deploy:dev
+        run: pnpm exec vp run "@asa1984.dev/frontend#deploy:dev"
       - name: Sync worker secrets
-        run: pnpm --filter @asa1984.dev/frontend run secret:dev
+        run: pnpm exec vp run "@asa1984.dev/frontend#secret:dev"

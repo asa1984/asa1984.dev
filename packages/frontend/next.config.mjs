@@ -1,3 +1,4 @@
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 /** @type {import('next').NextConfig} */
 const next_config = {
   // Next externalizes shiki by default, which makes OpenNext inline the
@@ -22,6 +23,4 @@ const next_config = {
 
 export default next_config;
 
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-
-initOpenNextCloudflareForDev();
+void initOpenNextCloudflareForDev();

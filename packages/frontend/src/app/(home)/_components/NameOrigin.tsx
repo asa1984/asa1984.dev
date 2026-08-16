@@ -19,7 +19,7 @@ const text_sub_style = css({
   color: "gray.600",
 });
 
-export default () => {
+const NameOrigin = () => {
   return (
     <div className={container_style}>
       <div>
@@ -34,3 +34,5 @@ export default () => {
     </div>
   );
 };
+
+export default NameOrigin;

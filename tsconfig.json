@@ -1,0 +1,4 @@
+{
+  "extends": "@asa1984/configs/tsconfig",
+  "include": ["vite.config.ts"]
+}

@@ -1,15 +1,17 @@
 import type { Root } from "mdast";
+
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { describe, expect, it } from "vitest";
+
 import { remark_linkcard } from "./remark_linkcard";
 
 const parse = (markdown: string): Root => {
   const processor = unified().use(remarkParse).use(remarkGfm);
   const tree = processor.parse(markdown);
-  remark_linkcard()(tree, undefined as never, undefined as never);
-  return tree as Root;
+  void remark_linkcard()(tree, undefined as never, undefined as never);
+  return tree;
 };
 
 type LinkcardNode = {
@@ -18,9 +20,7 @@ type LinkcardNode = {
 };
 
 const linkcards = (root: Root): LinkcardNode[] =>
-  root.children.filter(
-    (node): node is never => node.type === ("linkcard" as never),
-  ) as unknown as LinkcardNode[];
+  root.children.filter((node): node is never => node.type === ("linkcard" as never));
 
 describe("remark_linkcard", () => {
   it("URL と同一テキストの単独リンク段落を linkcard に変換する", () => {
@@ -53,9 +53,7 @@ describe("remark_linkcard", () => {
   });
 
   it("複数の linkcard 段落をそれぞれ変換する", () => {
-    const tree = parse(
-      "<https://example.com/a>\n\n本文の段落。\n\n<https://example.com/b>",
-    );
+    const tree = parse("<https://example.com/a>\n\n本文の段落。\n\n<https://example.com/b>");
 
     const cards = linkcards(tree);
     expect(cards.map((c) => c.data.hProperties.url)).toEqual([

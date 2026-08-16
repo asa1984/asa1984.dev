@@ -1,8 +1,5 @@
 import { parse_blog_post } from "@/features/content/frontmatter";
-import {
-  fetch_content_text,
-  list_content_paths,
-} from "@/features/content/github";
+import { fetch_content_text, list_content_paths } from "@/features/content/github";
 import { env } from "@/libs/env";
 
 export type Frontmatter = {
@@ -47,7 +44,7 @@ const load_post = async (slug: string): Promise<Post> => {
 
 export const get_published_posts = async (): Promise<Post[]> => {
   const slugs = await list_slugs();
-  const posts = await Promise.all(slugs.map(load_post));
+  const posts = await Promise.all(slugs.map((slug) => load_post(slug)));
   return posts.filter((post) => post.meta.published);
 };
 
@@ -61,7 +58,9 @@ export const get_posts_date_sorted = async (): Promise<Post[]> => {
 
 export const get_post = async (slug: string): Promise<Post | null> => {
   const slugs = await list_slugs();
-  if (!slugs.includes(slug)) return null;
+  if (!slugs.includes(slug)) {
+    return null;
+  }
   const post = await load_post(slug);
   // Drafts are invisible, not just unlisted.
   return post.meta.published ? post : null;

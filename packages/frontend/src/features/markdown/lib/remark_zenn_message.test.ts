@@ -1,15 +1,17 @@
 import type { Root, Text } from "mdast";
+
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { describe, expect, it } from "vitest";
+
 import { remark_zenn_message } from "./remark_zenn_message";
 
 const parse = (markdown: string): Root => {
   const processor = unified().use(remarkParse).use(remarkGfm);
   const tree = processor.parse(markdown);
-  remark_zenn_message()(tree, undefined as never, undefined as never);
-  return tree as Root;
+  void remark_zenn_message()(tree, undefined as never, undefined as never);
+  return tree;
 };
 
 type MessageNode = {
@@ -18,9 +20,7 @@ type MessageNode = {
 };
 
 const messages = (root: Root): MessageNode[] =>
-  root.children.filter(
-    (node): node is never => node.type === ("message" as never),
-  ) as unknown as MessageNode[];
+  root.children.filter((node): node is never => node.type === ("message" as never));
 
 describe("remark_zenn_message", () => {
   it(":::message ブロックを message ノードに変換する", () => {
@@ -28,9 +28,7 @@ describe("remark_zenn_message", () => {
 
     const found = messages(tree);
     expect(found).toHaveLength(1);
-    expect(found[0]?.children).toMatchObject([
-      { type: "text", value: "注意書きです" },
-    ]);
+    expect(found[0]?.children).toMatchObject([{ type: "text", value: "注意書きです" }]);
   });
 
   it("強調などのインライン要素を保持する", () => {

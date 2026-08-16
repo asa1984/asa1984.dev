@@ -6,6 +6,7 @@ import type {
   LanguageInput,
   ThemeInput,
 } from "shiki";
+
 import { getSingletonHighlighterCore } from "shiki/core";
 import lang_css from "shiki/dist/langs/css.mjs";
 import lang_diff from "shiki/dist/langs/diff.mjs";

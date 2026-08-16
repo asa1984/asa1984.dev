@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { env } from "@/libs/env";
 
 import "./globals.css";
@@ -19,11 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(env.FRONTEND_URL),
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body>{children}</body>

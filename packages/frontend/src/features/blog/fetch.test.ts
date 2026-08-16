@@ -1,12 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { ZodError } from "zod";
+
 import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch";
 
-const list_content_paths = vi.fn();
-const fetch_content_text = vi.fn();
+const list_content_paths = vi.fn<() => Promise<string[]>>();
+const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
 
 vi.mock("@/features/content/github", () => ({
-  list_content_paths: (...args: unknown[]) => list_content_paths(...args),
-  fetch_content_text: (...args: unknown[]) => fetch_content_text(...args),
+  list_content_paths: () => list_content_paths(),
+  fetch_content_text: (path: string) => fetch_content_text(path),
 }));
 
 const post_md = ({
@@ -18,7 +20,7 @@ const post_md = ({
 title: ${title}
 image: ${image}
 description: 説明
-published: ${published}
+published: ${String(published)}
 date: ${date}
 ---
 
@@ -47,17 +49,13 @@ describe("get_published_posts", () => {
     const posts = await get_published_posts();
 
     expect(posts.map((p) => p.slug)).toEqual(["first"]);
-    expect(fetch_content_text).toHaveBeenCalledOnce();
-    expect(fetch_content_text).toHaveBeenCalledWith("blog/first/post.md");
+    expect(fetch_content_text).toHaveBeenCalledExactlyOnceWith("blog/first/post.md");
   });
 
   it("published: false の記事を除外する", async () => {
-    list_content_paths.mockResolvedValue([
-      "blog/public/post.md",
-      "blog/draft/post.md",
-    ]);
-    fetch_content_text.mockImplementation(async (path: string) =>
-      post_md({ published: !String(path).includes("draft") }),
+    list_content_paths.mockResolvedValue(["blog/public/post.md", "blog/draft/post.md"]);
+    fetch_content_text.mockImplementation((path) =>
+      Promise.resolve(post_md({ published: !path.includes("draft") })),
     );
 
     const posts = await get_published_posts();
@@ -71,31 +69,26 @@ describe("get_published_posts", () => {
 
     const [post] = await get_published_posts();
 
-    expect(post?.meta.image).toBe(
-      "https://site.test/content-assets/blog/first/cover.webp",
-    );
+    expect(post?.meta.image).toBe("https://site.test/content-assets/blog/first/cover.webp");
   });
 
   it("frontmatter が不正なら失敗する", async () => {
     list_content_paths.mockResolvedValue(["blog/broken/post.md"]);
     fetch_content_text.mockResolvedValue("---\ntitle: only-title\n---\n本文");
 
-    await expect(get_published_posts()).rejects.toThrow();
+    await expect(get_published_posts()).rejects.toThrow(ZodError);
   });
 });
 
 describe("get_posts_date_sorted", () => {
   it("新しい記事が先頭に来る", async () => {
-    list_content_paths.mockResolvedValue([
-      "blog/old/post.md",
-      "blog/new/post.md",
-    ]);
-    fetch_content_text.mockImplementation(async (path: string) =>
-      post_md({
-        date: String(path).includes("new")
-          ? "2024-06-01T00:00:00.000Z"
-          : "2022-01-01T00:00:00.000Z",
-      }),
+    list_content_paths.mockResolvedValue(["blog/old/post.md", "blog/new/post.md"]);
+    fetch_content_text.mockImplementation((path) =>
+      Promise.resolve(
+        post_md({
+          date: path.includes("new") ? "2024-06-01T00:00:00.000Z" : "2022-01-01T00:00:00.000Z",
+        }),
+      ),
     );
 
     const posts = await get_posts_date_sorted();

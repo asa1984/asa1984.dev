@@ -35,12 +35,12 @@ jobs:
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/production/CONTENT_GITHUB_TOKEN
           CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
       - name: Codegen
-        run: pnpm run codegen
+        run: pnpm exec vp run codegen
       - name: Build worker
-        run: pnpm --filter @asa1984.dev/frontend run build:worker
+        run: pnpm exec vp run "@asa1984.dev/frontend#build:worker"
         env:
           FRONTEND_URL: https://asa1984.dev
       - name: Deploy to production
-        run: pnpm --filter @asa1984.dev/frontend run deploy:production
+        run: pnpm exec vp run "@asa1984.dev/frontend#deploy:production"
       - name: Sync worker secrets
-        run: pnpm --filter @asa1984.dev/frontend run secret:production
+        run: pnpm exec vp run "@asa1984.dev/frontend#secret:production"

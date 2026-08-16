@@ -3,20 +3,9 @@
   "private": true,
   "description": "asa1984's personal website",
   "type": "module",
-  "scripts": {
-    "codegen": "pnpm -r run codegen",
-    "lint": "oxlint",
-    "format": "oxfmt",
-    "format:check": "oxfmt --check",
-    "typecheck": "pnpm -r run typecheck",
-    "test": "pnpm -r run test",
-    "dev": "pnpm run codegen && pnpm -r --parallel run dev",
-    "build": "pnpm -r run build",
-    "start": "pnpm -r --parallel run start"
-  },
   "devDependencies": {
-    "oxfmt": "catalog:",
-    "oxlint": "catalog:",
+    "@asa1984/configs": "catalog:",
+    "vite-plus": "catalog:",
     "wrangler": "catalog:"
   },
   "packageManager": "pnpm@11.21.0"

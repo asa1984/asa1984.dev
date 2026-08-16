@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+
 import { IconArrowDown, IconArrowLeft } from "@/components/icons";
 import { css } from "@/styled-system/css";
 
@@ -30,18 +31,23 @@ export const NavMenu = () => {
   const segment = useSelectedLayoutSegment();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  useOnClickOutside(ref, () => setOpen(false));
+  useOnClickOutside(ref, () => {
+    setOpen(false);
+  });
 
+  const home_item = { path: "", name: "Home" };
   const items = [
-    { path: "", name: "Home" },
+    home_item,
     { path: "profile", name: "Profile" },
     { path: "blog", name: "Blog" },
     { path: "context", name: "Context" },
   ];
 
-  const on_click = () => setOpen((open) => !open);
+  const on_click = () => {
+    setOpen((open) => !open);
+  };
 
-  const current = items.find((item) => item.path === segment) ?? items[0]!;
+  const current = items.find((item) => item.path === segment) ?? home_item;
 
   return (
     <div
@@ -50,10 +56,7 @@ export const NavMenu = () => {
         alignItems: "center",
       })}
     >
-      <Link
-        href={`/${segment}`}
-        className={css({ fontSize: "lg", fontWeight: "bold" })}
-      >
+      <Link href={`/${segment ?? ""}`} className={css({ fontSize: "lg", fontWeight: "bold" })}>
         {current.name.toLowerCase()}
       </Link>
       <div
@@ -114,9 +117,7 @@ export const NavMenu = () => {
                 })}
               >
                 <span>{item.name}</span>
-                {item.path === segment && (
-                  <IconArrowLeft className={css({ fontSize: "2xl" })} />
-                )}
+                {item.path === segment && <IconArrowLeft className={css({ fontSize: "2xl" })} />}
               </Link>
             ))}
           </div>

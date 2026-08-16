@@ -1,4 +1,5 @@
 import { revalidateTag } from "next/cache";
+
 import { CONTENT_CACHE_TAG } from "@/features/content/github";
 import { env } from "@/libs/env";
 
@@ -11,7 +12,9 @@ import { env } from "@/libs/env";
 const encoder = new TextEncoder();
 
 function hex_to_bytes(hex: string): Uint8Array | null {
-  if (hex.length % 2 !== 0 || /[^0-9a-f]/.test(hex)) return null;
+  if (hex.length % 2 !== 0 || /[^0-9a-f]/.test(hex)) {
+    return null;
+  }
   const bytes = new Uint8Array(hex.length / 2);
   for (let i = 0; i < bytes.length; i++) {
     bytes[i] = Number.parseInt(hex.slice(i * 2, i * 2 + 2), 16);
@@ -19,13 +22,14 @@ function hex_to_bytes(hex: string): Uint8Array | null {
   return bytes;
 }
 
-async function verify_signature(
-  body: string,
-  header: string | null,
-): Promise<boolean> {
-  if (!header?.startsWith("sha256=")) return false;
+async function verify_signature(body: string, header: string | null): Promise<boolean> {
+  if (header === null || !header.startsWith("sha256=")) {
+    return false;
+  }
   const signature = hex_to_bytes(header.slice("sha256=".length));
-  if (!signature) return false;
+  if (!signature) {
+    return false;
+  }
   const key = await crypto.subtle.importKey(
     "raw",
     encoder.encode(env.CONTENT_WEBHOOK_SECRET),
@@ -44,10 +48,7 @@ async function verify_signature(
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const valid = await verify_signature(
-    body,
-    req.headers.get("x-hub-signature-256"),
-  );
+  const valid = await verify_signature(body, req.headers.get("x-hub-signature-256"));
   if (!valid) {
     return new Response("Unauthorized", { status: 401 });
   }

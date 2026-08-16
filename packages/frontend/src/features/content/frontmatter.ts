@@ -34,9 +34,13 @@ export function split_frontmatter(source: string): {
   body: string;
 } {
   const lines = source.split(/\r?\n/);
-  if (lines[0] !== "---") throw new Error('Missing beginning "---"');
+  if (lines[0] !== "---") {
+    throw new Error('Missing beginning "---"');
+  }
   const end = lines.indexOf("---", 1);
-  if (end === -1) throw new Error('Missing ending "---"');
+  if (end === -1) {
+    throw new Error('Missing ending "---"');
+  }
   return {
     header: lines.slice(1, end).join("\n"),
     body: lines.slice(end + 1).join("\n"),
