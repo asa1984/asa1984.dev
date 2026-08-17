@@ -15,11 +15,16 @@ export async function fetch_ogp(href: string): Promise<OGP> {
     image: undefined,
   };
 
-  // Runs at request/revalidate time now, not only at build time: a slow or
-  // dead link target must degrade to a bare card, never fail the page.
+  // Runs at request time now that article pages render per request: a slow
+  // or dead link target must degrade to a bare card, never fail the page.
+  // The data cache keeps each target from being fetched on every article
+  // view; link targets change rarely, so a day of staleness is fine.
   let html: string;
   try {
-    const response = await fetch(href, { signal: AbortSignal.timeout(5000) });
+    const response = await fetch(href, {
+      signal: AbortSignal.timeout(5000),
+      next: { revalidate: 86_400 },
+    });
     if (!response.ok) {
       return fallback;
     }
