@@ -49,14 +49,12 @@
     },
     "dev": {
       "name": "asa1984-web-dev",
-      // Custom domain so Cloudflare Access can sit in front of it
-      // (scripts/setup-dev-access.sh).
       "routes": [{ "pattern": "dev.asa1984.dev", "custom_domain": true }],
       "vars": { "FRONTEND_URL": "https://dev.asa1984.dev" },
       "kv_namespaces": [
         {
           "binding": "NEXT_INC_CACHE_KV",
-          "id": "769aa223fd044c86aa2558c0d0568adf",
+          "id": "a34fd8a8f864488b99fedb279414dbd8",
         },
       ],
       "services": [
