@@ -9,16 +9,20 @@ const API_ROOT = `https://api.github.com/repos/${CONTENT_REPO}`;
 
 // Every fetch below is cached in Next's data cache under this tag.
 // Nothing invalidates the tag right now: the webhook receiver was removed
-// (instant reflection is temporarily out of scope) and the interval below
-// is the only freshness mechanism. The content repo's GitHub webhook is
-// still configured and its deliveries just 404; the tag stays so a future
-// receiver can revalidate it again.
+// (instant reflection is temporarily out of scope) and the ref-resolution
+// interval below is the only freshness mechanism. The content repo's
+// GitHub webhook is still configured and its deliveries just 404; the tag
+// stays so a future receiver can revalidate it again.
 export const CONTENT_CACHE_TAG = "content";
 
-// Sole freshness mechanism: the data cache serves stale entries and
-// refreshes them in the background after this interval, so a content push
-// is visible within this window at the latest.
-const CONTENT_REVALIDATE_SECONDS = 300;
+// How often the branch ref is re-resolved, and therefore the ceiling on
+// how long a content push can take to become visible.
+const REF_RESOLVE_SECONDS = 300;
+
+// Tree/file responses are addressed by commit SHA, which is immutable, so
+// they can live long; the interval only bounds junk accumulating in the
+// cache, not correctness.
+const IMMUTABLE_REVALIDATE_SECONDS = 86_400;
 
 const github_headers = (accept: string) => ({
   Accept: accept,
@@ -27,15 +31,43 @@ const github_headers = (accept: string) => ({
   "User-Agent": "asa1984.dev",
 });
 
-const cache_options: { next: { revalidate: number; tags: string[] } } = {
-  next: { revalidate: CONTENT_REVALIDATE_SECONDS, tags: [CONTENT_CACHE_TAG] },
-};
+const cache_options = (revalidate: number): { next: { revalidate: number; tags: string[] } } => ({
+  next: { revalidate, tags: [CONTENT_CACHE_TAG] },
+});
 
 const encode_path = (path: string) =>
   path
     .split("/")
     .map((segment) => encodeURIComponent(segment))
     .join("/");
+
+/**
+ * The commit SHA the content ref currently points to.
+ *
+ * Everything else is fetched by this SHA instead of the branch name: the
+ * GitHub API has been observed to pin a branch-name URL polled from the
+ * same token to a stale answer for hours (2026-08-17: `git/trees/main`
+ * kept resolving to the pre-push commit all day). SHA-addressed responses
+ * are immutable, so only this one lookup needs to be stale-proof — the
+ * `bust` parameter rotates the URL (and thereby every cache key on the
+ * way to GitHub) each interval, so no cache can pin it.
+ */
+async function resolve_content_sha(): Promise<string> {
+  // CI smoke builds run without a GitHub token and expect an empty site.
+  if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
+    return CONTENT_REF;
+  }
+  const bucket = Math.floor(Date.now() / (REF_RESOLVE_SECONDS * 1000));
+  const res = await fetch(`${API_ROOT}/commits/${CONTENT_REF}?bust=${String(bucket)}`, {
+    headers: github_headers("application/vnd.github+json"),
+    ...cache_options(REF_RESOLVE_SECONDS),
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to resolve content ref: ${String(res.status)}`);
+  }
+  const data = (await res.json()) as { sha: string };
+  return data.sha;
+}
 
 /**
  * All blob paths in the content repository (e.g. "blog/first/post.md").
@@ -49,9 +81,10 @@ export async function list_content_paths(): Promise<string[]> {
     return [];
   }
 
-  const res = await fetch(`${API_ROOT}/git/trees/${CONTENT_REF}?recursive=1`, {
+  const sha = await resolve_content_sha();
+  const res = await fetch(`${API_ROOT}/git/trees/${sha}?recursive=1`, {
     headers: github_headers("application/vnd.github+json"),
-    ...cache_options,
+    ...cache_options(IMMUTABLE_REVALIDATE_SECONDS),
   });
   if (!res.ok) {
     throw new Error(`Failed to list content tree: ${String(res.status)}`);
@@ -68,9 +101,10 @@ export async function list_content_paths(): Promise<string[]> {
 }
 
 async function fetch_content_file(path: string): Promise<Response> {
-  return fetch(`${API_ROOT}/contents/${encode_path(path)}?ref=${CONTENT_REF}`, {
+  const sha = await resolve_content_sha();
+  return fetch(`${API_ROOT}/contents/${encode_path(path)}?ref=${sha}`, {
     headers: github_headers("application/vnd.github.raw+json"),
-    ...cache_options,
+    ...cache_options(IMMUTABLE_REVALIDATE_SECONDS),
   });
 }
 
