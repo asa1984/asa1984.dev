@@ -7,6 +7,9 @@ import { css } from "@/styled-system/css";
 
 import { LinkCard } from "./_components/LinkCard";
 
+// Per-request render; see context/[slug]/page.tsx for why ISR is avoided.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Context",
   description: "Context list",

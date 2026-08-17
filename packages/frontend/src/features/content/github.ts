@@ -7,16 +7,18 @@ const CONTENT_REPO = "asa1984/asa1984.dev-content";
 const CONTENT_REF = "main";
 const API_ROOT = `https://api.github.com/repos/${CONTENT_REPO}`;
 
-// Every fetch below is cached in Next's data cache under this tag. The
-// content repo's GitHub webhook hits POST /api/revalidate on push, which
-// revalidates the tag and thereby every page/route rendered from it — no
-// redeploy involved.
+// Every fetch below is cached in Next's data cache under this tag.
+// Nothing invalidates the tag right now: the webhook receiver was removed
+// (instant reflection is temporarily out of scope) and the interval below
+// is the only freshness mechanism. The content repo's GitHub webhook is
+// still configured and its deliveries just 404; the tag stays so a future
+// receiver can revalidate it again.
 export const CONTENT_CACHE_TAG = "content";
 
-// Fallback freshness: GitHub webhooks are not auto-retried, so every cached
-// fetch also revalidates on this interval. dev (which has no webhook) relies
-// on this alone.
-const CONTENT_REVALIDATE_SECONDS = 3600;
+// Sole freshness mechanism: the data cache serves stale entries and
+// refreshes them in the background after this interval, so a content push
+// is visible within this window at the latest.
+const CONTENT_REVALIDATE_SECONDS = 300;
 
 const github_headers = (accept: string) => ({
   Accept: accept,
