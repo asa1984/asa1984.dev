@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { IconPen } from "@/components/icons";
-import { get_post, get_published_posts } from "@/features/context";
+import { get_post } from "@/features/context";
 import Markdown from "@/features/markdown";
 import { css } from "@/styled-system/css";
 
@@ -13,15 +13,11 @@ type PageProps = {
   }>;
 };
 
-// Known posts are prerendered at build time; slugs that appear in the
-// content repo afterwards are rendered on demand and cached until the next
-// content push revalidates them — publishing never requires a deploy.
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  const posts = await get_published_posts();
-  return posts.map(({ slug }) => ({ slug }));
-}
+// Rendered per request instead of ISR: page regeneration on Workers would
+// need OpenNext's revalidation queue, so freshness lives in the data cache
+// (stale-while-revalidate on the GitHub fetches) and publishing never
+// requires a deploy.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;

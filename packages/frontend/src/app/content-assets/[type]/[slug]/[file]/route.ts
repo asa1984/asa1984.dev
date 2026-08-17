@@ -2,9 +2,9 @@ import { fetch_content_binary } from "@/features/content/github";
 
 // Serves images straight out of the content repository (the role the
 // backend's /image/delivery/:key endpoint used to play, minus the sha256
-// indirection). The GitHub fetch inside is cached in the data cache under
-// the "content" tag, so a content push refreshes images the same way it
-// refreshes articles.
+// indirection). The GitHub fetch inside sits in the data cache, so a
+// content push refreshes images the same way it refreshes articles: via
+// the cache's revalidate interval.
 
 const CONTENT_TYPES: Record<string, string> = {
   avif: "image/avif",
