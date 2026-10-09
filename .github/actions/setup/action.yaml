@@ -5,9 +5,9 @@ runs:
   using: composite
   steps:
     - name: Setup Nix
-      uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
     - name: Setup Nix binary cache
-      uses: asa1984/ci-binary-cache-action@421b2c4599cbff03e101af7118404bf2ddb120b0 # fix/packages-input-typo (PR #1)
+      uses: asa1984/ci-binary-cache-action@2e5da24c1a08c6a30fdeea86e229209bf7c29f2a # fix/packages-input-typo (PR #1)
       with:
         packages: .#ci
     # devShell を都度 `nix develop --command` で包む代わりに、CI ツール一式を
