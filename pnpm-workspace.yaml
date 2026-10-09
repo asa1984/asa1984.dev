@@ -39,7 +39,7 @@ catalog:
   sass: 1.102.0
   sharp: 0.35.5
   shiki: 4.4.3
-  typescript: 5.7.3
+  typescript: 7.0.2
   unified: 11.0.5
   unist-util-visit: 5.1.0
   # vite-plus bundles its own Vite core; resolve every `vite` to it.
