@@ -3,7 +3,7 @@ import type { FootnoteDefinition, FootnoteReference, Root } from "mdast";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 
 import { remark_inline_footnote } from "./remark_inline_footnote";
 

@@ -29,3 +29,4 @@ packages/*/schema/schema.graphql
 
 # git-hooks.nix
 .pre-commit-config.yaml
+.vitest/

@@ -20,9 +20,11 @@ export default defineConfig({
       codegen: "vp run codegen:css && vp run codegen:types",
       typecheck: {
         command: "tsc",
-        output: [{ auto: true }, "!**/*.tsbuildinfo"],
+        cache: {
+          output: [{ auto: true }, "!**/*.tsbuildinfo"],
+        },
       },
-      test: { command: "vitest run" },
+      test: { command: "vp test run" },
       dev: {
         command: "rimraf ./next && next dev",
         cache: false,
