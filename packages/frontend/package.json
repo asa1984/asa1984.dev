@@ -10,6 +10,8 @@
     "@fontsource-variable/noto-emoji": "catalog:",
     "@fontsource-variable/noto-sans-jp": "catalog:",
     "@pandacss/dev": "catalog:",
+    "@pandacss/preset-base": "catalog:",
+    "@pandacss/preset-panda": "catalog:",
     "@types/hast": "catalog:",
     "@types/mdast": "catalog:",
     "feed": "catalog:",
