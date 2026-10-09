@@ -38,7 +38,7 @@ jobs:
       # The only GitHub secret is OP_SERVICE_ACCOUNT_TOKEN; every real
       # credential lives in the 1Password vault "asa1984.dev".
       - name: Load secrets from 1Password
-        uses: 1password/load-secrets-action@e544b780808654ba8ceba5fb2fe2897103d92ff4 # v5.0.0
+        uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
         with:
           export-env: true
         env:
