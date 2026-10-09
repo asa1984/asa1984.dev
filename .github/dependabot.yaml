@@ -1,0 +1,39 @@
+version: 2
+
+# Security updates (driven by Dependabot alerts) ignore `cooldown` and are
+# raised immediately. Version updates wait a week so freshly published (and
+# possibly compromised or quickly yanked) releases can settle first.
+updates:
+  - package-ecosystem: github-actions
+    # "/" covers .github/workflows; composite actions need their own entry.
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      # Majors stay individual PRs since they usually need migration work.
+      npm-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: nix
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
