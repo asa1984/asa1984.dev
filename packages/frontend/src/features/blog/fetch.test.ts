@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { ZodError } from "zod";
 
 import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch";
