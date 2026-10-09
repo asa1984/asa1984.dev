@@ -8,7 +8,7 @@ catalog:
   "@fontsource-variable/noto-emoji": 5.3.0
   "@fontsource-variable/noto-sans-jp": 5.3.0
   "@opennextjs/cloudflare": 1.20.8
-  "@pandacss/dev": 1.12.0
+  "@pandacss/dev": 1.12.1
   "@types/hast": 3.0.5
   "@types/mdast": 4.0.4
   "@types/node": 22.19.19
@@ -17,7 +17,7 @@ catalog:
   "@types/unist": 3.0.3
   feed: 6.0.0
   hast-util-to-jsx-runtime: 2.3.6
-  katex: 0.18.11
+  katex: 0.18.10
   mdast-util-to-hast: 13.2.1
   next: 16.3.8
   node-html-parser: 9.0.1
@@ -40,12 +40,12 @@ catalog:
   typescript: 5.7.3
   unified: 11.0.5
   unist-util-visit: 5.1.0
-  vite-plus: 0.3.3
+  vite-plus: 0.2.9
   vitest: 4.1.11
   wrangler: 4.147.0
   yaml: 2.9.0
   zod: 4.4.3
-# Security floors for transitive dependencies (pnpm audit, 2026-10-06).
+# Security floors for transitive dependencies (pnpm audit, 2026-08-03, 2026-10-08).
 # Scoped per major so parents keep their expected API surface.
 overrides:
   "fast-xml-parser@4": ^4.5.5
@@ -63,16 +63,27 @@ overrides:
   "esbuild@>=0.27.0 <0.28.1": ^0.28.1
   "undici@7": ^7.29.1
   "sharp@<0.35.5": ^0.35.5
-  "tinypool@2": ^2.1.2
-  "proxy-addr@2": ^2.0.8
-  "qs@6": ^6.16.0
-  "fast-uri@3": ^3.1.8
   "browserslist@4": ^4.28.7
   "baseline-browser-mapping@2": ^2.11.0
+  "fast-uri@3": ^3.1.8
+  "postcss-selector-parser@7": ^7.1.6
+  "proxy-addr@2": ^2.0.8
+  "qs@6": ^6.16.0
   "nanoid@3": ^3.3.18
   "source-map-js@1": ^1.2.2
-  "postcss-selector-parser@7": ^7.1.6
-  "katex@<0.18.2": ^0.18.11
+  "tinypool@2": ^2.1.2
+  # vite-plus pins the whole vitest family; keep it aligned.
+  "vitest@4": ^4.1.11
+  "@vitest/browser@4": ^4.1.11
+  "@vitest/browser-preview@4": ^4.1.11
+  "@vitest/expect@4": ^4.1.11
+  "@vitest/mocker@4": ^4.1.11
+  "@vitest/pretty-format@4": ^4.1.11
+  "@vitest/runner@4": ^4.1.11
+  "@vitest/snapshot@4": ^4.1.11
+  "@vitest/spy@4": ^4.1.11
+  "@vitest/utils@4": ^4.1.11
+  "katex@<0.18.2": 0.18.10
 allowBuilds:
   "@parcel/watcher": true
   esbuild: true
