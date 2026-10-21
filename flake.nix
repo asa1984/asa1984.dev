@@ -24,7 +24,7 @@
         }:
         let
           sharedDeps = with pkgs; [
-            nodejs-slim_22
+            nodejs-slim_26
             corepack
           ];
           devDeps =
