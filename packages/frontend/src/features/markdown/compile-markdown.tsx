@@ -13,7 +13,7 @@ import remark_parse from "remark-parse";
 import remark_rehype from "remark-rehype";
 import { unified } from "unified";
 
-import { create_custom_components } from "./custom_components";
+import { create_custom_components } from "./custom-components";
 import { get_highlighter } from "./highlighter";
 import {
   linkcard_handler,

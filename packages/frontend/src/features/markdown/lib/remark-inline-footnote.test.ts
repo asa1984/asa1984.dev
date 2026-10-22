@@ -5,7 +5,7 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { describe, expect, it } from "vite-plus/test";
 
-import { remark_inline_footnote } from "./remark_inline_footnote";
+import { remark_inline_footnote } from "./remark-inline-footnote";
 
 const parse = (markdown: string): Root => {
   const processor = unified().use(remarkParse).use(remarkGfm);

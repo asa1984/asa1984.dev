@@ -1,10 +1,10 @@
 import { IconGitHub, IconScrapbox, IconX, IconZenn } from "@/components/icons";
 import { css } from "@/styled-system/css";
 
-import IconCard from "./_components/IconCard";
-import LinkCard from "./_components/LinkCard";
-import NameOrigin from "./_components/NameOrigin";
-import ProfileCard from "./_components/ProfileCard";
+import IconCard from "./_components/icon-card";
+import LinkCard from "./_components/link-card";
+import NameOrigin from "./_components/name-origin";
+import ProfileCard from "./_components/profile-card";
 
 const links_container_style = css({
   marginTop: 16,

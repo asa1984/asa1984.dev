@@ -5,7 +5,7 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { describe, expect, it } from "vite-plus/test";
 
-import { remark_linkcard } from "./remark_linkcard";
+import { remark_linkcard } from "./remark-linkcard";
 
 const parse = (markdown: string): Root => {
   const processor = unified().use(remarkParse).use(remarkGfm);
