@@ -60,6 +60,10 @@ export default defineConfig({
     ],
   }),
 
+  staged: {
+    "*": "vp check --fix --no-error-on-unmatched-pattern",
+  },
+
   // Root orchestration mirrors the pre-vite-plus root scripts: checks assume
   // `vp run codegen` ran first (CI runs it as an explicit step so the
   // parallel check steps don't race on regenerating the same files), and

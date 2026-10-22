@@ -1,3 +1,4 @@
+catalogMode: strict
 saveExact: true
 packages:
   - "packages/*"

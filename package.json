@@ -3,10 +3,13 @@
   "private": true,
   "description": "asa1984's personal website",
   "type": "module",
+  "scripts": {
+    "prepare": "vp config --no-agent"
+  },
   "devDependencies": {
     "@asa1984/configs": "catalog:",
     "vite-plus": "catalog:",
     "wrangler": "catalog:"
   },
-  "packageManager": "pnpm@11.21.0"
+  "packageManager": "pnpm@12.10.1"
 }
