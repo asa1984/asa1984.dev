@@ -72,6 +72,7 @@ export default defineConfig({
       build: "vp run -r build",
       dev: { command: ["vp run -r codegen", "vp run -r dev"], cache: false },
       start: { command: "vp run -r start", cache: false },
+      "check:actions": { command: ["actionlint", "zizmor --offline .github"], cache: false },
     },
   },
 });
