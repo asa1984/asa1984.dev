@@ -6,7 +6,7 @@ import Link from "next/link";
 import LinkCard from "@/features/ogp";
 import { css } from "@/styled-system/css";
 
-import { Message } from "./message";
+import { Message } from "./custom-components/message";
 
 const anchor_style = css({
   color: "blue.500",

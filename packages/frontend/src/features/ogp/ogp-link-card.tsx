@@ -2,7 +2,7 @@ import { Suspense } from "react";
 
 import { css } from "@/styled-system/css";
 
-import { fetch_ogp } from "./fetch_ogp";
+import { fetch_ogp } from "./fetch-ogp";
 
 export type OgpLinkCardPresenterProps = {
   href: string;

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { css } from "@/styled-system/css";
 
-import { NavMenu } from "./_components/NavMenu";
+import { NavMenu } from "./_components/nav-menu";
 
 const HeaderLogo = () => (
   <Link href="/">

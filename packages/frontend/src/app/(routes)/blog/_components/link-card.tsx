@@ -5,7 +5,7 @@ import type { Frontmatter } from "@/features/blog";
 
 import { css } from "@/styled-system/css";
 
-import { LinkCardDateDiff } from "./LinkCardDateDiff";
+import { LinkCardDateDiff } from "./link-card-date-diff";
 
 const card_style = css({
   display: "grid",

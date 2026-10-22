@@ -37,8 +37,6 @@ export default defineConfig({
       "func-style": "off",
       // 15 hits of export-ordering churn, defer
       "import/exports-last": "off",
-      // repo convention is snake_case modules + PascalCase components
-      "unicorn/filename-case": "off",
       // React APIs (component returns, JSON payloads) use null idiomatically
       "unicorn/no-null": "off",
     },

@@ -6,8 +6,8 @@ import { IconNixOS, IconReact, IconRust, IconTypescript } from "@/components/ico
 import LinkCard from "@/features/ogp";
 import { css } from "@/styled-system/css";
 
-import Profile from "./_components/Profile";
-import Topic from "./_components/Topic";
+import Profile from "./_components/profile";
+import Topic from "./_components/topic";
 
 export const metadata: Metadata = {
   title: "Who are you?",

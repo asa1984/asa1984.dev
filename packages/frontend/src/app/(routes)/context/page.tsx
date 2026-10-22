@@ -5,7 +5,7 @@ import type { Post } from "@/features/context";
 import { get_published_posts } from "@/features/context";
 import { css } from "@/styled-system/css";
 
-import { LinkCard } from "./_components/LinkCard";
+import { LinkCard } from "./_components/link-card";
 
 // Per-request render; see context/[slug]/page.tsx for why ISR is avoided.
 export const dynamic = "force-dynamic";

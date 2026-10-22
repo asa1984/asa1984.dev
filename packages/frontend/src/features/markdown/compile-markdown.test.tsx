@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it, vi } from "vite-plus/test";
 
-import { compile_markdown } from "./compile_markdown";
+import { compile_markdown } from "./compile-markdown";
 
 // LinkCard fetches OGP metadata over the network at render time; replace it
 // with an inert marker so the test stays hermetic.
