@@ -8,26 +8,33 @@ on:
   release:
     types: [published]
   workflow_call:
+    secrets:
+      OP_SERVICE_ACCOUNT_TOKEN:
+        required: true
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   deploy:
     if: github.event_name != 'release' || startsWith(github.event.release.tag_name, 'release-')
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     concurrency:
       group: deploy-production
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup
         uses: ./.github/actions/setup
       - name: Load secrets from 1Password
         uses: 1password/load-secrets-action@e544b780808654ba8ceba5fb2fe2897103d92ff4 # v5.0.0
         with:
           export-env: true
+          version: 2.41.0
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/credential

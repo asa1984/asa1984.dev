@@ -26,13 +26,14 @@
           sharedDeps = with pkgs; [
             nodejs-slim_26
             corepack
+            actionlint
+            zizmor
           ];
           devDeps =
             sharedDeps
             ++ (with pkgs; [
               sqlite
               act
-              actionlint
             ]);
           ciDeps = sharedDeps;
         in

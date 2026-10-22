@@ -4,8 +4,7 @@ name: Release
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   create-release:
@@ -13,6 +12,8 @@ jobs:
     # gh CLI を叩くだけの軽量ジョブなので ubuntu-slim (1 vCPU) で足りる
     runs-on: ubuntu-slim
     timeout-minutes: 5
+    permissions:
+      contents: write
     steps:
       - name: Create release
         env:
@@ -28,4 +29,7 @@ jobs:
   deploy:
     needs: create-release
     uses: ./.github/workflows/deploy-production.yaml
-    secrets: inherit
+    permissions:
+      contents: read
+    secrets:
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
