@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # 検証とデプロイを 1 ジョブに統合してセットアップを 1 回に抑え、
-  # 検証ステップは parallel steps で並列実行する。
+  # Verify and deploy in one job so that the setup runs once, and run the
+  # verification steps in parallel.
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15

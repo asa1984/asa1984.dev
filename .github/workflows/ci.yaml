@@ -11,9 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # lint / format / typecheck / test を 1 ジョブに集約し parallel steps で
-  # 並列実行する(ジョブを分けるとセットアップがジョブ数分かかる)。
-  # codegen は生成物を共有するため並列化せず先に 1 回だけ実行する。
+  # Run lint, format, typecheck, and test in one job with parallel steps, since separate
+  # jobs would each repeat the setup. Codegen runs once beforehand because the steps share
+  # its output.
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -41,8 +41,8 @@ jobs:
 
   # Bundle-size budgets + workerd smoke over the production bundling
   # path (opennextjs-cloudflare), which a plain `next build` never
-  # exercises — see issue #31. 素の `next build` はこのビルドに包含される
-  # ため独立した build ジョブは持たない。
+  # exercises. This build includes a plain `next build`, so there is no
+  # separate build job.
   workers-check:
     runs-on: ubuntu-latest
     timeout-minutes: 15

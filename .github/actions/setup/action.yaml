@@ -7,11 +7,11 @@ runs:
     - name: Setup Nix
       uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
     - name: Setup Nix binary cache
-      uses: asa1984/ci-binary-cache-action@421b2c4599cbff03e101af7118404bf2ddb120b0 # fix/packages-input-typo (PR #1)
+      uses: asa1984/ci-binary-cache-action@421b2c4599cbff03e101af7118404bf2ddb120b0 # fix/packages-input-typo
       with:
         packages: .#ci
-    # devShell を都度 `nix develop --command` で包む代わりに、CI ツール一式を
-    # profile に入れて以降のステップから直接呼ぶ。
+    # Install the CI tools into the profile and call them directly from later steps,
+    # instead of wrapping each step in `nix develop --command`.
     - name: Install CI toolchain
       shell: bash
       run: nix profile add .#ci

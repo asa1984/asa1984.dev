@@ -38,13 +38,13 @@
           ciDeps = sharedDeps;
         in
         {
-          # CI は devShell ではなくこの closure を `nix profile install .#ci` する
-          # (ステップごとの `nix develop` 評価をなくすため)。
+          # CI installs this closure with `nix profile add .#ci` instead of using the devShell,
+          # so that steps do not evaluate `nix develop` each time.
           packages.ci = pkgs.buildEnv {
             name = "ci-tools";
             paths = ciDeps;
-            # nodejs-slim と corepack が両方 bin/corepack を提供する。
-            # mkShell と同じく先頭側 (nodejs-slim) を優先する。
+            # nodejs-slim and corepack both provide bin/corepack. Prefer the first one
+            # (nodejs-slim), as mkShell does.
             ignoreCollisions = true;
           };
 
