@@ -2,14 +2,14 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
-    paths-ignore:
-      - README.md
-    branches:
-      - main
+    # Runs for every base branch so that stacked PRs are checked too.
+    types: [opened, edited, reopened, synchronize]
 
-permissions:
-  contents: read
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   # lint / format / typecheck / test を 1 ジョブに集約し parallel steps で
@@ -18,8 +18,12 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
@@ -33,6 +37,8 @@ jobs:
             run: pnpm exec vp run typecheck
           - name: Test
             run: pnpm exec vp run test
+          - name: Check workflows
+            run: pnpm exec vp run check:actions
 
   # Bundle-size budgets + workerd smoke over the production bundling
   # path (opennextjs-cloudflare), which a plain `next build` never
@@ -41,11 +47,33 @@ jobs:
   workers-check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
         run: pnpm exec vp run codegen
       - name: Check worker bundle
         run: scripts/workers-check.sh
+
+  # With squash merges, the PR title becomes the commit subject.
+  pr-title:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      - run: nix profile add .#ci
+      # Inside a git repository, cog reads user.name from the git config, which the runner does not set.
+      - run: cog verify "$PR_TITLE"
+        working-directory: ${{ runner.temp }}
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}

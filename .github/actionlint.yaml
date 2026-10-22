@@ -1,0 +1,5 @@
+paths:
+  .github/workflows/**/*.yaml:
+    ignore:
+      # actionlint does not support parallel steps yet.
+      - 'step must run script with "run" section or run action with "uses" section'
