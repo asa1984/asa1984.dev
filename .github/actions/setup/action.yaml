@@ -10,9 +10,7 @@ runs:
     # profile に入れて以降のステップから直接呼ぶ。
     - name: Install CI toolchain
       shell: bash
-      run: |
-        nix profile install .#ci
-        echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
+      run: nix profile add .#ci
     - name: Setup corepack
       shell: bash
       run: corepack install
