@@ -1,4 +1,4 @@
 {
-  "extends": "@asa1984/configs/tsconfig",
+  "extends": "@conceptory/tsconfig/bundler.json",
   "include": ["vite.config.ts"]
 }

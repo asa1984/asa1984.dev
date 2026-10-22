@@ -1,0 +1,12 @@
+{
+  "name": "@conceptory/tsconfig",
+  "private": true,
+  "description": "Baseline tsconfig for TypeScript 7 and later",
+  "license": "MIT",
+  "exports": {
+    "./base.json": "./base.json",
+    "./node.json": "./node.json",
+    "./bundler.json": "./bundler.json",
+    "./library.json": "./library.json"
+  }
+}

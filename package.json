@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@asa1984/configs": "catalog:",
+    "@conceptory/tsconfig": "workspace:*",
     "vite-plus": "catalog:",
     "wrangler": "catalog:"
   },

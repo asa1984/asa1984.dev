@@ -4,6 +4,7 @@ import { get_posts_date_sorted } from "@/features/blog";
 
 export async function GET() {
   const posts = await get_posts_date_sorted();
+  const latest = posts[0];
 
   const feed = new Feed({
     title: "TrashBox - asa1984's tech blog",
@@ -12,7 +13,7 @@ export async function GET() {
     language: "ja",
     favicon: "https://asa1984.dev/favicon.ico",
     copyright: "All rights reserved 2023, asa1984",
-    updated: posts[0]?.meta.date,
+    ...(latest === undefined ? {} : { updated: latest.meta.date }),
     author: {
       name: "asa1984",
       link: "https://asa1984.dev/profile",

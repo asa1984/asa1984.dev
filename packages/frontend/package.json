@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@asa1984/configs": "catalog:",
+    "@conceptory/tsconfig": "workspace:*",
     "@opennextjs/cloudflare": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
