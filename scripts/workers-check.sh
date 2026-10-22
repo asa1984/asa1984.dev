@@ -2,7 +2,7 @@
 # Builds the Worker through the production bundling path, enforces a gzip
 # bundle-size budget, and smoke-tests the bundle in workerd (wrangler dev).
 #
-# Rationale (issue #31): the production-only 500s — worker over the 3 MiB
+# Rationale: the production-only 500s — worker over the 3 MiB
 # gzip limit, workerd's eval() ban, and the POST-fetch data-cache collision —
 # were all invisible to a plain `next build`. This script exercises the real
 # bundle in the real runtime instead.
