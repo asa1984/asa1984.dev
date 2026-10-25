@@ -15,12 +15,12 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Cloudflare's limit is 3 MiB gzip per Worker. The budget leaves headroom so
 # growth is caught in a PR, not at the limit.
-FRONTEND_BUDGET=2800000
+WEB_BUDGET=2800000
 
-FRONTEND_PORT=8792
+WEB_PORT=8792
 
 cleanup() {
-  pkill -f "wrangler dev.*--port $FRONTEND_PORT" 2>/dev/null || true
+  pkill -f "wrangler dev.*--port $WEB_PORT" 2>/dev/null || true
 }
 trap cleanup EXIT
 
@@ -64,29 +64,29 @@ expect() { # url expected_status
   echo "OK: GET $1 -> $code"
 }
 
-echo "=== frontend: production bundle (opennextjs-cloudflare) ==="
-(cd "$ROOT/packages/frontend" && ALLOW_EMPTY_CONTENT=1 pnpm exec vp run build:worker >/dev/null)
+echo "=== web: production bundle (opennextjs-cloudflare) ==="
+(cd "$ROOT/apps/web" && ALLOW_EMPTY_CONTENT=1 pnpm exec vp run build:worker >/dev/null)
 
 # opennextjs-cloudflare bakes any .env file into the worker (next-env.mjs),
 # where its values apply at runtime and can shadow real worker secrets.
 # No .env is tracked, so the baked objects must stay empty.
-NEXT_ENV="$ROOT/packages/frontend/.open-next/cloudflare/next-env.mjs"
+NEXT_ENV="$ROOT/apps/web/.open-next/cloudflare/next-env.mjs"
 if [ -f "$NEXT_ENV" ] && grep -qE '\{"' "$NEXT_ENV"; then
   echo "FAIL: $NEXT_ENV contains baked env values:"
   cat "$NEXT_ENV"
   exit 1
 fi
 echo "OK: no env values baked into the worker"
-(cd "$ROOT/packages/frontend" && pnpm exec wrangler deploy --dry-run --outdir .size-check >/dev/null 2>&1)
-check_budget frontend "$(gzip_size "$(bundle_of "$ROOT/packages/frontend/.size-check")")" "$FRONTEND_BUDGET"
+(cd "$ROOT/apps/web" && pnpm exec wrangler deploy --dry-run --outdir .size-check >/dev/null 2>&1)
+check_budget web "$(gzip_size "$(bundle_of "$ROOT/apps/web/.size-check")")" "$WEB_BUDGET"
 
-echo "=== frontend: workerd smoke ==="
-(cd "$ROOT/packages/frontend" && pnpm exec wrangler dev --port $FRONTEND_PORT \
+echo "=== web: workerd smoke ==="
+(cd "$ROOT/apps/web" && pnpm exec wrangler dev --port $WEB_PORT \
   --var CONTENT_GITHUB_TOKEN:smoke --var CONTENT_WEBHOOK_SECRET:smoke \
   --var FRONTEND_URL:http://smoke.invalid \
   --var ALLOW_EMPTY_CONTENT:1 >/dev/null 2>&1 &)
-wait_for "http://127.0.0.1:$FRONTEND_PORT/" 200 90
-expect "http://127.0.0.1:$FRONTEND_PORT/blog" 200
-expect "http://127.0.0.1:$FRONTEND_PORT/rss.xml" 200
+wait_for "http://127.0.0.1:$WEB_PORT/" 200 90
+expect "http://127.0.0.1:$WEB_PORT/blog" 200
+expect "http://127.0.0.1:$WEB_PORT/rss.xml" 200
 
 echo "workers-check: all green"

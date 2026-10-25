@@ -49,7 +49,7 @@ export default defineConfig({
       {
         // Next.js requires these files to export their component as default.
         files: [
-          "packages/frontend/src/app/**/{page,layout,template,loading,error,global-error,not-found,default}.tsx",
+          "apps/web/src/app/**/{page,layout,template,loading,error,global-error,not-found,default}.tsx",
         ],
         rules: {
           "import/no-default-export": "off",
@@ -58,7 +58,7 @@ export default defineConfig({
       {
         // tsgolint resolves this feature's hast/panda imports to error types
         // (tsc is fine), so its type-aware findings here are artifacts.
-        files: ["packages/frontend/src/features/markdown/**"],
+        files: ["apps/web/src/features/markdown/**"],
         rules: {
           "typescript/no-unsafe-argument": "off",
           "typescript/no-unsafe-assignment": "off",

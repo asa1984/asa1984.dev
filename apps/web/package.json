@@ -1,5 +1,5 @@
 {
-  "name": "@asa1984.dev/frontend",
+  "name": "@asa1984.dev/web",
   "private": true,
   "scripts": {
     "build": "next build"
