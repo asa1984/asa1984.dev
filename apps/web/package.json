@@ -1,6 +1,7 @@
 {
   "name": "@asa1984.dev/web",
   "private": true,
+  "type": "module",
   "imports": {
     "#/styled-system/*": "./src/styled-system/*/index.js",
     "#/*": "./src/*"
