@@ -2,6 +2,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    conceptory = {
+      url = "github:asa1984/conceptory";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
   };
 
   outputs =
@@ -26,6 +31,7 @@
           sharedDeps = with pkgs; [
             nodejs-slim_26
             corepack
+            ast-grep
             actionlint
             zizmor
           ];
@@ -36,6 +42,7 @@
               act
             ]);
           ciDeps = sharedDeps;
+          astGrepRules = inputs.conceptory.packages.${system}.ast-grep-rules;
         in
         {
           # CI は devShell ではなくこの closure を `nix profile install .#ci` する
@@ -48,10 +55,17 @@
             ignoreCollisions = true;
           };
 
+          # CI は devShell の shellHook を実行しないので、`nix build .#ast-grep-rules --out-link` でルールへのリンクを置く。
+          packages.ast-grep-rules = astGrepRules;
+
           devShells = rec {
             default = dev;
             dev = pkgs.mkShell {
               packages = devDeps;
+              shellHook = ''
+                mkdir -p .conceptory
+                ln -sfn ${astGrepRules} .conceptory/ast-grep
+              '';
             };
             ci = pkgs.mkShell {
               packages = ciDeps;

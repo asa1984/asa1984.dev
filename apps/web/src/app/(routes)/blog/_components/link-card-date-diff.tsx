@@ -1,6 +1,6 @@
 "use client";
 
-function get_diff_date(date: Date) {
+const get_diff_date = (date: Date) => {
   const diffMS = Date.now() - date.getTime();
   const progress = new Date(diffMS);
   const progressYear = progress.getUTCFullYear() - 1970;
@@ -16,6 +16,6 @@ function get_diff_date(date: Date) {
     return progressDate === 1 ? "Yesterday" : `${String(progressDate)} days ago`;
   }
   return "Today";
-}
+};
 
 export const LinkCardDateDiff = (props: { date: Date }) => <>{get_diff_date(props.date)}</>;

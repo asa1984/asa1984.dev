@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 type Years = Map<number, Post[]>;
-async function get_posts_per_years() {
+const get_posts_per_years = async () => {
   const posts = await get_published_posts();
   const years: Years = new Map();
   for (const post of posts) {
@@ -29,9 +29,9 @@ async function get_posts_per_years() {
     years.set(year, posts_of_year);
   }
   return years;
-}
+};
 
-export default async function Page() {
+const Page = async () => {
   const years_posts = await get_posts_per_years();
   const years = [...years_posts.entries()].toSorted(([a], [b]) => b - a);
 
@@ -73,4 +73,6 @@ export default async function Page() {
       ))}
     </div>
   );
-}
+};
+
+export default Page;

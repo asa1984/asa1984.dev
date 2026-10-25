@@ -18,7 +18,7 @@ type PageProps = {
 // requires a deploy.
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
+export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
   const params = await props.params;
   const { slug } = params;
   const post = await get_post(slug);
@@ -35,9 +35,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       type: "article",
     },
   };
-}
+};
 
-export default async function Page(props: PageProps) {
+const Page = async (props: PageProps) => {
   const params = await props.params;
   const post = await get_post(params.slug);
   if (!post) {
@@ -100,4 +100,6 @@ export default async function Page(props: PageProps) {
       </main>
     </article>
   );
-}
+};
+
+export default Page;

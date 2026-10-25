@@ -26,6 +26,9 @@ export const remark_linkcard = (): Transformer<Root> => (tree) => {
   });
 };
 
+// mdast-util-to-hast passes handler arguments by position.
+
+// ast-grep-ignore: typescript/labeled-arguments
 export const linkcard_handler: Handler = (h, node) => ({
   type: "element",
   tagName: "linkcard",

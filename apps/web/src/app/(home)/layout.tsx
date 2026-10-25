@@ -24,13 +24,13 @@ const footer_style = css({
   color: "gray.600",
 });
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={container_style}>
-      <main className={main_container_style}>{children}</main>
-      <footer className={footer_style}>
-        <p>© 2023 asa1984</p>
-      </footer>
-    </div>
-  );
-}
+const Layout = ({ children }: { children: React.ReactNode }) => (
+  <div className={container_style}>
+    <main className={main_container_style}>{children}</main>
+    <footer className={footer_style}>
+      <p>© 2023 asa1984</p>
+    </footer>
+  </div>
+);
+
+export default Layout;

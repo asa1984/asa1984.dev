@@ -21,6 +21,7 @@ vp run codegen    # panda codegen + wrangler types
 vp run test       # vitest (run codegen first)
 vp run typecheck  # tsc (run codegen first)
 vp lint           # oxlint (config: config/lint.ts, copied from asa1984/conceptory)
+vp run check:ast-grep  # ast-grep rules from the asa1984/conceptory flake
 vp fmt            # oxfmt
 ```
 

@@ -30,3 +30,6 @@ apps/*/schema/schema.graphql
 # git-hooks.nix
 .pre-commit-config.yaml
 .vitest/
+
+# ast-grep rules linked from the conceptory flake
+.conceptory/

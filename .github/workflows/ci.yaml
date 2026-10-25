@@ -27,6 +27,8 @@ jobs:
         uses: ./.github/actions/setup
       - name: Codegen
         run: pnpm exec vp run codegen
+      - name: Link ast-grep rules
+        run: nix build .#ast-grep-rules --out-link .conceptory/ast-grep
       - parallel:
           - name: Lint
             run: pnpm exec vp lint
@@ -38,6 +40,8 @@ jobs:
             run: pnpm exec vp run test
           - name: Check workflows
             run: pnpm exec vp run check:actions
+          - name: ast-grep
+            run: pnpm exec vp run check:ast-grep
 
   # Bundle-size budgets + workerd smoke over the production bundling
   # path (opennextjs-cloudflare), which a plain `next build` never
