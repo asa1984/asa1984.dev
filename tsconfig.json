@@ -1,4 +1,4 @@
 {
-  "extends": "@asa1984/configs/tsconfig",
+  "extends": "./tsconfig.base.json",
   "include": ["vite.config.ts"]
 }

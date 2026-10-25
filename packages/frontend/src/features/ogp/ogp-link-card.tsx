@@ -6,10 +6,10 @@ import { fetch_ogp } from "./fetch-ogp";
 
 export type OgpLinkCardPresenterProps = {
   href: string;
-  title?: string;
-  description?: string;
-  image?: string;
-  favicon?: string;
+  title?: string | undefined;
+  description?: string | undefined;
+  image?: string | undefined;
+  favicon?: string | undefined;
 };
 
 const container_style = css({

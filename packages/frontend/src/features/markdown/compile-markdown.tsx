@@ -57,7 +57,7 @@ const processor = unified()
     // The JSON import's inferred literal type is wider than shiki's
     // ThemeRegistration, so the theme needs a cast; the value itself is a
     // valid VS Code theme and was accepted as-is by the MDX pipeline.
-    theme: moonlight_ii_theme as unknown as PrettyCodeOptions["theme"],
+    theme: moonlight_ii_theme as unknown as NonNullable<PrettyCodeOptions["theme"]>,
     keepBackground: false,
     getHighlighter: get_highlighter,
   } satisfies PrettyCodeOptions)
