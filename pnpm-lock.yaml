@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    '@asa1984/configs':
-      specifier: 0.2.0
-      version: 0.2.0
     '@fontsource-variable/inter':
       specifier: 5.3.0
       version: 5.3.0
@@ -172,9 +169,6 @@ importers:
 
   .:
     devDependencies:
-      '@asa1984/configs':
-        specifier: 'catalog:'
-        version: 0.2.0(oxfmt@0.73.0(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.88.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1)))
       vite-plus:
         specifier: 'catalog:'
         version: 1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1)
@@ -287,9 +281,6 @@ importers:
         specifier: 'catalog:'
         version: 4.6.7
     devDependencies:
-      '@asa1984/configs':
-        specifier: 'catalog:'
-        version: 0.2.0(oxfmt@0.73.0(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5)(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.0)))(oxlint@1.88.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5)(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.0)))
       '@opennextjs/cloudflare':
         specifier: 'catalog:'
         version: 1.20.13(next@16.4.3(@types/node@26.6.5)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0))(supports-color@10.2.2)(wrangler@4.152.0(@types/node@26.6.5))
@@ -319,17 +310,6 @@ importers:
         version: 4.152.0(@types/node@26.6.5)
 
 packages:
-
-  '@asa1984/configs@0.2.0':
-    resolution: {integrity: sha512-ZWqUS8neUVUIU4KrX5ynCmep9iL21OvR+yWYjHeJsStzVZZvdco3dkPSdhAJfVyoLCbSWGuuQmxl4Qln5Wg5kw==}
-    peerDependencies:
-      oxfmt: '>=0.51.0'
-      oxlint: '>=1.66.0'
-    peerDependenciesMeta:
-      oxfmt:
-        optional: true
-      oxlint:
-        optional: true
 
   '@ast-grep/napi-darwin-arm64@0.45.3':
     resolution: {integrity: sha512-rMZJ6frSpR/xSbeV4hiA9WR5hHqk3rVYX8lOqEoUCaUnjEuFXvHdGN4WawJ8pVDq/IqM1UnTtsDSYgUdVmO5DA==}
@@ -3960,16 +3940,6 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
 snapshots:
-
-  '@asa1984/configs@0.2.0(oxfmt@0.73.0(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1)))(oxlint@1.88.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1)))':
-    optionalDependencies:
-      oxfmt: 0.73.0(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1))
-      oxlint: 1.88.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5(vitest@5.0.5))(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.1))
-
-  '@asa1984/configs@0.2.0(oxfmt@0.73.0(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5)(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.0)))(oxlint@1.88.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5)(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.0)))':
-    optionalDependencies:
-      oxfmt: 0.73.0(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5)(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.0))
-      oxlint: 1.88.0(oxlint-tsgolint@7.0.2004)(vite-plus@1.3.0(@types/node@26.6.5)(@vitest/ui@5.0.5)(esbuild@0.28.2)(jiti@1.21.7)(sass@1.102.0)(terser@5.36.0)(tsx@4.23.12)(typescript@7.0.2)(yaml@2.9.0))
 
   '@ast-grep/napi-darwin-arm64@0.45.3':
     optional: true

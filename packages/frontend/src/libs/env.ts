@@ -8,6 +8,9 @@ const shape = {
 
 type Key = keyof typeof shape;
 
+const is_key = (key: string | symbol): key is Key =>
+  typeof key === "string" && Object.hasOwn(shape, key);
+
 export type Env = Readonly<Record<Key, string>>;
 
 // The CI smoke build (ALLOW_EMPTY_CONTENT=1) runs without a GitHub token and
@@ -23,15 +26,15 @@ const smoke: Env = {
 // worker env at request time, so an eager module-scope parse would run too
 // early (and would also break `next build`, which imports modules while
 // collecting page data).
-export const env: Env = new Proxy({} as Env, {
-  get(_target, key: string) {
-    if (!(key in shape)) {
+export const env: Env = new Proxy(smoke, {
+  get: (_target, key) => {
+    if (!is_key(key)) {
       return;
     }
     if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
-      return smoke[key as Key];
+      return smoke[key];
     }
-    const result = shape[key as Key].safeParse(process.env[key]);
+    const result = shape[key].safeParse(process.env[key]);
     if (!result.success) {
       throw new Error(
         `Invalid environment variable ${key}: ${result.error.issues[0]?.message ?? "unknown"}`,

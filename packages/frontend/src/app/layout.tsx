@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { env } from "@/libs/env";
+import { env } from "@/libs/env.ts";
 
 import "./globals.css";
-import "@fontsource-variable/inter";
-import "@fontsource-variable/jetbrains-mono";
-import "@fontsource-variable/noto-emoji";
+import "@fontsource-variable/inter/index.css";
+import "@fontsource-variable/jetbrains-mono/index.css";
+import "@fontsource-variable/noto-emoji/index.css";
 
 export const metadata: Metadata = {
   title: "asa1984.dev",

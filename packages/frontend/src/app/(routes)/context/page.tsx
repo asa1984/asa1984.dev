@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 
-import type { Post } from "@/features/context";
-
-import { get_published_posts } from "@/features/context";
+import type { Post } from "@/features/context.ts";
+import { get_published_posts } from "@/features/context.ts";
 import { css } from "@/styled-system/css";
 
-import { LinkCard } from "./_components/LinkCard";
+import { LinkCard } from "./_components/link-card.tsx";
 
 // Per-request render; see context/[slug]/page.tsx for why ISR is avoided.
 export const dynamic = "force-dynamic";
@@ -43,37 +42,35 @@ export default async function Page() {
         mx: "auto",
       })}
     >
-      {years.map(([year, posts]) => {
-        return (
-          <div key={year}>
-            <h2
-              className={css({
-                mt: 6,
-                fontSize: "3xl",
-                fontWeight: "extrabold",
-              })}
-            >
-              {year}
-            </h2>
-            <div
-              className={css({
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: 4,
-                "@media (max-width: 768px)": {
-                  gridTemplateColumns: "1fr",
-                },
-              })}
-            >
-              {posts
-                .toSorted((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
-                .map((post) => {
-                  return <LinkCard key={post.slug} slug={post.slug} meta={post.meta} />;
-                })}
-            </div>
+      {years.map(([year, posts]) => (
+        <div key={year}>
+          <h2
+            className={css({
+              mt: 6,
+              fontSize: "3xl",
+              fontWeight: "extrabold",
+            })}
+          >
+            {year}
+          </h2>
+          <div
+            className={css({
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 4,
+              "@media (max-width: 768px)": {
+                gridTemplateColumns: "1fr",
+              },
+            })}
+          >
+            {posts
+              .toSorted((a, b) => b.meta.date.getTime() - a.meta.date.getTime())
+              .map((post) => (
+                <LinkCard key={post.slug} slug={post.slug} meta={post.meta} />
+              ))}
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 }

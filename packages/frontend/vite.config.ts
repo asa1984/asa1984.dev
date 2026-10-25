@@ -31,6 +31,8 @@ export default defineConfig({
       },
       start: {
         command:
+          // ${...} is shell parameter expansion, not a template literal.
+          // oxlint-disable-next-line eslint/no-template-curly-in-string
           "opennextjs-cloudflare build && opennextjs-cloudflare populateCache local && wrangler dev --port 3000 --var ALLOW_EMPTY_CONTENT:${ALLOW_EMPTY_CONTENT:-1} --var CONTENT_GITHUB_TOKEN:${CONTENT_GITHUB_TOKEN:-local-dummy} --var CONTENT_WEBHOOK_SECRET:${CONTENT_WEBHOOK_SECRET:-local-dev}",
         cache: false,
       },

@@ -1,10 +1,10 @@
-import { IconGitHub, IconScrapbox, IconX, IconZenn } from "@/components/icons";
+import { IconGitHub, IconScrapbox, IconX, IconZenn } from "@/components/icons.tsx";
 import { css } from "@/styled-system/css";
 
-import IconCard from "./_components/IconCard";
-import LinkCard from "./_components/LinkCard";
-import NameOrigin from "./_components/NameOrigin";
-import ProfileCard from "./_components/ProfileCard";
+import { IconCard } from "./_components/icon-card.tsx";
+import { LinkCard } from "./_components/link-card.tsx";
+import { NameOrigin } from "./_components/name-origin.tsx";
+import { ProfileCard } from "./_components/profile-card.tsx";
 
 const links_container_style = css({
   marginTop: 16,
