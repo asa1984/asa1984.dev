@@ -43,10 +43,10 @@ jobs:
       - name: Codegen
         run: pnpm exec vp run codegen
       - name: Build worker
-        run: pnpm exec vp run "@asa1984.dev/frontend#build:worker"
+        run: pnpm exec vp run "@asa1984.dev/web#build:worker"
         env:
           FRONTEND_URL: https://asa1984.dev
       - name: Deploy to production
-        run: pnpm exec vp run "@asa1984.dev/frontend#deploy:production"
+        run: pnpm exec vp run "@asa1984.dev/web#deploy:production"
       - name: Sync worker secrets
-        run: pnpm exec vp run "@asa1984.dev/frontend#secret:production"
+        run: pnpm exec vp run "@asa1984.dev/web#secret:production"

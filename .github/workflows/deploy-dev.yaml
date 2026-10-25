@@ -51,10 +51,10 @@ jobs:
           CONTENT_GITHUB_TOKEN: op://asa1984.dev/dev/CONTENT_GITHUB_TOKEN
           CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
       - name: Build worker
-        run: pnpm exec vp run "@asa1984.dev/frontend#build:worker"
+        run: pnpm exec vp run "@asa1984.dev/web#build:worker"
         env:
           FRONTEND_URL: https://dev.asa1984.dev
       - name: Deploy to dev
-        run: pnpm exec vp run "@asa1984.dev/frontend#deploy:dev"
+        run: pnpm exec vp run "@asa1984.dev/web#deploy:dev"
       - name: Sync worker secrets
-        run: pnpm exec vp run "@asa1984.dev/frontend#secret:dev"
+        run: pnpm exec vp run "@asa1984.dev/web#secret:dev"

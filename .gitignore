@@ -17,8 +17,8 @@ dist
 .size-check
 
 # Generated (pnpm run gen)
-packages/*/worker-configuration.d.ts
-packages/*/schema/schema.graphql
+apps/*/worker-configuration.d.ts
+apps/*/schema/schema.graphql
 
 # Deployment
 .vercel
