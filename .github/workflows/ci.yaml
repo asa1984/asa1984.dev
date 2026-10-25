@@ -1,15 +1,14 @@
 name: CI
 
 on:
+  # Runs for every base branch so that stacked PRs are checked too.
   pull_request:
-    types: [opened, reopened, synchronize]
-    paths-ignore:
-      - README.md
-    branches:
-      - main
 
-permissions:
-  contents: read
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   # lint / format / typecheck / test を 1 ジョブに集約し parallel steps で
@@ -18,8 +17,12 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
@@ -33,6 +36,8 @@ jobs:
             run: pnpm exec vp run typecheck
           - name: Test
             run: pnpm exec vp run test
+          - name: Check workflows
+            run: pnpm exec vp run check:actions
 
   # Bundle-size budgets + workerd smoke over the production bundling
   # path (opennextjs-cloudflare), which a plain `next build` never
@@ -41,8 +46,12 @@ jobs:
   workers-check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
