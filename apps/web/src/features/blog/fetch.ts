@@ -1,6 +1,6 @@
-import { parse_blog_post } from "@/features/content/frontmatter.ts";
-import { fetch_content_text, list_content_paths } from "@/features/content/github.ts";
-import { env } from "@/libs/env.ts";
+import { parse_blog_post } from "#/features/content/frontmatter.ts";
+import { fetch_content_text, list_content_paths } from "#/features/content/github.ts";
+import { env } from "#/libs/env.ts";
 
 export type Frontmatter = {
   title: string;

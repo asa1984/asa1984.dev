@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { env } from "@/libs/env.ts";
+import { env } from "#/libs/env.ts";
 
 import "./globals.css";
 import "@fontsource-variable/inter/index.css";

@@ -1,5 +1,5 @@
-import { IconInfo } from "@/components/icons.tsx";
-import { css } from "@/styled-system/css";
+import { IconInfo } from "#/components/icons.tsx";
+import { css } from "#/styled-system/css";
 
 export type MessageProps = {
   children?: React.ReactNode;

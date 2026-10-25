@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { env } from "@/libs/env.ts";
+import { env } from "#/libs/env.ts";
 
 // The content repository is the single source of truth for articles and
 // their images. The site pulls from it at request/revalidate time through

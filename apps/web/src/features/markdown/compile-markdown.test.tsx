@@ -6,7 +6,7 @@ import { compile_markdown } from "./compile-markdown.tsx";
 
 // LinkCard fetches OGP metadata over the network at render time; replace it
 // with an inert marker so the test stays hermetic.
-vi.mock("@/features/ogp.tsx", () => ({
+vi.mock("#/features/ogp.tsx", () => ({
   OgpLinkCardWrapper: ({ href }: { href: string }) =>
     createElement("span", { "data-testid": "linkcard", "data-href": href }),
 }));

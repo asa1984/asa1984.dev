@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { get_posts_date_sorted } from "@/features/blog.ts";
-import { css } from "@/styled-system/css";
+import { get_posts_date_sorted } from "#/features/blog.ts";
+import { css } from "#/styled-system/css";
 
 import { LinkCard } from "./_components/link-card.tsx";
 

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import type { Post } from "@/features/context.ts";
-import { get_published_posts } from "@/features/context.ts";
-import { css } from "@/styled-system/css";
+import type { Post } from "#/features/context.ts";
+import { get_published_posts } from "#/features/context.ts";
+import { css } from "#/styled-system/css";
 
 import { LinkCard } from "./_components/link-card.tsx";
 

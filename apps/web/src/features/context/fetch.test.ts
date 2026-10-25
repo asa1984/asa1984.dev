@@ -5,7 +5,7 @@ import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch.ts
 const list_content_paths = vi.fn<() => Promise<string[]>>();
 const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
 
-vi.mock("@/features/content/github.ts", () => ({
+vi.mock("#/features/content/github.ts", () => ({
   list_content_paths: () => list_content_paths(),
   fetch_content_text: (path: string) => fetch_content_text(path),
 }));

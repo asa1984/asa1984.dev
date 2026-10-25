@@ -1,6 +1,6 @@
 import { Feed } from "feed";
 
-import { get_posts_date_sorted } from "@/features/blog.ts";
+import { get_posts_date_sorted } from "#/features/blog.ts";
 
 export async function GET() {
   const posts = await get_posts_date_sorted();

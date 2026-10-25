@@ -1,5 +1,5 @@
-import { IconGitHub, IconScrapbox, IconX, IconZenn } from "@/components/icons.tsx";
-import { css } from "@/styled-system/css";
+import { IconGitHub, IconScrapbox, IconX, IconZenn } from "#/components/icons.tsx";
+import { css } from "#/styled-system/css";
 
 import { IconCard } from "./_components/icon-card.tsx";
 import { LinkCard } from "./_components/link-card.tsx";

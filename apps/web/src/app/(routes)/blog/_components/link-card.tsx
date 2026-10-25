@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Frontmatter } from "@/features/blog.ts";
-import { css } from "@/styled-system/css";
+import type { Frontmatter } from "#/features/blog.ts";
+import { css } from "#/styled-system/css";
 
 import { LinkCardDateDiff } from "./link-card-date-diff.tsx";
 
