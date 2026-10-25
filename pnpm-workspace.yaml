@@ -48,7 +48,7 @@ catalog:
   wrangler: 4.152.0
   yaml: 2.9.0
   zod: 4.6.7
-# Security floors for transitive dependencies (pnpm audit, 2026-08-03, 2026-10-08).
+# Security floors for transitive dependencies (pnpm audit, 2026-08-03, 2026-10-08, 2026-10-25).
 # Scoped per major so parents keep their expected API surface.
 overrides:
   "fast-xml-parser@4": ^4.5.5
@@ -75,6 +75,7 @@ overrides:
   "nanoid@3": ^3.3.18
   "source-map-js@1": ^1.2.2
   "tinypool@2": ^2.1.2
+  "glob@10": ^10.5.0
   "katex@<0.18.2": 0.18.10
   "vite@*": "catalog:"
 allowBuilds:
