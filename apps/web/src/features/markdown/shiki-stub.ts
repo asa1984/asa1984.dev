@@ -1,4 +1,4 @@
-// next.config.mjs aliases the bare "shiki" specifier to this stub.
+// next.config.ts aliases the bare "shiki" specifier to this stub.
 // The only runtime consumer is rehype-pretty-code's default getHighlighter,
 // which compile_mdx.ts always overrides with the fine-grained highlighter in
 // ./highlighter.ts. Bundling the real entry would drag every grammar and
