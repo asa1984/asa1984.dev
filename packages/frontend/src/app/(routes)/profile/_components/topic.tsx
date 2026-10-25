@@ -6,7 +6,7 @@ type FeatureProps = {
   card_direction: "right" | "left";
 };
 
-const Topic = ({ content, card, card_direction }: FeatureProps) => {
+export const Topic = ({ content, card, card_direction }: FeatureProps) => {
   const container_style = css({
     marginTop: 16,
     display: "grid",
@@ -70,5 +70,3 @@ const Topic = ({ content, card, card_direction }: FeatureProps) => {
     </div>
   );
 };
-
-export default Topic;

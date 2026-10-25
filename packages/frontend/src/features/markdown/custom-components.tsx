@@ -1,12 +1,11 @@
 import type { Components } from "hast-util-to-jsx-runtime";
-
 import Image from "next/image";
 import Link from "next/link";
 
-import LinkCard from "@/features/ogp";
+import { OgpLinkCardWrapper as LinkCard } from "@/features/ogp.tsx";
 import { css } from "@/styled-system/css";
 
-import { Message } from "./custom-components/message";
+import { Message } from "./custom-components/message.tsx";
 
 const anchor_style = css({
   color: "blue.500",

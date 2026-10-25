@@ -20,7 +20,7 @@ vp run dev        # codegen + next dev
 vp run codegen    # panda codegen + wrangler types
 vp run test       # vitest (run codegen first)
 vp run typecheck  # tsc (run codegen first)
-vp lint           # oxlint (config: @asa1984/configs via vite.config.ts)
+vp lint           # oxlint (config: config/lint.ts, copied from asa1984/conceptory)
 vp fmt            # oxfmt
 ```
 

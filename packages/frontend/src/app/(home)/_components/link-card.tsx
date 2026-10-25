@@ -39,13 +39,9 @@ const description_style = css({
   color: "gray.600",
 });
 
-const LinkCard = ({ title, href, description }: CardProps) => {
-  return (
-    <Link href={href} className={container_style}>
-      <p className={title_style}>{title}</p>
-      <p className={description_style}>{description}</p>
-    </Link>
-  );
-};
-
-export default LinkCard;
+export const LinkCard = ({ title, href, description }: CardProps) => (
+  <Link href={href} className={container_style}>
+    <p className={title_style}>{title}</p>
+    <p className={description_style}>{description}</p>
+  </Link>
+);

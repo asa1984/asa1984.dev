@@ -1,3 +1,5 @@
+// Each shiki language is imported on its own so that the worker bundles only the languages in use.
+/* oxlint-disable import/max-dependencies */
 import type {
   BundledHighlighterOptions,
   BundledLanguage,
@@ -6,7 +8,6 @@ import type {
   LanguageInput,
   ThemeInput,
 } from "shiki";
-
 import { getSingletonHighlighterCore } from "shiki/core";
 import lang_css from "shiki/dist/langs/css.mjs";
 import lang_diff from "shiki/dist/langs/diff.mjs";
@@ -78,7 +79,9 @@ export const get_highlighter = async (
     // exists to satisfy the bundled Highlighter type; nothing calls it.
     loadLanguage: async () => {},
     loadTheme: async () => {},
+    // oxlint-disable-next-line typescript/consistent-type-assertions, typescript/no-unsafe-type-assertion
     getBundledLanguages: () => ({}) as Record<BundledLanguage, LanguageInput>,
+    // oxlint-disable-next-line typescript/consistent-type-assertions, typescript/no-unsafe-type-assertion
     getBundledThemes: () => ({}) as Record<BundledTheme, ThemeInput>,
   };
 };

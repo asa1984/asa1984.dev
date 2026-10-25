@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
-
 import NextImage from "next/image";
+import type { ReactNode } from "react";
 
 import { css } from "@/styled-system/css";
 
@@ -15,14 +14,12 @@ const info_style = css({
   whiteSpace: "pre-wrap",
 });
 
-const Info = ({ tag, info }: { tag: string; info: ReactNode }) => {
-  return (
-    <div className={css({ marginTop: 2 })}>
-      <p className={tag_style}>{tag}</p>
-      <p className={info_style}>{info}</p>
-    </div>
-  );
-};
+const Info = ({ tag, info }: { tag: string; info: ReactNode }) => (
+  <div className={css({ marginTop: 2 })}>
+    <p className={tag_style}>{tag}</p>
+    <p className={info_style}>{info}</p>
+  </div>
+);
 
 function get_age() {
   const now = new Date();
@@ -66,38 +63,34 @@ const image_container_style = css({
   },
 });
 
-const ProfileCard = () => {
-  return (
-    <div className={profile_container_style}>
-      <div>
-        <h1 className={name_style}>Asahi Sato</h1>
-        <Info tag="Age" info={`${String(get_age())} | 2004-present`} />
-        <Info tag="Location" info="Tokyo, Japan" />
-        <Info tag="Org" info="HERP, Inc." />
-      </div>
-      <div className={image_container_style}>
-        <NextImage
-          src="/images/asa1984_sleeping.webp"
-          alt="asa1984 sleeps in the share space of Sendai Kosen"
-          width={330}
-          height={250}
-          priority
-          className={css({ width: "auto", borderRadius: "xl" })}
-        />
-        <div
-          className={css({
-            marginTop: 1,
-            textAlign: "center",
-            fontSize: "sm",
-            fontWeight: "semibold",
-            color: "gray.500",
-          })}
-        >
-          me
-        </div>
+export const ProfileCard = () => (
+  <div className={profile_container_style}>
+    <div>
+      <h1 className={name_style}>Asahi Sato</h1>
+      <Info tag="Age" info={`${String(get_age())} | 2004-present`} />
+      <Info tag="Location" info="Tokyo, Japan" />
+      <Info tag="Org" info="HERP, Inc." />
+    </div>
+    <div className={image_container_style}>
+      <NextImage
+        src="/images/asa1984_sleeping.webp"
+        alt="asa1984 sleeps in the share space of Sendai Kosen"
+        width={330}
+        height={250}
+        priority
+        className={css({ width: "auto", borderRadius: "xl" })}
+      />
+      <div
+        className={css({
+          marginTop: 1,
+          textAlign: "center",
+          fontSize: "sm",
+          fontWeight: "semibold",
+          color: "gray.500",
+        })}
+      >
+        me
       </div>
     </div>
-  );
-};
-
-export default ProfileCard;
+  </div>
+);

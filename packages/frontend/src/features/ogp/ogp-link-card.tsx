@@ -2,7 +2,7 @@ import { Suspense } from "react";
 
 import { css } from "@/styled-system/css";
 
-import { fetch_ogp } from "./fetch-ogp";
+import { fetch_ogp } from "./fetch-ogp.ts";
 
 export type OgpLinkCardPresenterProps = {
   href: string;
@@ -116,10 +116,8 @@ export const OgpLinkCard = async ({ href }: OgpLinkCardProps) => {
   return <OgpLinkCardPresenter {...ogp} />;
 };
 
-export const OgpLinkCardWrapper = ({ href }: OgpLinkCardProps) => {
-  return (
-    <Suspense fallback={<p>Loading</p>}>
-      <OgpLinkCard href={href} />
-    </Suspense>
-  );
-};
+export const OgpLinkCardWrapper = ({ href }: OgpLinkCardProps) => (
+  <Suspense fallback={<p>Loading</p>}>
+    <OgpLinkCard href={href} />
+  </Suspense>
+);

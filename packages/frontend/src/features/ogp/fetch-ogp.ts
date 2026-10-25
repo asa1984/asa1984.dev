@@ -34,52 +34,22 @@ export async function fetch_ogp(href: string): Promise<OGP> {
   }
 
   const root = parse(html);
-  const ogp: OGP = {
-    href,
-    title: root.querySelector("title")?.text,
-    description: root.querySelector("meta[name='description']")?.getAttribute("content"),
-    image: undefined,
-  };
-  const property_metas = root
-    .querySelectorAll("meta")
-    .filter((elem) => elem.getAttribute("property") !== undefined);
-  for (const elem of property_metas) {
+  // A later tag overrides an earlier one with the same property.
+  const og = new Map<string, string>();
+  for (const elem of root.querySelectorAll("meta")) {
     const property = elem.getAttribute("property");
-    switch (property) {
-      case "og:title": {
-        const content = elem.getAttribute("content");
-
-        if (content !== undefined && content !== "") {
-          ogp.title = content;
-        }
-        break;
-      }
-      case "og:description": {
-        const content = elem.getAttribute("content");
-        if (content !== undefined && content !== "") {
-          ogp.description = content;
-        }
-        break;
-      }
-      case "og:image": {
-        const content = elem.getAttribute("content");
-        if (content !== undefined && content !== "") {
-          const url = new URL(content, href);
-          ogp.image = url.toString();
-        }
-
-        break;
-      }
-      case "og:url": {
-        const content = elem.getAttribute("content");
-        if (content !== undefined && content !== "") {
-          ogp.href = content;
-        }
-        break;
-      }
+    const content = elem.getAttribute("content");
+    if (property?.startsWith("og:") === true && content !== undefined && content !== "") {
+      og.set(property, content);
     }
   }
+  const image = og.get("og:image");
   return {
-    ...ogp,
+    href: og.get("og:url") ?? href,
+    title: og.get("og:title") ?? root.querySelector("title")?.text,
+    description:
+      og.get("og:description") ??
+      root.querySelector("meta[name='description']")?.getAttribute("content"),
+    image: image === undefined ? undefined : new URL(image, href).toString(),
   };
 }

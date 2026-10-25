@@ -1,6 +1,6 @@
-import { parse_blog_post } from "@/features/content/frontmatter";
-import { fetch_content_text, list_content_paths } from "@/features/content/github";
-import { env } from "@/libs/env";
+import { parse_blog_post } from "@/features/content/frontmatter.ts";
+import { fetch_content_text, list_content_paths } from "@/features/content/github.ts";
+import { env } from "@/libs/env.ts";
 
 export type Frontmatter = {
   title: string;
@@ -16,7 +16,7 @@ export type Post = {
   content: string;
 };
 
-const POST_PATH = /^blog\/([^/]+)\/post\.md$/;
+const POST_PATH = /^blog\/([^/]+)\/post\.md$/u;
 
 const list_slugs = async (): Promise<string[]> => {
   const paths = await list_content_paths();
@@ -51,9 +51,7 @@ export const get_published_posts = async (): Promise<Post[]> => {
 // Newer posts first
 export const get_posts_date_sorted = async (): Promise<Post[]> => {
   const posts = await get_published_posts();
-  return posts.toSorted((prev, next) => {
-    return next.meta.date.getTime() - prev.meta.date.getTime();
-  });
+  return posts.toSorted((prev, next) => next.meta.date.getTime() - prev.meta.date.getTime());
 };
 
 export const get_post = async (slug: string): Promise<Post | null> => {

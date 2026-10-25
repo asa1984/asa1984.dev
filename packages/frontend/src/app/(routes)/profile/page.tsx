@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-
 import Image from "next/image";
 
-import { IconNixOS, IconReact, IconRust, IconTypescript } from "@/components/icons";
-import LinkCard from "@/features/ogp";
+import { IconNixOS, IconReact, IconRust, IconTypescript } from "@/components/icons.tsx";
+import { OgpLinkCardWrapper as LinkCard } from "@/features/ogp.tsx";
 import { css } from "@/styled-system/css";
 
-import Profile from "./_components/profile";
-import Topic from "./_components/topic";
+import { ProfileCard as Profile } from "./_components/profile.tsx";
+import { Topic } from "./_components/topic.tsx";
 
 export const metadata: Metadata = {
   title: "Who are you?",

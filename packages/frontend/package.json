@@ -41,7 +41,6 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@asa1984/configs": "catalog:",
     "@opennextjs/cloudflare": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",

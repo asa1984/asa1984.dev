@@ -6,6 +6,8 @@
 import type { Parent, PhrasingContent } from "mdast";
 import type { Node } from "unist";
 
+// Augmenting mdast relies on declaration merging, which only interfaces support.
+/* oxlint-disable typescript/consistent-type-definitions */
 declare module "mdast" {
   // remark_zenn_message: ":::message ... :::" paragraph → message node
   interface ZennMessage extends Parent {

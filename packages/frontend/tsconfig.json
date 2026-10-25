@@ -5,6 +5,9 @@
     "jsx": "preserve",
     // The generated worker-configuration.d.ts redeclares the DOM types.
     "skipLibCheck": true,
+    // Next.js bundles the sources instead of tsc emitting them, and the @/ imports keep their .ts
+    // extensions, which tsc can only rewrite for relative imports.
+    "rewriteRelativeImportExtensions": false,
     "allowJs": true,
     "incremental": true,
     "esModuleInterop": true,

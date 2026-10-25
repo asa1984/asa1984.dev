@@ -1,1 +1,1 @@
-export * from "./blog/fetch";
+export * from "./blog/fetch.ts";

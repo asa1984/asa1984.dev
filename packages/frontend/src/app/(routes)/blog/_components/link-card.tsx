@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Frontmatter } from "@/features/blog";
-
+import type { Frontmatter } from "@/features/blog.ts";
 import { css } from "@/styled-system/css";
 
-import { LinkCardDateDiff } from "./link-card-date-diff";
+import { LinkCardDateDiff } from "./link-card-date-diff.tsx";
 
 const card_style = css({
   display: "grid",
@@ -54,27 +53,25 @@ export type LinkCardProps = {
   meta: Frontmatter;
 };
 
-export const LinkCard = ({ slug, meta }: LinkCardProps) => {
-  return (
-    <div key={slug} className={card_style}>
-      <Link href={`/blog/${slug}`} key={slug}>
-        <Image
-          src={meta.image}
-          alt={meta.title}
-          width={512}
-          height={288}
-          decoding="async"
-          loading="lazy"
-          className={image_style}
-        />
-        <div className={text_container_style}>
-          <div className={date_style}>
-            <LinkCardDateDiff date={meta.date} />
-          </div>
-          <h2 className={title_style}>{meta.title}</h2>
-          <div className={description_style}>{meta.description}</div>
+export const LinkCard = ({ slug, meta }: LinkCardProps) => (
+  <div key={slug} className={card_style}>
+    <Link href={`/blog/${slug}`} key={slug}>
+      <Image
+        src={meta.image}
+        alt={meta.title}
+        width={512}
+        height={288}
+        decoding="async"
+        loading="lazy"
+        className={image_style}
+      />
+      <div className={text_container_style}>
+        <div className={date_style}>
+          <LinkCardDateDiff date={meta.date} />
         </div>
-      </Link>
-    </div>
-  );
-};
+        <h2 className={title_style}>{meta.title}</h2>
+        <div className={description_style}>{meta.description}</div>
+      </div>
+    </Link>
+  </div>
+);

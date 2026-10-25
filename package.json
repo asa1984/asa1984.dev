@@ -4,7 +4,6 @@
   "description": "asa1984's personal website",
   "type": "module",
   "devDependencies": {
-    "@asa1984/configs": "catalog:",
     "vite-plus": "catalog:",
     "wrangler": "catalog:"
   },

@@ -19,20 +19,16 @@ const text_sub_style = css({
   color: "gray.600",
 });
 
-const NameOrigin = () => {
-  return (
-    <div className={container_style}>
-      <div>
-        <div className={text_prime_style}>Asahi</div>
-        <div className={text_sub_style}>My first name</div>
-      </div>
-      <div className={text_prime_style}>+</div>
-      <div>
-        <div className={text_prime_style}>"1984"</div>
-        <div className={text_sub_style}>George Orwell's novel</div>
-      </div>
+export const NameOrigin = () => (
+  <div className={container_style}>
+    <div>
+      <div className={text_prime_style}>Asahi</div>
+      <div className={text_sub_style}>My first name</div>
     </div>
-  );
-};
-
-export default NameOrigin;
+    <div className={text_prime_style}>+</div>
+    <div>
+      <div className={text_prime_style}>"1984"</div>
+      <div className={text_sub_style}>George Orwell's novel</div>
+    </div>
+  </div>
+);

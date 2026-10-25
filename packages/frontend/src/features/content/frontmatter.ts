@@ -33,7 +33,7 @@ export function split_frontmatter(source: string): {
   header: string;
   body: string;
 } {
-  const lines = source.split(/\r?\n/);
+  const lines = source.split(/\r?\n/u);
   if (lines[0] !== "---") {
     throw new Error('Missing beginning "---"');
   }

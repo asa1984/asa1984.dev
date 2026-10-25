@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { IconArrowDown, IconArrowLeft } from "@/components/icons";
+import { IconArrowDown, IconArrowLeft } from "@/components/icons.tsx";
 import { css } from "@/styled-system/css";
 
 const useOnClickOutside = (
@@ -13,7 +13,7 @@ const useOnClickOutside = (
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
-      if (!ref.current || ref.current.contains(event.target as Node)) {
+      if (!ref.current || (event.target instanceof Node && ref.current.contains(event.target))) {
         return;
       }
       handler(event);
@@ -44,7 +44,7 @@ export const NavMenu = () => {
   ];
 
   const on_click = () => {
-    setOpen((open) => !open);
+    setOpen((previous) => !previous);
   };
 
   const current = items.find((item) => item.path === segment) ?? home_item;

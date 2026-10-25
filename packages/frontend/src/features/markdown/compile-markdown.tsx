@@ -1,8 +1,9 @@
-import type { Options as PrettyCodeOptions } from "rehype-pretty-code";
-
+// The unified pipeline imports each remark and rehype plugin it chains.
+/* oxlint-disable import/max-dependencies */
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import rehype_katex from "rehype-katex";
+import type { Options as PrettyCodeOptions } from "rehype-pretty-code";
 import rehype_pretty_code from "rehype-pretty-code";
 import rehype_raw from "rehype-raw";
 import remark_breaks from "remark-breaks";
@@ -13,15 +14,15 @@ import remark_parse from "remark-parse";
 import remark_rehype from "remark-rehype";
 import { unified } from "unified";
 
-import { create_custom_components } from "./custom-components";
-import { get_highlighter } from "./highlighter";
+import { create_custom_components } from "./custom-components.tsx";
+import { get_highlighter } from "./highlighter.ts";
 import {
   linkcard_handler,
   remark_inline_footnote,
   remark_linkcard,
   remark_zenn_message,
   zenn_message_handler,
-} from "./lib";
+} from "./lib.ts";
 import moonlight_ii_theme from "./theme/moonlight-ii.json";
 
 // Markdown → React elements without an eval step: MDX compiles documents to
@@ -57,6 +58,7 @@ const processor = unified()
     // The JSON import's inferred literal type is wider than shiki's
     // ThemeRegistration, so the theme needs a cast; the value itself is a
     // valid VS Code theme and was accepted as-is by the MDX pipeline.
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
     theme: moonlight_ii_theme as unknown as NonNullable<PrettyCodeOptions["theme"]>,
     keepBackground: false,
     getHighlighter: get_highlighter,

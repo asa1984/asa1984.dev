@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { get_posts_date_sorted } from "@/features/blog";
+import { get_posts_date_sorted } from "@/features/blog.ts";
 import { css } from "@/styled-system/css";
 
-import { LinkCard } from "./_components/link-card";
+import { LinkCard } from "./_components/link-card.tsx";
 
 // Per-request render; see blog/[slug]/page.tsx for why ISR is avoided.
 export const dynamic = "force-dynamic";

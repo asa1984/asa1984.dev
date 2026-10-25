@@ -1,38 +1,43 @@
-import type { FootnoteDefinition, FootnoteReference, Root } from "mdast";
-
+import type { FootnoteDefinition, FootnoteReference, Paragraph, Root } from "mdast";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
-import { describe, expect, it } from "vite-plus/test";
+import { visit } from "unist-util-visit";
+import { describe, expect, test } from "vite-plus/test";
 
-import { remark_inline_footnote } from "./remark-inline-footnote";
+import { remark_inline_footnote } from "./remark-inline-footnote.ts";
 
 const parse = (markdown: string): Root => {
-  const processor = unified().use(remarkParse).use(remarkGfm);
-  const tree = processor.parse(markdown);
-  void remark_inline_footnote()(tree, undefined as never, undefined as never);
-  return tree;
+  const processor = unified().use(remarkParse).use(remarkGfm).use(remark_inline_footnote);
+  return processor.runSync(processor.parse(markdown));
 };
 
-const collect = <T extends { type: string }>(root: Root, type: T["type"]): T[] => {
-  const found: T[] = [];
-  const walk = (node: { type: string; children?: { type: string }[] }) => {
-    if (node.type === type) {
-      found.push(node as unknown as T);
-    }
-    for (const child of node.children ?? []) {
-      walk(child);
-    }
-  };
-  walk(root);
+const first_paragraph = (root: Root): Paragraph => {
+  const [node] = root.children;
+  if (node?.type !== "paragraph") {
+    throw new Error("expected paragraph");
+  }
+  return node;
+};
+
+const references = (root: Root): FootnoteReference[] => {
+  const found: FootnoteReference[] = [];
+  visit(root, "footnoteReference", (node) => {
+    found.push(node);
+  });
   return found;
 };
 
-const references = (root: Root) => collect<FootnoteReference>(root, "footnoteReference");
-const definitions = (root: Root) => collect<FootnoteDefinition>(root, "footnoteDefinition");
+const definitions = (root: Root): FootnoteDefinition[] => {
+  const found: FootnoteDefinition[] = [];
+  visit(root, "footnoteDefinition", (node) => {
+    found.push(node);
+  });
+  return found;
+};
 
 describe("remark_inline_footnote", () => {
-  it("converts ^[...] into a footnote reference and definition", () => {
+  test("converts ^[...] into a footnote reference and definition", () => {
     const tree = parse("本文^[これが脚注]の続き。");
 
     const refs = references(tree);
@@ -40,60 +45,48 @@ describe("remark_inline_footnote", () => {
     expect(refs).toHaveLength(1);
     expect(defs).toHaveLength(1);
     expect(refs[0]?.identifier).toBe(defs[0]?.identifier);
-    expect(defs[0]?.children).toEqual([
+    expect(defs[0]?.children).toStrictEqual([
       { type: "paragraph", children: [{ type: "text", value: "これが脚注" }] },
     ]);
   });
 
-  it("keeps the surrounding text intact", () => {
+  test("keeps the surrounding text intact", () => {
     const tree = parse("本文^[脚注]の続き。");
 
-    const paragraph = tree.children[0];
-    if (paragraph?.type !== "paragraph") {
-      throw new Error("expected paragraph");
-    }
-    expect(paragraph.children).toEqual([
+    const paragraph = first_paragraph(tree);
+    expect(paragraph.children).toStrictEqual([
       { type: "text", value: "本文" },
       expect.objectContaining({ type: "footnoteReference" }),
       { type: "text", value: "の続き。" },
     ]);
   });
 
-  it("handles a footnote at the start and end of a text node", () => {
+  test("handles a footnote at the start and end of a text node", () => {
     const start = parse("^[先頭]です。");
-    const startParagraph = start.children[0];
-    if (startParagraph?.type !== "paragraph") {
-      throw new Error("expected paragraph");
-    }
+    const startParagraph = first_paragraph(start);
     expect(startParagraph.children[0]?.type).toBe("footnoteReference");
 
     const end = parse("これは^[末尾]");
-    const endParagraph = end.children[0];
-    if (endParagraph?.type !== "paragraph") {
-      throw new Error("expected paragraph");
-    }
+    const endParagraph = first_paragraph(end);
     expect(endParagraph.children.at(-1)?.type).toBe("footnoteReference");
   });
 
-  it("numbers multiple footnotes uniquely in document order", () => {
+  test("numbers multiple footnotes uniquely in document order", () => {
     const tree = parse("一つ目^[注1]と二つ目^[注2]。\n\n三つ目^[注3]。");
 
     const refs = references(tree);
     const defs = definitions(tree);
     expect(refs).toHaveLength(3);
     expect(defs).toHaveLength(3);
-    expect(refs.map((r) => r.identifier)).toEqual(defs.map((d) => d.identifier));
+    expect(refs.map((r) => r.identifier)).toStrictEqual(defs.map((d) => d.identifier));
     expect(new Set(refs.map((r) => r.identifier)).size).toBe(3);
   });
 
-  it("converts multiple footnotes inside a single text node", () => {
+  test("converts multiple footnotes inside a single text node", () => {
     const tree = parse("A^[one]B^[two]C");
 
-    const paragraph = tree.children[0];
-    if (paragraph?.type !== "paragraph") {
-      throw new Error("expected paragraph");
-    }
-    expect(paragraph.children.map((c) => c.type)).toEqual([
+    const paragraph = first_paragraph(tree);
+    expect(paragraph.children.map((c) => c.type)).toStrictEqual([
       "text",
       "footnoteReference",
       "text",
@@ -102,29 +95,29 @@ describe("remark_inline_footnote", () => {
     ]);
   });
 
-  it("works inside emphasis", () => {
+  test("works inside emphasis", () => {
     const tree = parse("*強調^[注釈]文*");
 
     expect(references(tree)).toHaveLength(1);
     expect(definitions(tree)).toHaveLength(1);
   });
 
-  it("leaves markdown without inline footnotes untouched", () => {
+  test("leaves markdown without inline footnotes untouched", () => {
     const markdown = "ただの[リンク](https://example.com)と ^ と [括弧] です。";
     const tree = parse(markdown);
     const untouched = unified().use(remarkParse).use(remarkGfm).parse(markdown);
 
-    expect(tree).toEqual(untouched);
+    expect(tree).toStrictEqual(untouched);
   });
 
-  it("ignores empty footnotes", () => {
+  test("ignores empty footnotes", () => {
     const tree = parse("空^[]です。");
 
     expect(references(tree)).toHaveLength(0);
     expect(definitions(tree)).toHaveLength(0);
   });
 
-  it("does not clash with handwritten GFM footnotes", () => {
+  test("does not clash with handwritten GFM footnotes", () => {
     const tree = parse("参照形式[^a]とインライン^[インライン注]。\n\n[^a]: 手書きの定義");
 
     const refs = references(tree);
@@ -137,13 +130,13 @@ describe("remark_inline_footnote", () => {
     expect(identifiers).toContain("a");
   });
 
-  it("does not span across newlines", () => {
+  test("does not span across newlines", () => {
     const tree = parse("これは^[改行\nを含む]テキスト。");
 
     expect(references(tree)).toHaveLength(0);
   });
 
-  it("renders through the existing GFM footnote pipeline (mdast → hast)", async () => {
+  test("renders through the existing GFM footnote pipeline (mdast → hast)", async () => {
     const { toHast } = await import("mdast-util-to-hast");
     const tree = parse("本文^[インライン注釈]です。");
 

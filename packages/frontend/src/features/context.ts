@@ -1,1 +1,1 @@
-export * from "./context/fetch";
+export * from "./context/fetch.ts";

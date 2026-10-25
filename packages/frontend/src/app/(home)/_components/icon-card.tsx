@@ -28,12 +28,8 @@ const icon_style = css({
   fontWeight: "bold",
 });
 
-const IconCard = ({ icon, href }: IconCardProps) => {
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={container_style}>
-      <div className={icon_style}>{icon}</div>
-    </a>
-  );
-};
-
-export default IconCard;
+export const IconCard = ({ icon, href }: IconCardProps) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className={container_style}>
+    <div className={icon_style}>{icon}</div>
+  </a>
+);

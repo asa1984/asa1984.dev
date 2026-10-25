@@ -28,24 +28,20 @@ const text_sub_style = css({
   color: "gray.600",
 });
 
-const ProfileCard = () => {
-  return (
-    <div className={container_style}>
-      <Image
-        src="/images/asa1984.webp"
-        width={128}
-        height={128}
-        priority
-        alt="asa1984's icon"
-        decoding="async"
-        className={image_style}
-      />
-      <div>
-        <h1 className={h1_style}>asa1984</h1>
-        <p className={text_sub_style}>he/him | 2004-present</p>
-      </div>
+export const ProfileCard = () => (
+  <div className={container_style}>
+    <Image
+      src="/images/asa1984.webp"
+      width={128}
+      height={128}
+      priority
+      alt="asa1984's icon"
+      decoding="async"
+      className={image_style}
+    />
+    <div>
+      <h1 className={h1_style}>asa1984</h1>
+      <p className={text_sub_style}>he/him | 2004-present</p>
     </div>
-  );
-};
-
-export default ProfileCard;
+  </div>
+);

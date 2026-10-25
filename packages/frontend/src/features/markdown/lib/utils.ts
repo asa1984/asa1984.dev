@@ -1,7 +1,7 @@
 import type { Link, Paragraph, Text } from "mdast";
 import type { Literal, Node, Parent } from "unist";
 
-function is_object(target: unknown): target is { [key: string]: unknown } {
+function is_object(target: unknown): target is Record<string, unknown> {
   return typeof target === "object" && target !== null;
 }
 

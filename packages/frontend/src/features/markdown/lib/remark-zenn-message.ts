@@ -1,10 +1,9 @@
-import type { Paragraph, Parent } from "mdast";
+import type { Paragraph, Parent, Root } from "mdast";
 import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
-
 import { visit } from "unist-util-visit";
 
-import { is_paragraph, is_parent, is_text } from "./utils";
+import { is_paragraph, is_parent, is_text } from "./utils.ts";
 
 const MESSAGE_BEGINING = ":::message\n";
 const MESSAGE_ENDING = "\n:::";
@@ -27,56 +26,54 @@ export function is_message(node: unknown): node is Paragraph {
   return true;
 }
 
-export const remark_zenn_message = (): Transformer => {
-  return (tree) => {
-    visit(tree, is_message, (node, index, parent: Parent | undefined) => {
-      if (!is_parent(parent)) {
-        return;
-      }
+export const remark_zenn_message = (): Transformer<Root> => (tree) => {
+  visit(tree, is_message, (node, index, parent: Parent | undefined) => {
+    if (!is_parent(parent) || index === undefined) {
+      return;
+    }
 
-      const children = [...node.children];
+    const children = [...node.children];
 
-      const first_child = children.at(0);
-      if (!first_child || first_child.type !== "text") {
-        return;
-      }
-      const first_value = first_child.value;
-      if (first_value === MESSAGE_BEGINING) {
-        children.shift();
-      } else {
-        children[0] = {
-          ...first_child,
-          value: first_value.slice(MESSAGE_BEGINING.length),
-        };
-      }
-
-      const last_child = children.at(-1);
-      if (!last_child || last_child.type !== "text") {
-        return;
-      }
-      const last_value = last_child.value;
-      if (last_value === MESSAGE_ENDING) {
-        children.pop();
-      } else {
-        children[children.length - 1] = {
-          ...last_child,
-          value: last_value.slice(0, last_value.length - MESSAGE_ENDING.length),
-        };
-      }
-
-      parent.children[index as number] = {
-        type: "message",
-        children,
+    const first_child = children.at(0);
+    if (first_child?.type !== "text") {
+      return;
+    }
+    const first_value = first_child.value;
+    if (first_value === MESSAGE_BEGINING) {
+      children.shift();
+    } else {
+      children[0] = {
+        ...first_child,
+        value: first_value.slice(MESSAGE_BEGINING.length),
       };
-    });
-  };
+    }
+
+    const last_child = children.at(-1);
+    if (last_child?.type !== "text") {
+      return;
+    }
+    const last_value = last_child.value;
+    if (last_value === MESSAGE_ENDING) {
+      children.pop();
+    } else {
+      children[children.length - 1] = {
+        ...last_child,
+        value: last_value.slice(0, last_value.length - MESSAGE_ENDING.length),
+      };
+    }
+
+    // A transformer rewrites the tree it receives in place.
+    // oxlint-disable-next-line eslint/no-param-reassign
+    parent.children[index] = {
+      type: "message",
+      children,
+    };
+  });
 };
 
-export const zenn_message_handler: Handler = (h, node) => {
-  return {
-    type: "element",
-    tagName: "message",
-    properties: {},
-    children: h.all(node),
-  };
-};
+export const zenn_message_handler: Handler = (h, node) => ({
+  type: "element",
+  tagName: "message",
+  properties: {},
+  children: h.all(node),
+});

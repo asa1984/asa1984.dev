@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-import type { Frontmatter } from "@/features/context";
-
+import type { Frontmatter } from "@/features/context.ts";
 import { css } from "@/styled-system/css";
 
 export type LinkCardProps = {

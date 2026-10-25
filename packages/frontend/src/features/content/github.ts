@@ -1,8 +1,17 @@
-import { env } from "@/libs/env";
+import { z } from "zod";
+
+import { env } from "@/libs/env.ts";
 
 // The content repository is the single source of truth for articles and
 // their images. The site pulls from it at request/revalidate time through
 // the GitHub API; nothing is pushed into a database anymore.
+const commit_schema = z.object({ sha: z.string() });
+
+const tree_schema = z.object({
+  tree: z.array(z.object({ path: z.string(), type: z.string() })),
+  truncated: z.boolean(),
+});
+
 const CONTENT_REPO = "asa1984/asa1984.dev-content";
 const CONTENT_REF = "main";
 const API_ROOT = `https://api.github.com/repos/${CONTENT_REPO}`;
@@ -65,7 +74,7 @@ async function resolve_content_sha(): Promise<string> {
   if (!res.ok) {
     throw new Error(`Failed to resolve content ref: ${String(res.status)}`);
   }
-  const data = (await res.json()) as { sha: string };
+  const data = commit_schema.parse(await res.json());
   return data.sha;
 }
 
@@ -89,10 +98,7 @@ export async function list_content_paths(): Promise<string[]> {
   if (!res.ok) {
     throw new Error(`Failed to list content tree: ${String(res.status)}`);
   }
-  const data = (await res.json()) as {
-    tree: { path: string; type: string }[];
-    truncated: boolean;
-  };
+  const data = tree_schema.parse(await res.json());
   // Truncation starts at ~100k entries; treat it as corruption, not a page.
   if (data.truncated) {
     throw new Error("Content tree listing was truncated");

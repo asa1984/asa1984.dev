@@ -1,5 +1,6 @@
+import { compile_markdown } from "./compile-markdown.tsx";
+
 import style from "./article.module.scss";
-import { compile_markdown } from "./compile-markdown";
 import "katex/dist/katex.min.css";
 
 export type MarkdownProps = {

@@ -1,2 +1,1 @@
-import { OgpLinkCardWrapper } from "./ogp/ogp-link-card";
-export default OgpLinkCardWrapper;
+export { OgpLinkCardWrapper } from "./ogp/ogp-link-card.tsx";
