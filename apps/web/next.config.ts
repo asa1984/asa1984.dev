@@ -1,6 +1,7 @@
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-/** @type {import('next').NextConfig} */
-const next_config = {
+import type { NextConfig } from "next";
+
+const next_config: NextConfig = {
   // Next externalizes shiki by default, which makes OpenNext inline the
   // whole package (every grammar and theme) into the Cloudflare worker and
   // exceed its size limit. Opt shiki back into bundling so only the
