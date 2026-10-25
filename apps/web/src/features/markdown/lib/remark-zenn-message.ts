@@ -8,7 +8,7 @@ import { is_paragraph, is_parent, is_text } from "./utils.ts";
 const MESSAGE_BEGINING = ":::message\n";
 const MESSAGE_ENDING = "\n:::";
 
-export function is_message(node: unknown): node is Paragraph {
+export const is_message = (node: unknown): node is Paragraph => {
   if (!is_paragraph(node)) {
     return false;
   }
@@ -24,7 +24,7 @@ export function is_message(node: unknown): node is Paragraph {
   }
 
   return true;
-}
+};
 
 export const remark_zenn_message = (): Transformer<Root> => (tree) => {
   visit(tree, is_message, (node, index, parent: Parent | undefined) => {
@@ -71,6 +71,9 @@ export const remark_zenn_message = (): Transformer<Root> => (tree) => {
   });
 };
 
+// mdast-util-to-hast passes handler arguments by position.
+
+// ast-grep-ignore: typescript/labeled-arguments
 export const zenn_message_handler: Handler = (h, node) => ({
   type: "element",
   tagName: "message",

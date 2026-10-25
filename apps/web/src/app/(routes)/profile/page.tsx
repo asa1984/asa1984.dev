@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+const Page = () => {
   const article_style = css({
     marginTop: 16,
     marginX: "auto",
@@ -275,4 +275,6 @@ export default function Page() {
       </article>
     </>
   );
-}
+};
+
+export default Page;

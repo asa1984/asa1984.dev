@@ -85,6 +85,7 @@ export default defineConfig({
       dev: { command: ["vp run -r codegen", "vp run -r dev"], cache: false },
       start: { command: "vp run -r start", cache: false },
       "check:actions": { command: ["actionlint", "zizmor --offline .github"], cache: false },
+      "check:ast-grep": { command: "ast-grep scan", cache: false },
     },
   },
 });

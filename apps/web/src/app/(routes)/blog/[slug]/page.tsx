@@ -19,7 +19,7 @@ type PageProps = {
 // requires a deploy.
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
+export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
   const params = await props.params;
 
   const { slug } = params;
@@ -42,9 +42,9 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       card: "summary_large_image",
     },
   };
-}
+};
 
-export default async function Page(props: PageProps) {
+const Page = async (props: PageProps) => {
   const params = await props.params;
 
   const { slug } = params;
@@ -128,4 +128,6 @@ export default async function Page(props: PageProps) {
       </main>
     </article>
   );
-}
+};
+
+export default Page;

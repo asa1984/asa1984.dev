@@ -65,7 +65,7 @@ const processor = unified()
   } satisfies PrettyCodeOptions)
   .use(rehype_katex);
 
-export async function compile_markdown({
+export const compile_markdown = async ({
   source,
   type,
   slug,
@@ -73,7 +73,7 @@ export async function compile_markdown({
   source: string;
   type: "blog" | "context";
   slug: string;
-}) {
+}) => {
   const mdast = processor.parse(source);
   const hast = await processor.run(mdast);
 
@@ -83,4 +83,4 @@ export async function compile_markdown({
     jsxs,
     components: create_custom_components({ type, slug }),
   });
-}
+};

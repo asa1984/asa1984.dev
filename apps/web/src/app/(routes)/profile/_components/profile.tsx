@@ -21,7 +21,7 @@ const Info = ({ tag, info }: { tag: string; info: ReactNode }) => (
   </div>
 );
 
-function get_age() {
+const get_age = () => {
   const now = new Date();
   const birth = new Date("2004-10-29");
   const age = now.getFullYear() - birth.getFullYear();
@@ -32,7 +32,7 @@ function get_age() {
     return age - 1;
   }
   return age;
-}
+};
 
 const profile_container_style = css({
   padding: "8",

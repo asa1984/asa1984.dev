@@ -27,6 +27,8 @@ const smoke: Env = {
 // early (and would also break `next build`, which imports modules while
 // collecting page data).
 export const env: Env = new Proxy(smoke, {
+  // Proxy passes the handler arguments by position.
+  // ast-grep-ignore: typescript/labeled-arguments
   get: (_target, key) => {
     if (!is_key(key)) {
       return;

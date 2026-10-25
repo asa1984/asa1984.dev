@@ -61,7 +61,7 @@ const encode_path = (path: string) =>
  * `bust` parameter rotates the URL (and thereby every cache key on the
  * way to GitHub) each interval, so no cache can pin it.
  */
-async function resolve_content_sha(): Promise<string> {
+const resolve_content_sha = async (): Promise<string> => {
   // CI smoke builds run without a GitHub token and expect an empty site.
   if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
     return CONTENT_REF;
@@ -76,7 +76,7 @@ async function resolve_content_sha(): Promise<string> {
   }
   const data = commit_schema.parse(await res.json());
   return data.sha;
-}
+};
 
 /**
  * All blob paths in the content repository (e.g. "blog/first/post.md").
@@ -84,7 +84,7 @@ async function resolve_content_sha(): Promise<string> {
  * One cached call serves every slug lookup, so requests for unknown slugs
  * are answered from cache without touching the GitHub API.
  */
-export async function list_content_paths(): Promise<string[]> {
+export const list_content_paths = async (): Promise<string[]> => {
   // CI smoke builds run without a GitHub token and expect an empty site.
   if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
     return [];
@@ -104,25 +104,25 @@ export async function list_content_paths(): Promise<string[]> {
     throw new Error("Content tree listing was truncated");
   }
   return data.tree.filter((entry) => entry.type === "blob").map((entry) => entry.path);
-}
+};
 
-async function fetch_content_file(path: string): Promise<Response> {
+const fetch_content_file = async (path: string): Promise<Response> => {
   const sha = await resolve_content_sha();
   return fetch(`${API_ROOT}/contents/${encode_path(path)}?ref=${sha}`, {
     headers: github_headers("application/vnd.github.raw+json"),
     ...cache_options(IMMUTABLE_REVALIDATE_SECONDS),
   });
-}
+};
 
-export async function fetch_content_text(path: string): Promise<string> {
+export const fetch_content_text = async (path: string): Promise<string> => {
   const res = await fetch_content_file(path);
   if (!res.ok) {
     throw new Error(`Failed to fetch content file ${path}: ${String(res.status)}`);
   }
   return res.text();
-}
+};
 
-export async function fetch_content_binary(path: string): Promise<ArrayBuffer | null> {
+export const fetch_content_binary = async (path: string): Promise<ArrayBuffer | null> => {
   if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
     return null;
   }
@@ -134,4 +134,4 @@ export async function fetch_content_binary(path: string): Promise<ArrayBuffer | 
     throw new Error(`Failed to fetch content file ${path}: ${String(res.status)}`);
   }
   return res.arrayBuffer();
-}
+};

@@ -7,10 +7,13 @@ import { useEffect, useRef, useState } from "react";
 import { IconArrowDown, IconArrowLeft } from "#/components/icons.tsx";
 import { css } from "#/styled-system/css";
 
-const useOnClickOutside = (
-  ref: React.RefObject<HTMLDivElement | null>,
-  handler: (event: MouseEvent | TouchEvent) => void,
-) => {
+const useOnClickOutside = ({
+  ref,
+  handler,
+}: {
+  ref: React.RefObject<HTMLDivElement | null>;
+  handler: (event: MouseEvent | TouchEvent) => void;
+}) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       if (!ref.current || (event.target instanceof Node && ref.current.contains(event.target))) {
@@ -31,8 +34,11 @@ export const NavMenu = () => {
   const segment = useSelectedLayoutSegment();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  useOnClickOutside(ref, () => {
-    setOpen(false);
+  useOnClickOutside({
+    ref,
+    handler: () => {
+      setOpen(false);
+    },
   });
 
   const home_item = { path: "", name: "Home" };

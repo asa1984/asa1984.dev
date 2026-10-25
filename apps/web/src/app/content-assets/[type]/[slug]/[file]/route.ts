@@ -16,10 +16,13 @@ const CONTENT_TYPES: Record<string, string> = {
   webp: "image/webp",
 };
 
-export async function GET(
+// Next.js passes route handler arguments by position.
+
+// ast-grep-ignore: typescript/labeled-arguments
+export const GET = async (
   _req: Request,
   props: { params: Promise<{ type: string; slug: string; file: string }> },
-) {
+) => {
   const { type, slug, file } = await props.params;
 
   if (type !== "blog" && type !== "context") {
@@ -48,4 +51,4 @@ export async function GET(
       "Cache-Control": "public, max-age=86400",
     },
   });
-}
+};

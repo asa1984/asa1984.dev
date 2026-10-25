@@ -7,7 +7,7 @@ export type OGP = {
   image: string | undefined;
 };
 
-export async function fetch_ogp(href: string): Promise<OGP> {
+export const fetch_ogp = async (href: string): Promise<OGP> => {
   const fallback: OGP = {
     href,
     title: undefined,
@@ -52,4 +52,4 @@ export async function fetch_ogp(href: string): Promise<OGP> {
       root.querySelector("meta[name='description']")?.getAttribute("content"),
     image: image === undefined ? undefined : new URL(image, href).toString(),
   };
-}
+};

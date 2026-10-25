@@ -27,7 +27,7 @@ const card_container_style = css({
   },
 });
 
-export default async function Page() {
+const Page = async () => {
   const posts = await get_posts_date_sorted();
 
   return (
@@ -39,4 +39,6 @@ export default async function Page() {
       </div>
     </div>
   );
-}
+};
+
+export default Page;

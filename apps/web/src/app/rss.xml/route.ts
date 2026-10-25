@@ -2,7 +2,7 @@ import { Feed } from "feed";
 
 import { get_posts_date_sorted } from "#/features/blog.ts";
 
-export async function GET() {
+export const GET = async () => {
   const posts = await get_posts_date_sorted();
   const latest = posts[0];
 
@@ -38,4 +38,4 @@ export async function GET() {
       "Content-Type": "application/xml",
     },
   });
-}
+};

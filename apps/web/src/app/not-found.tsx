@@ -32,16 +32,16 @@ const text_style = css({
   textDecoration: "underline",
 });
 
-export default function NotFound() {
-  return (
-    <div className={container_style}>
-      <div>
-        <h1 className={h1_style}>Not Found</h1>
-        <p className={emoji_style}>👺</p>
-        <p className={text_style}>
-          <Link href="/">Get Back!</Link>
-        </p>
-      </div>
+const NotFound = () => (
+  <div className={container_style}>
+    <div>
+      <h1 className={h1_style}>Not Found</h1>
+      <p className={emoji_style}>👺</p>
+      <p className={text_style}>
+        <Link href="/">Get Back!</Link>
+      </p>
     </div>
-  );
-}
+  </div>
+);
+
+export default NotFound;

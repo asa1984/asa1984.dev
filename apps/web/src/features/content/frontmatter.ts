@@ -29,10 +29,12 @@ export const context_frontmatter_schema = z.object({
 export type BlogFrontmatter = z.infer<typeof blog_frontmatter_schema>;
 export type ContextFrontmatter = z.infer<typeof context_frontmatter_schema>;
 
-export function split_frontmatter(source: string): {
+export const split_frontmatter = (
+  source: string,
+): {
   header: string;
   body: string;
-} {
+} => {
   const lines = source.split(/\r?\n/u);
   if (lines[0] !== "---") {
     throw new Error('Missing beginning "---"');
@@ -45,26 +47,30 @@ export function split_frontmatter(source: string): {
     header: lines.slice(1, end).join("\n"),
     body: lines.slice(end + 1).join("\n"),
   };
-}
+};
 
-export function parse_blog_post(source: string): {
+export const parse_blog_post = (
+  source: string,
+): {
   frontmatter: BlogFrontmatter;
   content: string;
-} {
+} => {
   const { header, body } = split_frontmatter(source);
   return {
     frontmatter: blog_frontmatter_schema.parse(parse(header)),
     content: body,
   };
-}
+};
 
-export function parse_context_post(source: string): {
+export const parse_context_post = (
+  source: string,
+): {
   frontmatter: ContextFrontmatter;
   content: string;
-} {
+} => {
   const { header, body } = split_frontmatter(source);
   return {
     frontmatter: context_frontmatter_schema.parse(parse(header)),
     content: body,
   };
-}
+};
