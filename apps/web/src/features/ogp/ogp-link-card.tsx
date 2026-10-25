@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { css } from "@/styled-system/css";
+import { css } from "#/styled-system/css";
 
 import { fetch_ogp } from "./fetch-ogp.ts";
 

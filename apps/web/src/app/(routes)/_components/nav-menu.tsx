@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { IconArrowDown, IconArrowLeft } from "@/components/icons.tsx";
-import { css } from "@/styled-system/css";
+import { IconArrowDown, IconArrowLeft } from "#/components/icons.tsx";
+import { css } from "#/styled-system/css";
 
 const useOnClickOutside = (
   ref: React.RefObject<HTMLDivElement | null>,

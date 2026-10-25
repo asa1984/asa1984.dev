@@ -1,4 +1,4 @@
-import { css } from "@/styled-system/css";
+import { css } from "#/styled-system/css";
 
 const container_style = css({
   display: "grid",

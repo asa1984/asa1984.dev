@@ -1,4 +1,4 @@
-import { fetch_content_binary } from "@/features/content/github.ts";
+import { fetch_content_binary } from "#/features/content/github.ts";
 
 // Serves images straight out of the content repository (the role the
 // backend's /image/delivery/:key endpoint used to play, minus the sha256

@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 import type { ReactNode } from "react";
 
-import { css } from "@/styled-system/css";
+import { css } from "#/styled-system/css";
 
 const tag_style = css({
   fontSize: "md",

@@ -1,6 +1,10 @@
 {
   "name": "@asa1984.dev/web",
   "private": true,
+  "imports": {
+    "#/styled-system/*": "./src/styled-system/*/index.js",
+    "#/*": "./src/*"
+  },
   "scripts": {
     "build": "next build"
   },

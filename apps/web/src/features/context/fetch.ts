@@ -1,5 +1,5 @@
-import { parse_context_post } from "@/features/content/frontmatter.ts";
-import { fetch_content_text, list_content_paths } from "@/features/content/github.ts";
+import { parse_context_post } from "#/features/content/frontmatter.ts";
+import { fetch_content_text, list_content_paths } from "#/features/content/github.ts";
 
 export type Frontmatter = {
   title: string;

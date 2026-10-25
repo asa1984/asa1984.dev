@@ -31,7 +31,7 @@ export default defineConfig({
         "always",
         {
           ignorePackages: true,
-          pathGroupOverrides: [{ pattern: "@/styled-system/**", action: "ignore" }],
+          pathGroupOverrides: [{ pattern: "#/styled-system/**", action: "ignore" }],
         },
       ],
     },

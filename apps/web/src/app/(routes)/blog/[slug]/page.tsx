@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { IconPen } from "@/components/icons.tsx";
-import { get_post } from "@/features/blog.ts";
-import { Markdown } from "@/features/markdown.tsx";
-import { css } from "@/styled-system/css";
+import { IconPen } from "#/components/icons.tsx";
+import { get_post } from "#/features/blog.ts";
+import { Markdown } from "#/features/markdown.tsx";
+import { css } from "#/styled-system/css";
 
 type PageProps = {
   params: Promise<{

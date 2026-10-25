@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { css } from "@/styled-system/css";
+import { css } from "#/styled-system/css";
 
 export const metadata: Metadata = {
   title: "Not Found",
