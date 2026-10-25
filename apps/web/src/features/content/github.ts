@@ -135,3 +135,11 @@ export async function fetch_content_binary(path: string): Promise<ArrayBuffer | 
   }
   return res.arrayBuffer();
 }
+
+/** Where the post loaders read the content repository from. Tests pass their own. */
+export type ContentSource = {
+  list_content_paths: () => Promise<string[]>;
+  fetch_content_text: (path: string) => Promise<string>;
+};
+
+export const github_content: ContentSource = { list_content_paths, fetch_content_text };

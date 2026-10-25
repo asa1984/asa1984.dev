@@ -1,15 +1,12 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { beforeAll, describe, expect, test, vi } from "vite-plus/test";
+import { beforeAll, describe, expect, test } from "vite-plus/test";
 
 import { compile_markdown } from "./compile-markdown.tsx";
 
-// LinkCard fetches OGP metadata over the network at render time; replace it
-// with an inert marker so the test stays hermetic.
-vi.mock("#/features/ogp.tsx", () => ({
-  OgpLinkCardWrapper: ({ href }: { href: string }) =>
-    createElement("span", { "data-testid": "linkcard", "data-href": href }),
-}));
+/** Stands in for the link card, which fetches OGP metadata over the network at render time. */
+const link_card = ({ href }: { href: string }) =>
+  createElement("span", { "data-testid": "linkcard", "data-href": href });
 
 const FIXTURE = `# 見出し
 
@@ -45,6 +42,7 @@ const render = async () => {
     source: FIXTURE,
     type: "blog",
     slug: "test-post",
+    link_card,
   });
   return renderToStaticMarkup(jsx);
 };

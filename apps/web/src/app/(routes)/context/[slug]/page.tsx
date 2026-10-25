@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
   const { slug } = params;
-  const post = await get_post(slug);
+  const post = await get_post({ slug });
   if (!post) {
     return notFound();
   }
@@ -39,7 +39,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
-  const post = await get_post(params.slug);
+  const post = await get_post({ slug: params.slug });
   if (!post) {
     return notFound();
   }

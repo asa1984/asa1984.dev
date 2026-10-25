@@ -6,10 +6,8 @@ import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch.ts
 const list_content_paths = vi.fn<() => Promise<string[]>>();
 const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
 
-vi.mock("#/features/content/github.ts", () => ({
-  list_content_paths: () => list_content_paths(),
-  fetch_content_text: (path: string) => fetch_content_text(path),
-}));
+/** A content source whose responses each test sets. */
+const source = { list_content_paths, fetch_content_text };
 
 const post_md = ({
   title = "タイトル",
@@ -52,7 +50,7 @@ describe("get_published_posts", () => {
     ]);
     fetch_content_text.mockResolvedValue(post_md());
 
-    const posts = await get_published_posts();
+    const posts = await get_published_posts({ source });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["first"]);
     expect(fetch_content_text).toHaveBeenCalledExactlyOnceWith("blog/first/post.md");
@@ -64,7 +62,7 @@ describe("get_published_posts", () => {
       Promise.resolve(post_md({ published: !path.includes("draft") })),
     );
 
-    const posts = await get_published_posts();
+    const posts = await get_published_posts({ source });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["public"]);
   });
@@ -73,7 +71,7 @@ describe("get_published_posts", () => {
     list_content_paths.mockResolvedValue(["blog/first/post.md"]);
     fetch_content_text.mockResolvedValue(post_md({ image: "cover.webp" }));
 
-    const [post] = await get_published_posts();
+    const [post] = await get_published_posts({ source });
 
     expect(post?.meta.image).toBe("https://site.test/content-assets/blog/first/cover.webp");
   });
@@ -82,7 +80,7 @@ describe("get_published_posts", () => {
     list_content_paths.mockResolvedValue(["blog/broken/post.md"]);
     fetch_content_text.mockResolvedValue("---\ntitle: only-title\n---\n本文");
 
-    await expect(get_published_posts()).rejects.toThrow(ZodError);
+    await expect(get_published_posts({ source })).rejects.toThrow(ZodError);
   });
 });
 
@@ -91,7 +89,7 @@ describe("get_posts_date_sorted", () => {
     list_content_paths.mockResolvedValue(["blog/old/post.md", "blog/new/post.md"]);
     fetch_content_text.mockImplementation((path) => Promise.resolve(post_md_by_age(path)));
 
-    const posts = await get_posts_date_sorted();
+    const posts = await get_posts_date_sorted({ source });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["new", "old"]);
   });
@@ -102,7 +100,7 @@ describe("get_post", () => {
     list_content_paths.mockResolvedValue(["blog/first/post.md"]);
     fetch_content_text.mockResolvedValue(post_md());
 
-    const post = await get_post("first");
+    const post = await get_post({ slug: "first", source });
 
     expect(post?.slug).toBe("first");
     expect(post?.meta.title).toBe("タイトル");
@@ -113,7 +111,7 @@ describe("get_post", () => {
   test("未知の slug は GitHub を叩かずに null を返す", async () => {
     list_content_paths.mockResolvedValue(["blog/first/post.md"]);
 
-    const post = await get_post("unknown");
+    const post = await get_post({ slug: "unknown", source });
 
     expect(post).toBeNull();
     expect(fetch_content_text).not.toHaveBeenCalled();
@@ -123,7 +121,7 @@ describe("get_post", () => {
     list_content_paths.mockResolvedValue(["blog/draft/post.md"]);
     fetch_content_text.mockResolvedValue(post_md({ published: false }));
 
-    const post = await get_post("draft");
+    const post = await get_post({ slug: "draft", source });
 
     expect(post).toBeNull();
   });

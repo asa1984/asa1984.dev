@@ -24,7 +24,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
   const { slug } = params;
 
-  const post = await get_post(slug);
+  const post = await get_post({ slug });
   if (!post) {
     return notFound();
   }
@@ -49,7 +49,7 @@ export default async function Page(props: PageProps) {
 
   const { slug } = params;
 
-  const post = await get_post(slug);
+  const post = await get_post({ slug });
   if (!post) {
     return notFound();
   }

@@ -37,15 +37,7 @@ export default defineConfig({
     },
     overrides: [
       ...lint.overrides,
-      {
-        files: ["**/*.{test,spec}.{ts,mts,cts,tsx}"],
-        ...testLint,
-        rules: {
-          ...testLint.rules,
-          // Adoption debt: three test files still mock modules with vi.mock.
-          "vitest/no-restricted-vi-methods": "off",
-        },
-      },
+      { files: ["**/*.{test,spec}.{ts,mts,cts,tsx}"], ...testLint },
       {
         // Next.js requires these files to export their component as default.
         files: [

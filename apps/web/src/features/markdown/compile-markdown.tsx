@@ -69,10 +69,13 @@ export async function compile_markdown({
   source,
   type,
   slug,
+  link_card,
 }: {
   source: string;
   type: "blog" | "context";
   slug: string;
+  /** Replaces the component that renders bare links as cards. */
+  link_card?: (props: { href: string }) => React.ReactNode;
 }) {
   const mdast = processor.parse(source);
   const hast = await processor.run(mdast);
@@ -81,6 +84,10 @@ export async function compile_markdown({
     Fragment,
     jsx,
     jsxs,
-    components: create_custom_components({ type, slug }),
+    components: create_custom_components({
+      type,
+      slug,
+      ...(link_card === undefined ? {} : { link_card }),
+    }),
   });
 }

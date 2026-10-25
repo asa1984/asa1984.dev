@@ -5,10 +5,8 @@ import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch.ts
 const list_content_paths = vi.fn<() => Promise<string[]>>();
 const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
 
-vi.mock("#/features/content/github.ts", () => ({
-  list_content_paths: () => list_content_paths(),
-  fetch_content_text: (path: string) => fetch_content_text(path),
-}));
+/** A content source whose responses each test sets. */
+const source = { list_content_paths, fetch_content_text };
 
 const post_md = ({ published = true, date = "2024-01-08T11:25:53.246Z" } = {}) => `---
 title: タイトル
@@ -41,7 +39,7 @@ describe("get_published_posts", () => {
       Promise.resolve(post_md({ published: !path.includes("draft") })),
     );
 
-    const posts = await get_published_posts();
+    const posts = await get_published_posts({ source });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["public"]);
     expect(posts[0]?.meta.emoji).toBe("📕");
@@ -53,7 +51,7 @@ describe("get_posts_date_sorted", () => {
     list_content_paths.mockResolvedValue(["context/old/post.md", "context/new/post.md"]);
     fetch_content_text.mockImplementation((path) => Promise.resolve(post_md_by_age(path)));
 
-    const posts = await get_posts_date_sorted();
+    const posts = await get_posts_date_sorted({ source });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["new", "old"]);
   });
@@ -64,8 +62,8 @@ describe("get_post", () => {
     list_content_paths.mockResolvedValue(["context/first/post.md"]);
     fetch_content_text.mockResolvedValue(post_md());
 
-    const first = await get_post("first");
+    const first = await get_post({ slug: "first", source });
     expect(first?.slug).toBe("first");
-    expect(await get_post("unknown")).toBeNull();
+    expect(await get_post({ slug: "unknown", source })).toBeNull();
   });
 });

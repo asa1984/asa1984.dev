@@ -1,5 +1,6 @@
 import { parse_context_post } from "#/features/content/frontmatter.ts";
-import { fetch_content_text, list_content_paths } from "#/features/content/github.ts";
+import type { ContentSource } from "#/features/content/github.ts";
+import { github_content } from "#/features/content/github.ts";
 
 export type Frontmatter = {
   title: string;
@@ -16,16 +17,22 @@ export type Post = {
 
 const POST_PATH = /^context\/([^/]+)\/post\.md$/u;
 
-const list_slugs = async (): Promise<string[]> => {
-  const paths = await list_content_paths();
+const list_slugs = async (source: ContentSource): Promise<string[]> => {
+  const paths = await source.list_content_paths();
   return paths
     .map((path) => POST_PATH.exec(path)?.[1])
     .filter((slug): slug is string => slug !== undefined);
 };
 
-const load_post = async (slug: string): Promise<Post> => {
-  const source = await fetch_content_text(`context/${slug}/post.md`);
-  const { frontmatter, content } = parse_context_post(source);
+const load_post = async ({
+  source,
+  slug,
+}: {
+  source: ContentSource;
+  slug: string;
+}): Promise<Post> => {
+  const text = await source.fetch_content_text(`context/${slug}/post.md`);
+  const { frontmatter, content } = parse_context_post(text);
   return {
     slug,
     meta: {
@@ -38,24 +45,34 @@ const load_post = async (slug: string): Promise<Post> => {
   };
 };
 
-export const get_published_posts = async (): Promise<Post[]> => {
-  const slugs = await list_slugs();
-  const posts = await Promise.all(slugs.map((slug) => load_post(slug)));
+/** Options shared by the post loaders. */
+type LoaderOptions = { source?: ContentSource };
+
+export const get_published_posts = async ({ source = github_content }: LoaderOptions = {}): Promise<
+  Post[]
+> => {
+  const slugs = await list_slugs(source);
+  const posts = await Promise.all(slugs.map((slug) => load_post({ source, slug })));
   return posts.filter((post) => post.meta.published);
 };
 
 // Newer posts first
-export const get_posts_date_sorted = async (): Promise<Post[]> => {
-  const posts = await get_published_posts();
+export const get_posts_date_sorted = async ({
+  source = github_content,
+}: LoaderOptions = {}): Promise<Post[]> => {
+  const posts = await get_published_posts({ source });
   return posts.toSorted((prev, next) => next.meta.date.getTime() - prev.meta.date.getTime());
 };
 
-export const get_post = async (slug: string): Promise<Post | null> => {
-  const slugs = await list_slugs();
+export const get_post = async ({
+  slug,
+  source = github_content,
+}: { slug: string } & LoaderOptions): Promise<Post | null> => {
+  const slugs = await list_slugs(source);
   if (!slugs.includes(slug)) {
     return null;
   }
-  const post = await load_post(slug);
+  const post = await load_post({ source, slug });
   // Drafts are invisible, not just unlisted.
   return post.meta.published ? post : null;
 };

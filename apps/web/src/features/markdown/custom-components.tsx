@@ -2,7 +2,7 @@ import type { Components } from "hast-util-to-jsx-runtime";
 import Image from "next/image";
 import Link from "next/link";
 
-import { OgpLinkCardWrapper as LinkCard } from "#/features/ogp.tsx";
+import { OgpLinkCardWrapper as OgpLinkCard } from "#/features/ogp.tsx";
 import { css } from "#/styled-system/css";
 
 import { Message } from "./custom-components/message.tsx";
@@ -39,9 +39,12 @@ type CustomComponents = Partial<Components> & {
 export const create_custom_components = ({
   type,
   slug,
+  link_card: LinkCard = OgpLinkCard,
 }: {
   type: string;
   slug: string;
+  /** Renders a bare link as a card. Tests replace it to avoid fetching OGP metadata. */
+  link_card?: (props: { href: string }) => React.ReactNode;
 }): CustomComponents => ({
   // Links
   a: (props) => {
