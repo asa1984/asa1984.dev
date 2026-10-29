@@ -18,7 +18,7 @@ catalog:
   "@types/unist": 3.0.3
   feed: 6.0.0
   hast-util-to-jsx-runtime: 2.3.6
-  katex: 0.18.10
+  katex: 0.19.1
   mdast-util-to-hast: 13.2.1
   next: 16.4.3
   node-html-parser: 9.0.5

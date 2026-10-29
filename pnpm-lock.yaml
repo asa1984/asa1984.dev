@@ -213,8 +213,8 @@ catalogs:
       specifier: 2.3.6
       version: 2.3.6
     katex:
-      specifier: 0.18.10
-      version: 0.18.10
+      specifier: 0.19.1
+      version: 0.19.1
     mdast-util-to-hast:
       specifier: 13.2.1
       version: 13.2.1
@@ -371,7 +371,7 @@ importers:
         version: 2.3.6(supports-color@10.2.2)
       katex:
         specifier: 'catalog:'
-        version: 0.18.10
+        version: 0.19.1
       mdast-util-to-hast:
         specifier: 'catalog:'
         version: 13.2.1
@@ -3071,6 +3071,10 @@ packages:
 
   katex@0.18.10:
     resolution: {integrity: sha512-/B6p9eY9DX7aHBfpkHdpirDTZ5QH9xTwL9y837PWuzuv41O5jFdqNQwVQEQsimY0/iVNkwBY4+4hMfhQ7d4Dbw==}
+    hasBin: true
+
+  katex@0.19.1:
+    resolution: {integrity: sha512-jG8uKntjSEcm2EpQOh0XturpPuuC9r3Sq5HLHdsFdWZT27E672SF19QEi+of0/YeOy15lDgRhKvr5614uRrEfA==}
     hasBin: true
 
   kleur@4.1.5:
@@ -6725,6 +6729,10 @@ snapshots:
   js-tokens@4.0.0: {}
 
   katex@0.18.10:
+    dependencies:
+      commander: 15.0.0
+
+  katex@0.19.1:
     dependencies:
       commander: 15.0.0
 
