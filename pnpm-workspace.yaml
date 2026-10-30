@@ -50,7 +50,7 @@ catalog:
 # Security floors for transitive dependencies (pnpm audit, 2026-08-03, 2026-10-08, 2026-10-25).
 # Scoped per major so parents keep their expected API surface.
 overrides:
-  "fast-xml-parser@4": ^4.5.5
+  "fast-xml-parser@4": ^5.0.0
   "form-data@4": ^4.0.6
   "postcss@8": ^8.5.18
   "js-yaml@3": ^3.15.0
