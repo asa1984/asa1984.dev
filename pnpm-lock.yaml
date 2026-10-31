@@ -308,7 +308,7 @@ overrides:
   '@hono/node-server@2': ^2.0.5
   esbuild@<0.25.0: ^0.25.0
   esbuild@>=0.27.0 <0.28.1: ^0.28.1
-  undici@7: ^7.30.1
+  undici@7: ^8.0.0
   sharp@<0.35.5: ^0.35.5
   browserslist@4: ^4.28.7
   baseline-browser-mapping@2: ^2.11.0
@@ -3862,9 +3862,9 @@ packages:
     resolution: {integrity: sha512-EvRlUt/QqAEvXdQeRMYUfwOQsfzpDztykrG2owGEE/rBOBoYv9uF39ZzsNDh4lTFHhTr2XOZjKkYgueD12ZmGA==}
     engines: {node: '>=18.17'}
 
-  undici@7.30.1:
-    resolution: {integrity: sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==}
-    engines: {node: '>=20.18.1'}
+  undici@8.12.3:
+    resolution: {integrity: sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw==}
+    engines: {node: '>=22.19.0'}
 
   unenv@2.0.0-rc.24:
     resolution: {integrity: sha512-i7qRCmY42zmCwnYlh9H2SvLEypEFGye5iRmEMKjcGi7zk9UquigRjFtTLz0TYqr0ZGLZhaMHl/foy1bZR+Cwlw==}
@@ -7196,7 +7196,7 @@ snapshots:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@26.6.5)
-      undici: 7.30.1
+      undici: 8.12.3
       workerd: 1.20261023.1
       ws: 8.21.1
       youch: 4.1.0-beta.10
@@ -7850,7 +7850,7 @@ snapshots:
 
   undici@6.29.1: {}
 
-  undici@7.30.1: {}
+  undici@8.12.3: {}
 
   unenv@2.0.0-rc.24:
     dependencies:
