@@ -1,6 +1,6 @@
 import { defineGlobalStyles } from "@pandacss/dev";
 
-export const global_css = defineGlobalStyles({
+export const globalCss = defineGlobalStyles({
   "html, body": {
     color: "black",
     backgroundColor: "white",

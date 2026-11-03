@@ -1,38 +1,21 @@
 import { parse } from "yaml";
-import { z } from "zod";
+import type { z } from "zod";
 
-// Ported from the sync CLI's frontmatter schema. With the database gone
-// there is no created_at to fall back on, so `date` is required here —
-// the frontmatter is the only place a post's date can come from.
-const date_schema = z
-  .union([z.string().min(1), z.date()])
-  .transform((value) => (value instanceof Date ? value.toISOString() : value))
-  .refine((value) => !Number.isNaN(Date.parse(value)), {
-    message: "date must be a parseable date",
-  });
-
-export const blog_frontmatter_schema = z.object({
-  title: z.string().min(1),
-  image: z.string().min(1),
-  description: z.string().min(1),
-  published: z.boolean(),
-  date: date_schema,
-});
-
-export const context_frontmatter_schema = z.object({
-  title: z.string().min(1),
-  emoji: z.string().min(1),
-  published: z.boolean(),
-  date: date_schema,
-});
-
-export type BlogFrontmatter = z.infer<typeof blog_frontmatter_schema>;
-export type ContextFrontmatter = z.infer<typeof context_frontmatter_schema>;
-
-export function split_frontmatter(source: string): {
-  header: string;
+/** A post parsed from `src/content/<collection>/<slug>.md`. */
+export type Post<Frontmatter> = {
+  slug: string;
+  frontmatter: Frontmatter;
   body: string;
-} {
+};
+
+/** The frontmatter fields every collection has. */
+type BaseFrontmatter = {
+  published: boolean;
+  date: Date;
+};
+
+/** Splits a Markdown source into its YAML frontmatter and the body that follows. */
+export const splitFrontmatter = (source: string): { header: string; body: string } => {
   const lines = source.split(/\r?\n/u);
   if (lines[0] !== "---") {
     throw new Error('Missing beginning "---"');
@@ -45,26 +28,29 @@ export function split_frontmatter(source: string): {
     header: lines.slice(1, end).join("\n"),
     body: lines.slice(end + 1).join("\n"),
   };
-}
+};
 
-export function parse_blog_post(source: string): {
-  frontmatter: BlogFrontmatter;
-  content: string;
-} {
-  const { header, body } = split_frontmatter(source);
-  return {
-    frontmatter: blog_frontmatter_schema.parse(parse(header)),
-    content: body,
-  };
-}
+const slugPattern = /([^/]+)\.md$/u;
 
-export function parse_context_post(source: string): {
-  frontmatter: ContextFrontmatter;
-  content: string;
-} {
-  const { header, body } = split_frontmatter(source);
-  return {
-    frontmatter: context_frontmatter_schema.parse(parse(header)),
-    content: body,
-  };
-}
+/**
+ * Parses the posts of a collection, keyed by their path as `import.meta.glob` returns them, and
+ * returns the published ones, newest first. Drafts are left out entirely, so they get no page.
+ */
+export const parsePosts = <Frontmatter extends BaseFrontmatter>({
+  sources,
+  schema,
+}: {
+  sources: Record<string, string>;
+  schema: z.ZodType<Frontmatter>;
+}): Post<Frontmatter>[] =>
+  Object.entries(sources)
+    .map(([path, source]) => {
+      const slug = slugPattern.exec(path)?.[1];
+      if (slug === undefined) {
+        throw new Error(`Not a post path: ${path}`);
+      }
+      const { header, body } = splitFrontmatter(source);
+      return { slug, frontmatter: schema.parse(parse(header)), body };
+    })
+    .filter((post) => post.frontmatter.published)
+    .toSorted((a, b) => b.frontmatter.date.getTime() - a.frontmatter.date.getTime());

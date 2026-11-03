@@ -5,14 +5,14 @@ import { unified } from "unified";
 import { visit } from "unist-util-visit";
 import { describe, expect, test } from "vite-plus/test";
 
-import { remark_inline_footnote } from "./remark-inline-footnote.ts";
+import { remarkInlineFootnote } from "./remark-inline-footnote.ts";
 
 const parse = (markdown: string): Root => {
-  const processor = unified().use(remarkParse).use(remarkGfm).use(remark_inline_footnote);
+  const processor = unified().use(remarkParse).use(remarkGfm).use(remarkInlineFootnote);
   return processor.runSync(processor.parse(markdown));
 };
 
-const first_paragraph = (root: Root): Paragraph => {
+const firstParagraph = (root: Root): Paragraph => {
   const [node] = root.children;
   if (node?.type !== "paragraph") {
     throw new Error("expected paragraph");
@@ -36,7 +36,7 @@ const definitions = (root: Root): FootnoteDefinition[] => {
   return found;
 };
 
-describe("remark_inline_footnote", () => {
+describe("remarkInlineFootnote", () => {
   test("converts ^[...] into a footnote reference and definition", () => {
     const tree = parse("本文^[これが脚注]の続き。");
 
@@ -53,7 +53,7 @@ describe("remark_inline_footnote", () => {
   test("keeps the surrounding text intact", () => {
     const tree = parse("本文^[脚注]の続き。");
 
-    const paragraph = first_paragraph(tree);
+    const paragraph = firstParagraph(tree);
     expect(paragraph.children).toStrictEqual([
       { type: "text", value: "本文" },
       expect.objectContaining({ type: "footnoteReference" }),
@@ -63,11 +63,11 @@ describe("remark_inline_footnote", () => {
 
   test("handles a footnote at the start and end of a text node", () => {
     const start = parse("^[先頭]です。");
-    const startParagraph = first_paragraph(start);
+    const startParagraph = firstParagraph(start);
     expect(startParagraph.children[0]?.type).toBe("footnoteReference");
 
     const end = parse("これは^[末尾]");
-    const endParagraph = first_paragraph(end);
+    const endParagraph = firstParagraph(end);
     expect(endParagraph.children.at(-1)?.type).toBe("footnoteReference");
   });
 
@@ -85,7 +85,7 @@ describe("remark_inline_footnote", () => {
   test("converts multiple footnotes inside a single text node", () => {
     const tree = parse("A^[one]B^[two]C");
 
-    const paragraph = first_paragraph(tree);
+    const paragraph = firstParagraph(tree);
     expect(paragraph.children.map((c) => c.type)).toStrictEqual([
       "text",
       "footnoteReference",

@@ -2,16 +2,18 @@ import type { FootnoteDefinition, PhrasingContent, Root, Text } from "mdast";
 import type { Transformer } from "unified";
 import { visit } from "unist-util-visit";
 
-// Zenn-compatible inline footnotes: ^[note] inside prose. The note body is
-// plain text only (no "]" and no newline) — richer content should use the
-// GFM reference form ([^id] + definition), which this plugin coexists with.
-const INLINE_FOOTNOTE = /\^\[([^\]\n]+)\]/gu;
+/**
+ * Zenn-compatible inline footnotes: `^[note]` inside prose. The note body is plain text only (no
+ * "]" and no newline); richer content uses the GFM reference form (`[^id]` + definition), which
+ * this pattern leaves alone.
+ */
+const inlineFootnote = /\^\[([^\]\n]+)\]/gu;
 
-// Namespaced so generated identifiers cannot collide with handwritten
-// GFM footnote identifiers.
-const ID_PREFIX = "inline-fn-";
+/** Namespaced so generated identifiers cannot collide with handwritten GFM footnote identifiers. */
+const idPrefix = "inline-fn-";
 
-export const remark_inline_footnote = (): Transformer<Root> => (tree) => {
+/** Turns inline footnotes into GFM footnote references and definitions. */
+export const remarkInlineFootnote = (): Transformer<Root> => (tree) => {
   const definitions: FootnoteDefinition[] = [];
 
   visit(tree, "text", (node: Text, index, parent) => {
@@ -19,7 +21,7 @@ export const remark_inline_footnote = (): Transformer<Root> => (tree) => {
       return;
     }
 
-    const matches = [...node.value.matchAll(INLINE_FOOTNOTE)];
+    const matches = [...node.value.matchAll(inlineFootnote)];
     if (matches.length === 0) {
       return;
     }
@@ -33,7 +35,7 @@ export const remark_inline_footnote = (): Transformer<Root> => (tree) => {
           value: node.value.slice(consumed, match.index),
         });
       }
-      const identifier = `${ID_PREFIX}${definitions.length + 1}`;
+      const identifier = `${idPrefix}${definitions.length + 1}`;
       definitions.push({
         type: "footnoteDefinition",
         identifier,

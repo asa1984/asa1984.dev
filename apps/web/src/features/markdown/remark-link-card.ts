@@ -1,13 +1,13 @@
 import type { Parent, Root } from "mdast";
-import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
 import { visit } from "unist-util-visit";
 
-import { is_linkcard, is_parent } from "./utils.ts";
+import { isLinkCardParagraph, isParent } from "./mdast-guards.ts";
 
-export const remark_linkcard = (): Transformer<Root> => (tree) => {
-  visit(tree, is_linkcard, (node, index, parent: Parent | undefined) => {
-    if (!is_parent(parent) || index === undefined) {
+/** Turns a paragraph that holds only a bare link into a `linkCard` node. */
+export const remarkLinkCard = (): Transformer<Root> => (tree) => {
+  visit(tree, isLinkCardParagraph, (node, index, parent: Parent | undefined) => {
+    if (!isParent(parent) || index === undefined) {
       return;
     }
 
@@ -16,7 +16,7 @@ export const remark_linkcard = (): Transformer<Root> => (tree) => {
     // A transformer rewrites the tree it receives in place.
     // oxlint-disable-next-line eslint/no-param-reassign
     parent.children[index] = {
-      type: "linkcard",
+      type: "linkCard",
       data: {
         hProperties: {
           url: child.url,
@@ -25,12 +25,3 @@ export const remark_linkcard = (): Transformer<Root> => (tree) => {
     };
   });
 };
-
-export const linkcard_handler: Handler = (h, node) => ({
-  type: "element",
-  tagName: "linkcard",
-  properties: {
-    href: node.data.hProperties.url,
-  },
-  children: h.all(node),
-});

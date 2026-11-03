@@ -4,10 +4,10 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { describe, expect, test } from "vite-plus/test";
 
-import { remark_zenn_message } from "./remark-zenn-message.ts";
+import { remarkZennMessage } from "./remark-zenn-message.ts";
 
 const parse = (markdown: string): Root => {
-  const processor = unified().use(remarkParse).use(remarkGfm).use(remark_zenn_message);
+  const processor = unified().use(remarkParse).use(remarkGfm).use(remarkZennMessage);
   return processor.runSync(processor.parse(markdown));
 };
 
@@ -19,7 +19,7 @@ type MessageNode = {
 const messages = (root: Root): MessageNode[] =>
   root.children.filter((node) => node.type === "message");
 
-describe("remark_zenn_message", () => {
+describe("remarkZennMessage", () => {
   test(":::message ブロックを message ノードに変換する", () => {
     const tree = parse(":::message\n注意書きです\n:::");
 

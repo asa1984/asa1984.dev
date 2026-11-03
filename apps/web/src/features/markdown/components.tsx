@@ -1,13 +1,12 @@
 import type { Components } from "hast-util-to-jsx-runtime";
-import Image from "next/image";
-import Link from "next/link";
 
-import { OgpLinkCardWrapper as LinkCard } from "#/features/ogp.tsx";
+import type { Ogp } from "#/features/ogp.ts";
+import { OgpLinkCard } from "#/features/ogp.ts";
 import { css } from "#/styled-system/css";
 
-import { Message } from "./custom-components/message.tsx";
+import { Message } from "./message.tsx";
 
-const anchor_style = css({
+const anchorStyle = css({
   color: "blue.500",
   backgroundImage: "linear-gradient(90deg, #0086e0, #0086e0)",
   backgroundRepeat: "no-repeat",
@@ -19,7 +18,7 @@ const anchor_style = css({
   },
 });
 
-const image_style = css({
+const imageStyle = css({
   marginX: "auto",
   display: "block",
   maxWidth: "100%",
@@ -27,90 +26,73 @@ const image_style = css({
   overflow: "hidden",
 });
 
-// hast-util-to-jsx-runtime resolves any hast tag name against this record at
-// runtime, but its Components type only covers intrinsic elements — the
-// custom <message>/<linkcard> elements produced by our remark plugins ride
-// along as extra keys.
-type CustomComponents = Partial<Components> & {
+const linkCardStyle = css({ mt: 8 });
+
+/**
+ * hast-util-to-jsx-runtime resolves any hast tag name against this record, but its Components
+ * type only covers intrinsic elements, so the custom elements from the remark plugins ride along
+ * as extra keys.
+ */
+type ArticleComponents = Partial<Components> & {
   message: (props: { children?: React.ReactNode }) => React.ReactNode;
   linkcard: (props: { href?: string }) => React.ReactNode;
 };
 
-export const create_custom_components = ({
-  type,
-  slug,
-}: {
-  type: string;
-  slug: string;
-}): CustomComponents => ({
-  // Links
-  a: (props) => {
-    const { href, children } = props;
-
-    if (!href) {
+/** The components that render an article's hast, with link cards built from `ogps`. */
+export const createComponents = (ogps: Record<string, Ogp>): ArticleComponents => ({
+  a: ({ href, children, ...props }) => {
+    if (href === undefined || href === "") {
       return (
-        <a className={anchor_style} {...props}>
+        <a className={anchorStyle} {...props}>
           {children}
         </a>
       );
     }
-
-    // Internal link
     if (href.startsWith("/") || href.startsWith("#")) {
       return (
-        <Link href={href} className={anchor_style}>
+        <a href={href} className={anchorStyle}>
           {children}
-        </Link>
+        </a>
       );
     }
-
-    // External link
     return (
-      <a target="_blank" rel="noopener noreferrer" className={anchor_style} {...props}>
+      <a target="_blank" rel="noopener noreferrer" className={anchorStyle} href={href} {...props}>
         {children}
       </a>
     );
   },
 
-  // Images
-  img: (props) => {
-    if (!props.src) {
+  img: ({ src, alt }) => {
+    if (src === undefined || src === "") {
       return null;
     }
-    if (props.src.startsWith("./")) {
-      const filename = props.src.replace("./", "");
-      const image_url = `/content-assets/${type}/${slug}/${filename}`;
-      return (
-        <Image
-          src={image_url}
-          alt={props.alt ?? "alt"}
-          width={500}
-          height={500}
-          className={image_style}
-        />
-      );
-    }
+    // The article's own images get a fixed box so the layout does not shift while they load.
+    const size = src.startsWith("/content-assets/") ? { width: 500, height: 500 } : {};
     return (
       <img
-        src={props.src}
-        alt={props.alt ?? "alt"}
+        src={src}
+        alt={alt ?? "alt"}
+        {...size}
         loading="lazy"
         decoding="async"
-        className={image_style}
+        className={imageStyle}
       />
     );
   },
 
-  // Special components
-  message: (props) => <Message {...props} />,
+  message: ({ children }) => <Message>{children}</Message>,
+
   linkcard: ({ href }) =>
-    href ? (
-      <div
-        className={css({
-          mt: 8,
-        })}
-      >
-        <LinkCard href={href} />
+    href === undefined ? null : (
+      <div className={linkCardStyle}>
+        <OgpLinkCard
+          {...(ogps[href] ?? {
+            url: href,
+            title: undefined,
+            description: undefined,
+            image: undefined,
+          })}
+        />
       </div>
-    ) : null,
+    ),
 });

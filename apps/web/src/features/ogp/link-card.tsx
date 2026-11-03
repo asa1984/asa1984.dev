@@ -1,18 +1,8 @@
-import { Suspense } from "react";
-
 import { css } from "#/styled-system/css";
 
-import { fetch_ogp } from "./fetch-ogp.ts";
+import type { Ogp } from "./fetch-ogp.ts";
 
-export type OgpLinkCardPresenterProps = {
-  href: string;
-  title?: string | undefined;
-  description?: string | undefined;
-  image?: string | undefined;
-  favicon?: string | undefined;
-};
-
-const container_style = css({
+const containerStyle = css({
   width: "full",
   height: "120px",
   display: "flex",
@@ -27,7 +17,7 @@ const container_style = css({
   },
 });
 
-const text_container_style = css({
+const textContainerStyle = css({
   p: 4,
   display: "flex",
   flexDirection: "column",
@@ -35,59 +25,58 @@ const text_container_style = css({
   overflow: "hidden",
   whiteSpace: "nowrap",
 });
-const title_style = css({
+
+const titleStyle = css({
   mt: 1,
   fontWeight: "semibold",
   fontSize: "lg",
   overflow: "hidden",
   textOverflow: "ellipsis",
 });
-const description_style = css({
+
+const descriptionStyle = css({
   fontSize: "sm",
   color: "gray.500",
   overflow: "hidden",
   textOverflow: "ellipsis",
 });
-const hostname_style = css({
+
+const hostnameStyle = css({
   display: "flex",
   alignItems: "center",
   color: "gray.600",
   fontWeight: "semibold",
   fontSize: "sm",
 });
-const favicon_style = css({ w: 4, h: 4, mr: 2 });
 
-export const OgpLinkCardPresenter = ({
-  href,
-  title,
-  description,
-  image,
-}: OgpLinkCardPresenterProps) => {
-  const url = new URL(href);
-  const { hostname } = url;
+const faviconStyle = css({ w: 4, h: 4, mr: 2 });
 
-  const image_style = css({
-    maxWidth: "50%",
-    height: "auto",
-    borderLeft: "1px solid var(--colors-gray-300)",
-    flexShrink: 0,
-    objectFit: "cover",
-  });
+const imageStyle = css({
+  maxWidth: "50%",
+  height: "auto",
+  borderLeft: "1px solid var(--colors-gray-300)",
+  flexShrink: 0,
+  objectFit: "cover",
+});
+
+/** A card linking to an external page, built from its Open Graph metadata (fetchOgp). */
+export const OgpLinkCard = ({ url, title, description, image }: Ogp) => {
+  const { hostname } = new URL(url);
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={container_style}>
-      <div className={text_container_style}>
-        <div className={title_style}>{title ?? hostname}</div>
+    <a href={url} target="_blank" rel="noopener noreferrer" className={containerStyle}>
+      <div className={textContainerStyle}>
+        <div className={titleStyle}>{title ?? hostname}</div>
         <div>
-          <div className={description_style}>{description}</div>
-          <div className={hostname_style}>
+          <div className={descriptionStyle}>{description}</div>
+          <div className={hostnameStyle}>
             <span>
               <img
                 src={`https://www.google.com/s2/favicons?size=14&domain_url=${hostname}`}
                 alt="favicon"
                 decoding="async"
                 loading="lazy"
-                className={favicon_style}
+                className={faviconStyle}
               />
             </span>
             <span>{hostname}</span>
@@ -97,27 +86,14 @@ export const OgpLinkCardPresenter = ({
       {image !== undefined && image !== "" && (
         <img
           src={image}
+          // Kept as the site has always shown it when the image fails to load.
+          // oxlint-disable-next-line jsx-a11y/img-redundant-alt
           alt={`og:image of ${hostname}`}
           decoding="async"
           loading="lazy"
-          className={image_style}
+          className={imageStyle}
         />
       )}
     </a>
   );
 };
-
-export type OgpLinkCardProps = {
-  href: string;
-};
-
-export const OgpLinkCard = async ({ href }: OgpLinkCardProps) => {
-  const ogp = await fetch_ogp(href);
-  return <OgpLinkCardPresenter {...ogp} />;
-};
-
-export const OgpLinkCardWrapper = ({ href }: OgpLinkCardProps) => (
-  <Suspense fallback={<p>Loading</p>}>
-    <OgpLinkCard href={href} />
-  </Suspense>
-);

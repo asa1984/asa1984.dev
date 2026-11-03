@@ -1,7 +1,6 @@
-# Never commit env files — opennextjs-cloudflare bakes them into the worker
+# Never commit env files
 .env
 .env.*
-!.env.1password
 
 # local secrets — never commit
 .env.keys
@@ -16,9 +15,6 @@
 dist
 .size-check
 
-# Generated (pnpm run gen)
-apps/*/worker-configuration.d.ts
-apps/*/schema/schema.graphql
 
 # Deployment
 .vercel

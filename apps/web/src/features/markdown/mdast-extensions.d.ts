@@ -9,15 +9,15 @@ import type { Node } from "unist";
 // Augmenting mdast relies on declaration merging, which only interfaces support.
 /* oxlint-disable typescript/consistent-type-definitions */
 declare module "mdast" {
-  // remark_zenn_message: ":::message ... :::" paragraph → message node
+  /** remarkZennMessage: ":::message ... :::" paragraph → message node */
   interface ZennMessage extends Parent {
     type: "message";
     children: PhrasingContent[];
   }
 
-  // remark_linkcard: bare-link paragraph → linkcard node
-  interface Linkcard extends Node {
-    type: "linkcard";
+  /** remarkLinkCard: bare-link paragraph → linkCard node */
+  interface LinkCard extends Node {
+    type: "linkCard";
     data?: {
       hProperties: {
         url: string;
@@ -27,6 +27,6 @@ declare module "mdast" {
 
   interface RootContentMap {
     message: ZennMessage;
-    linkcard: Linkcard;
+    linkCard: LinkCard;
   }
 }

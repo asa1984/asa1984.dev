@@ -1,130 +1,80 @@
-import { afterEach, beforeEach, describe, expect, test, vi } from "vite-plus/test";
-import { ZodError } from "zod";
+import { describe, expect, test } from "vite-plus/test";
+import { ZodError, z } from "zod";
 
-import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch.ts";
+import { parsePosts, splitFrontmatter } from "./content.ts";
 
-const list_content_paths = vi.fn<() => Promise<string[]>>();
-const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
+const schema = z.object({
+  title: z.string().min(1),
+  published: z.boolean(),
+  date: z.coerce.date(),
+});
 
-vi.mock("#/features/content/github.ts", () => ({
-  list_content_paths: () => list_content_paths(),
-  fetch_content_text: (path: string) => fetch_content_text(path),
-}));
-
-const post_md = ({
-  title = "タイトル",
-  image = "cover.webp",
-  published = true,
-  date = "2023-10-23T00:00:00.000Z",
-} = {}) => `---
+const post = ({ title = "タイトル", published = true, date = "2023-10-23T00:00:00.000Z" } = {}) =>
+  `---
 title: ${title}
-image: ${image}
-description: 説明
 published: ${String(published)}
 date: ${date}
 ---
 
 本文`;
 
-beforeEach(() => {
-  vi.stubEnv("FRONTEND_URL", "https://site.test");
-});
-
-afterEach(() => {
-  vi.unstubAllEnvs();
-  list_content_paths.mockReset();
-  fetch_content_text.mockReset();
-});
-
-/** A post that is newer when its path contains "new". */
-const post_md_by_age = (path: string) =>
-  post_md({
-    date: path.includes("new") ? "2024-06-01T00:00:00.000Z" : "2022-01-01T00:00:00.000Z",
+describe("splitFrontmatter", () => {
+  test("frontmatter と本文を分ける", () => {
+    expect(splitFrontmatter("---\ntitle: a\n---\nbody")).toStrictEqual({
+      header: "title: a",
+      body: "body",
+    });
   });
 
-describe("get_published_posts", () => {
-  test("blog/*/post.md だけを記事として拾う", async () => {
-    list_content_paths.mockResolvedValue([
-      "README.md",
-      "blog/first/post.md",
-      "blog/first/cover.webp",
-      "context/other/post.md",
-    ]);
-    fetch_content_text.mockResolvedValue(post_md());
-
-    const posts = await get_published_posts();
-
-    expect(posts.map((p) => p.slug)).toStrictEqual(["first"]);
-    expect(fetch_content_text).toHaveBeenCalledExactlyOnceWith("blog/first/post.md");
+  test("frontmatter がなければ失敗する", () => {
+    expect(() => splitFrontmatter("body")).toThrow('Missing beginning "---"');
   });
 
-  test("published: false の記事を除外する", async () => {
-    list_content_paths.mockResolvedValue(["blog/public/post.md", "blog/draft/post.md"]);
-    fetch_content_text.mockImplementation((path) =>
-      Promise.resolve(post_md({ published: !path.includes("draft") })),
-    );
+  test("frontmatter が閉じていなければ失敗する", () => {
+    expect(() => splitFrontmatter("---\ntitle: a\nbody")).toThrow('Missing ending "---"');
+  });
+});
 
-    const posts = await get_published_posts();
+describe("parsePosts", () => {
+  test("ファイル名を slug にして frontmatter と本文を読む", () => {
+    const [parsed] = parsePosts({ sources: { "/src/content/blog/first.md": post() }, schema });
+
+    expect(parsed?.slug).toBe("first");
+    expect(parsed?.frontmatter.title).toBe("タイトル");
+    expect(parsed?.frontmatter.date.toISOString()).toBe("2023-10-23T00:00:00.000Z");
+    expect(parsed?.body.trim()).toBe("本文");
+  });
+
+  test("published: false の記事を除外する", () => {
+    const posts = parsePosts({
+      sources: {
+        "/src/content/blog/public.md": post(),
+        "/src/content/blog/draft.md": post({ published: false }),
+      },
+      schema,
+    });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["public"]);
   });
 
-  test("画像 URL を FRONTEND_URL と slug から組み立てる", async () => {
-    list_content_paths.mockResolvedValue(["blog/first/post.md"]);
-    fetch_content_text.mockResolvedValue(post_md({ image: "cover.webp" }));
-
-    const [post] = await get_published_posts();
-
-    expect(post?.meta.image).toBe("https://site.test/content-assets/blog/first/cover.webp");
-  });
-
-  test("frontmatter が不正なら失敗する", async () => {
-    list_content_paths.mockResolvedValue(["blog/broken/post.md"]);
-    fetch_content_text.mockResolvedValue("---\ntitle: only-title\n---\n本文");
-
-    await expect(get_published_posts()).rejects.toThrow(ZodError);
-  });
-});
-
-describe("get_posts_date_sorted", () => {
-  test("新しい記事が先頭に来る", async () => {
-    list_content_paths.mockResolvedValue(["blog/old/post.md", "blog/new/post.md"]);
-    fetch_content_text.mockImplementation((path) => Promise.resolve(post_md_by_age(path)));
-
-    const posts = await get_posts_date_sorted();
+  test("新しい記事が先頭に来る", () => {
+    const posts = parsePosts({
+      sources: {
+        "/src/content/blog/old.md": post({ date: "2022-01-01T00:00:00.000Z" }),
+        "/src/content/blog/new.md": post({ date: "2024-06-01T00:00:00.000Z" }),
+      },
+      schema,
+    });
 
     expect(posts.map((p) => p.slug)).toStrictEqual(["new", "old"]);
   });
-});
 
-describe("get_post", () => {
-  test("存在する slug の記事を返す", async () => {
-    list_content_paths.mockResolvedValue(["blog/first/post.md"]);
-    fetch_content_text.mockResolvedValue(post_md());
-
-    const post = await get_post("first");
-
-    expect(post?.slug).toBe("first");
-    expect(post?.meta.title).toBe("タイトル");
-    expect(post?.meta.date.toISOString()).toBe("2023-10-23T00:00:00.000Z");
-    expect(post?.content.trim()).toBe("本文");
-  });
-
-  test("未知の slug は GitHub を叩かずに null を返す", async () => {
-    list_content_paths.mockResolvedValue(["blog/first/post.md"]);
-
-    const post = await get_post("unknown");
-
-    expect(post).toBeNull();
-    expect(fetch_content_text).not.toHaveBeenCalled();
-  });
-
-  test("下書き記事は null を返す", async () => {
-    list_content_paths.mockResolvedValue(["blog/draft/post.md"]);
-    fetch_content_text.mockResolvedValue(post_md({ published: false }));
-
-    const post = await get_post("draft");
-
-    expect(post).toBeNull();
+  test("frontmatter が不正なら失敗する", () => {
+    expect(() =>
+      parsePosts({
+        sources: { "/src/content/blog/broken.md": "---\ntitle: a\n---\n本文" },
+        schema,
+      }),
+    ).toThrow(ZodError);
   });
 });

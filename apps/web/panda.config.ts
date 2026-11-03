@@ -1,6 +1,6 @@
 import { defineConfig } from "@pandacss/dev";
 
-import { global_css } from "#/styles/global.ts";
+import { globalCss } from "#/styles/global.ts";
 
 export default defineConfig({
   // v2 no longer injects presets implicitly; these are the v1 defaults.
@@ -70,5 +70,5 @@ export default defineConfig({
   outdir: "./src/styled-system",
 
   // Global styles
-  globalCss: global_css,
+  globalCss,
 });

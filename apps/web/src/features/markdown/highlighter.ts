@@ -1,4 +1,4 @@
-// Each shiki language is imported on its own so that the worker bundles only the languages in use.
+// Each shiki language is imported on its own so that only the languages in use are bundled.
 /* oxlint-disable import/max-dependencies */
 import type {
   BundledHighlighterOptions,
@@ -9,61 +9,60 @@ import type {
   ThemeInput,
 } from "shiki";
 import { getSingletonHighlighterCore } from "shiki/core";
-import lang_css from "shiki/dist/langs/css.mjs";
-import lang_diff from "shiki/dist/langs/diff.mjs";
-import lang_dockerfile from "shiki/dist/langs/dockerfile.mjs";
-import lang_go from "shiki/dist/langs/go.mjs";
-import lang_graphql from "shiki/dist/langs/graphql.mjs";
-import lang_haskell from "shiki/dist/langs/haskell.mjs";
-import lang_html from "shiki/dist/langs/html.mjs";
-import lang_javascript from "shiki/dist/langs/javascript.mjs";
-import lang_json from "shiki/dist/langs/json.mjs";
-import lang_jsonc from "shiki/dist/langs/jsonc.mjs";
-import lang_jsx from "shiki/dist/langs/jsx.mjs";
-import lang_markdown from "shiki/dist/langs/markdown.mjs";
-import lang_nix from "shiki/dist/langs/nix.mjs";
-import lang_python from "shiki/dist/langs/python.mjs";
-import lang_rust from "shiki/dist/langs/rust.mjs";
-import lang_scss from "shiki/dist/langs/scss.mjs";
-import lang_shellscript from "shiki/dist/langs/shellscript.mjs";
-import lang_sql from "shiki/dist/langs/sql.mjs";
-import lang_toml from "shiki/dist/langs/toml.mjs";
-import lang_tsx from "shiki/dist/langs/tsx.mjs";
-import lang_typescript from "shiki/dist/langs/typescript.mjs";
-import lang_yaml from "shiki/dist/langs/yaml.mjs";
+import langCss from "shiki/dist/langs/css.mjs";
+import langDiff from "shiki/dist/langs/diff.mjs";
+import langDockerfile from "shiki/dist/langs/dockerfile.mjs";
+import langGo from "shiki/dist/langs/go.mjs";
+import langGraphql from "shiki/dist/langs/graphql.mjs";
+import langHaskell from "shiki/dist/langs/haskell.mjs";
+import langHtml from "shiki/dist/langs/html.mjs";
+import langJavascript from "shiki/dist/langs/javascript.mjs";
+import langJson from "shiki/dist/langs/json.mjs";
+import langJsonc from "shiki/dist/langs/jsonc.mjs";
+import langJsx from "shiki/dist/langs/jsx.mjs";
+import langMarkdown from "shiki/dist/langs/markdown.mjs";
+import langNix from "shiki/dist/langs/nix.mjs";
+import langPython from "shiki/dist/langs/python.mjs";
+import langRust from "shiki/dist/langs/rust.mjs";
+import langScss from "shiki/dist/langs/scss.mjs";
+import langShellscript from "shiki/dist/langs/shellscript.mjs";
+import langSql from "shiki/dist/langs/sql.mjs";
+import langToml from "shiki/dist/langs/toml.mjs";
+import langTsx from "shiki/dist/langs/tsx.mjs";
+import langTypescript from "shiki/dist/langs/typescript.mjs";
+import langYaml from "shiki/dist/langs/yaml.mjs";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 
-// Cloudflare Workers cannot compile wasm at runtime and cannot fetch grammars
-// by URL, so every grammar must be statically bundled and matched with the
-// JS regex engine. Keep this list small: the worker has a hard size limit
-// (shiki/bundle/full exceeded it). Unknown languages fall back to plaintext
-// in rehype-pretty-code.
+// Pages are prerendered inside workerd, which cannot compile wasm at runtime or fetch grammars by
+// URL, so every grammar is bundled statically and matched with the JS regex engine. Unknown
+// languages fall back to plaintext in rehype-pretty-code.
 const langs = [
-  lang_css,
-  lang_diff,
-  lang_dockerfile,
-  lang_go,
-  lang_graphql,
-  lang_haskell,
-  lang_html,
-  lang_javascript,
-  lang_json,
-  lang_jsonc,
-  lang_jsx,
-  lang_markdown,
-  lang_nix,
-  lang_python,
-  lang_rust,
-  lang_scss,
-  lang_shellscript,
-  lang_sql,
-  lang_toml,
-  lang_tsx,
-  lang_typescript,
-  lang_yaml,
+  langCss,
+  langDiff,
+  langDockerfile,
+  langGo,
+  langGraphql,
+  langHaskell,
+  langHtml,
+  langJavascript,
+  langJson,
+  langJsonc,
+  langJsx,
+  langMarkdown,
+  langNix,
+  langPython,
+  langRust,
+  langScss,
+  langShellscript,
+  langSql,
+  langToml,
+  langTsx,
+  langTypescript,
+  langYaml,
 ];
 
-export const get_highlighter = async (
+/** rehype-pretty-code's `getHighlighter`, backed by the statically bundled languages. */
+export const getHighlighter = async (
   options: BundledHighlighterOptions<never, never>,
 ): Promise<Highlighter> => {
   const highlighter = await getSingletonHighlighterCore({

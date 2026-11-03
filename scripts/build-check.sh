@@ -1,46 +1,18 @@
 #!/usr/bin/env bash
-# Builds the Worker through the production bundling path, enforces a gzip
-# bundle-size budget, and smoke-tests the bundle in workerd (wrangler dev).
+# Builds the site the way the deploy workflows do and smoke-tests the output
+# served as Workers static assets (apps/web/deploy/wrangler.jsonc).
 #
-# Rationale (issue #31): the production-only 500s — worker over the 3 MiB
-# gzip limit, workerd's eval() ban, and the POST-fetch data-cache collision —
-# were all invisible to a plain `next build`. This script exercises the real
-# bundle in the real runtime instead.
-#
-# Usage: scripts/workers-check.sh   (from anywhere; needs pnpm deps installed
+# Usage: scripts/build-check.sh   (from anywhere; needs pnpm deps installed
 # and generated files present — run `vp run codegen` first)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-
-# Cloudflare's limit is 3 MiB gzip per Worker. The budget leaves headroom so
-# growth is caught in a PR, not at the limit.
-WEB_BUDGET=2800000
-
-WEB_PORT=8792
+PORT=8792
 
 cleanup() {
-  pkill -f "wrangler dev.*--port $WEB_PORT" 2>/dev/null || true
+  pkill -f "wrangler dev.*--port $PORT" 2>/dev/null || true
 }
 trap cleanup EXIT
-
-# Largest .js in a dry-run outdir is the entry bundle (name follows the
-# wrangler `main` entry, e.g. main.js / worker.js).
-bundle_of() {
-  find "$1" -maxdepth 1 -name "*.js" -exec ls -S {} + | head -1
-}
-
-gzip_size() {
-  gzip -c "$1" | wc -c | tr -d ' '
-}
-
-check_budget() { # label size budget
-  if [ "$2" -gt "$3" ]; then
-    echo "FAIL: $1 bundle ${2} bytes gzip exceeds budget ${3}"
-    exit 1
-  fi
-  echo "OK: $1 bundle ${2} bytes gzip (budget ${3})"
-}
 
 wait_for() { # url expected_status timeout_sec
   local deadline=$((SECONDS + $3))
@@ -54,9 +26,9 @@ wait_for() { # url expected_status timeout_sec
   return 1
 }
 
-expect() { # url expected_status
+expect() { # path expected_status
   local code
-  code=$(curl -s -o /dev/null -w "%{http_code}" -m 15 "$1")
+  code=$(curl -s -o /dev/null -w "%{http_code}" -m 15 "http://127.0.0.1:$PORT$1")
   if [ "$code" != "$2" ]; then
     echo "FAIL: GET $1 -> $code (expected $2)"
     exit 1
@@ -64,30 +36,19 @@ expect() { # url expected_status
   echo "OK: GET $1 -> $code"
 }
 
-echo "=== web: production bundle (opennextjs-cloudflare) ==="
-(cd "$ROOT/apps/web" && ALLOW_EMPTY_CONTENT=1 pnpm exec vp run build:worker >/dev/null)
+echo "=== build"
+(cd "$ROOT/apps/web" && VITE_SITE_URL=https://asa1984.dev pnpm exec vp run build >/dev/null)
 
-# opennextjs-cloudflare bakes any .env file into the worker (next-env.mjs),
-# where its values apply at runtime and can shadow real worker secrets.
-# No .env is tracked, so the baked objects must stay empty.
-NEXT_ENV="$ROOT/apps/web/.open-next/cloudflare/next-env.mjs"
-if [ -f "$NEXT_ENV" ] && grep -qE '\{"' "$NEXT_ENV"; then
-  echo "FAIL: $NEXT_ENV contains baked env values:"
-  cat "$NEXT_ENV"
-  exit 1
-fi
-echo "OK: no env values baked into the worker"
-(cd "$ROOT/apps/web" && pnpm exec wrangler deploy --dry-run --outdir .size-check >/dev/null 2>&1)
-check_budget web "$(gzip_size "$(bundle_of "$ROOT/apps/web/.size-check")")" "$WEB_BUDGET"
+echo "=== smoke"
+(cd "$ROOT/apps/web" && pnpm exec wrangler dev --config deploy/wrangler.jsonc --port $PORT >/dev/null 2>&1 &)
+wait_for "http://127.0.0.1:$PORT/" 200 90
+expect / 200
+expect /blog 200
+expect /blog/first 200
+expect /context 200
+expect /profile 200
+expect /rss.xml 200
+expect /content-assets/blog/first/first.webp 200
+expect /blog/unknown 404
 
-echo "=== web: workerd smoke ==="
-(cd "$ROOT/apps/web" && pnpm exec wrangler dev --port $WEB_PORT \
-  --var CONTENT_GITHUB_TOKEN:smoke --var CONTENT_WEBHOOK_SECRET:smoke \
-  --var FRONTEND_URL:http://smoke.invalid \
-  --var ALLOW_EMPTY_CONTENT:1 >/dev/null 2>&1 &)
-wait_for "http://127.0.0.1:$WEB_PORT/" 200 90
-expect "http://127.0.0.1:$WEB_PORT/blog" 200
-expect "http://127.0.0.1:$WEB_PORT/rss.xml" 200
-expect "http://127.0.0.1:$WEB_PORT/content-assets/blog/first/first.webp" 200
-
-echo "workers-check: all green"
+echo "build-check: all green"

@@ -1,71 +1,35 @@
-import { afterEach, describe, expect, test, vi } from "vite-plus/test";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
-import { get_post, get_posts_date_sorted, get_published_posts } from "./fetch.ts";
+import { describe, expect, test } from "vite-plus/test";
 
-const list_content_paths = vi.fn<() => Promise<string[]>>();
-const fetch_content_text = vi.fn<(path: string) => Promise<string>>();
+import { contextPosts, findContextPost } from "./context.ts";
 
-vi.mock("#/features/content/github.ts", () => ({
-  list_content_paths: () => list_content_paths(),
-  fetch_content_text: (path: string) => fetch_content_text(path),
-}));
+const publicFile = (url: string) => fileURLToPath(new URL(`../../public${url}`, import.meta.url));
 
-const post_md = ({ published = true, date = "2024-01-08T11:25:53.246Z" } = {}) => `---
-title: タイトル
-emoji: 📕
-published: ${String(published)}
-date: ${date}
----
+const localImage = /!\[[^\]]*\]\(\.\/([^)]+)\)/gu;
 
-本文`;
+/** Every image the posts' bodies reference. */
+const images = contextPosts.flatMap((post) =>
+  [...post.body.matchAll(localImage)].map((match) => `${post.assetBase}/${match[1] ?? ""}`),
+);
 
-afterEach(() => {
-  list_content_paths.mockReset();
-  fetch_content_text.mockReset();
-});
-
-/** A post that is newer when its path contains "new". */
-const post_md_by_age = (path: string) =>
-  post_md({
-    date: path.includes("new") ? "2024-06-01T00:00:00.000Z" : "2022-01-01T00:00:00.000Z",
+describe("contextPosts", () => {
+  test("記事がある", () => {
+    expect(contextPosts.length).toBeGreaterThan(0);
   });
 
-describe("get_published_posts", () => {
-  test("context/*/post.md だけを拾い、下書きを除外する", async () => {
-    list_content_paths.mockResolvedValue([
-      "blog/first/post.md",
-      "context/public/post.md",
-      "context/draft/post.md",
-    ]);
-    fetch_content_text.mockImplementation((path) =>
-      Promise.resolve(post_md({ published: !path.includes("draft") })),
-    );
-
-    const posts = await get_published_posts();
-
-    expect(posts.map((p) => p.slug)).toStrictEqual(["public"]);
-    expect(posts[0]?.meta.emoji).toBe("📕");
+  test.each(images)("%s がある", (image) => {
+    expect(existsSync(publicFile(image))).toBe(true);
   });
 });
 
-describe("get_posts_date_sorted", () => {
-  test("新しい記事が先頭に来る", async () => {
-    list_content_paths.mockResolvedValue(["context/old/post.md", "context/new/post.md"]);
-    fetch_content_text.mockImplementation((path) => Promise.resolve(post_md_by_age(path)));
-
-    const posts = await get_posts_date_sorted();
-
-    expect(posts.map((p) => p.slug)).toStrictEqual(["new", "old"]);
+describe("findContextPost", () => {
+  test.each(contextPosts.map((post) => [post.slug, post] as const))("%s を引ける", (slug, post) => {
+    expect(findContextPost(slug)).toBe(post);
   });
-});
 
-describe("get_post", () => {
-  test("存在する slug の記事を返し、未知の slug は null", async () => {
-    list_content_paths.mockResolvedValue(["context/first/post.md"]);
-    fetch_content_text.mockResolvedValue(post_md());
-
-    const first = await get_post("first");
-    expect(first?.slug).toBe("first");
-    expect(await get_post("unknown")).toBeNull();
+  test("未知の slug は undefined", () => {
+    expect(findContextPost("unknown")).toBeUndefined();
   });
 });

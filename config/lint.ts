@@ -12,6 +12,7 @@ import type { OxlintConfig } from "vite-plus/lint";
 import { restrictionRules } from "./lint/restriction.ts";
 import { styleRules } from "./lint/style.ts";
 
+export { reactLint } from "./lint/react.ts";
 export { testLint } from "./lint/vitest.ts";
 
 /** Categories enabled as a whole. */
@@ -23,7 +24,7 @@ export const enabledCategories = [
   "nursery",
 ] as const;
 
-/** Enabled plugins. testLint adds vitest. */
+/** Enabled plugins. reactLint adds react and jsx-a11y, and testLint adds vitest. */
 export const basePlugins = [
   "eslint",
   "typescript",

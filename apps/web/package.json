@@ -6,9 +6,6 @@
     "#/styled-system/*": "./src/styled-system/*/index.js",
     "#/*": "./src/*"
   },
-  "scripts": {
-    "build": "next build"
-  },
   "dependencies": {
     "@fontsource-variable/inter": "catalog:",
     "@fontsource-variable/jetbrains-mono": "catalog:",
@@ -19,11 +16,11 @@
     "@pandacss/preset-panda": "catalog:",
     "@types/hast": "catalog:",
     "@types/mdast": "catalog:",
+    "@void/react": "catalog:",
     "feed": "catalog:",
     "hast-util-to-jsx-runtime": "catalog:",
     "katex": "catalog:",
     "mdast-util-to-hast": "catalog:",
-    "next": "catalog:",
     "node-html-parser": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -38,20 +35,19 @@
     "remark-parse": "catalog:",
     "remark-rehype": "catalog:",
     "sass": "catalog:",
-    "sharp": "catalog:",
     "shiki": "catalog:",
     "unified": "catalog:",
     "unist-util-visit": "catalog:",
+    "void": "catalog:",
     "yaml": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/unist": "catalog:",
-    "rimraf": "catalog:",
+    "oxc-transform-react": "catalog:",
     "typescript": "catalog:",
     "vite-plus": "catalog:",
     "wrangler": "catalog:"

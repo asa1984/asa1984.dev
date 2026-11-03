@@ -1,79 +1,61 @@
 import type { Paragraph, Parent, Root } from "mdast";
-import type { Handler } from "mdast-util-to-hast";
 import type { Transformer } from "unified";
 import { visit } from "unist-util-visit";
 
-import { is_paragraph, is_parent, is_text } from "./utils.ts";
+import { isParagraph, isParent, isText } from "./mdast-guards.ts";
 
-const MESSAGE_BEGINING = ":::message\n";
-const MESSAGE_ENDING = "\n:::";
+const messageBeginning = ":::message\n";
+const messageEnding = "\n:::";
 
-export function is_message(node: unknown): node is Paragraph {
-  if (!is_paragraph(node)) {
+/** Whether the paragraph is a Zenn `:::message ... :::` block. */
+export const isMessage = (node: unknown): node is Paragraph => {
+  if (!isParagraph(node)) {
     return false;
   }
+  const firstChild = node.children[0];
+  const lastChild = node.children.at(-1);
+  return (
+    isText(firstChild) &&
+    firstChild.value.startsWith(messageBeginning) &&
+    isText(lastChild) &&
+    lastChild.value.endsWith(messageEnding)
+  );
+};
 
-  const { children } = node;
-  const firstChild = children[0];
-  if (!(is_text(firstChild) && firstChild.value.startsWith(MESSAGE_BEGINING))) {
-    return false;
-  }
-  const lastChild = children.at(-1);
-  if (!(is_text(lastChild) && lastChild.value.endsWith(MESSAGE_ENDING))) {
-    return false;
-  }
-
-  return true;
-}
-
-export const remark_zenn_message = (): Transformer<Root> => (tree) => {
-  visit(tree, is_message, (node, index, parent: Parent | undefined) => {
-    if (!is_parent(parent) || index === undefined) {
+/** Turns Zenn `:::message ... :::` paragraphs into `message` nodes. */
+export const remarkZennMessage = (): Transformer<Root> => (tree) => {
+  visit(tree, isMessage, (node, index, parent: Parent | undefined) => {
+    if (!isParent(parent) || index === undefined) {
       return;
     }
 
     const children = [...node.children];
 
-    const first_child = children.at(0);
-    if (first_child?.type !== "text") {
+    const firstChild = children.at(0);
+    if (firstChild?.type !== "text") {
       return;
     }
-    const first_value = first_child.value;
-    if (first_value === MESSAGE_BEGINING) {
+    if (firstChild.value === messageBeginning) {
       children.shift();
     } else {
-      children[0] = {
-        ...first_child,
-        value: first_value.slice(MESSAGE_BEGINING.length),
-      };
+      children[0] = { ...firstChild, value: firstChild.value.slice(messageBeginning.length) };
     }
 
-    const last_child = children.at(-1);
-    if (last_child?.type !== "text") {
+    const lastChild = children.at(-1);
+    if (lastChild?.type !== "text") {
       return;
     }
-    const last_value = last_child.value;
-    if (last_value === MESSAGE_ENDING) {
+    if (lastChild.value === messageEnding) {
       children.pop();
     } else {
       children[children.length - 1] = {
-        ...last_child,
-        value: last_value.slice(0, last_value.length - MESSAGE_ENDING.length),
+        ...lastChild,
+        value: lastChild.value.slice(0, lastChild.value.length - messageEnding.length),
       };
     }
 
     // A transformer rewrites the tree it receives in place.
     // oxlint-disable-next-line eslint/no-param-reassign
-    parent.children[index] = {
-      type: "message",
-      children,
-    };
+    parent.children[index] = { type: "message", children };
   });
 };
-
-export const zenn_message_handler: Handler = (h, node) => ({
-  type: "element",
-  tagName: "message",
-  properties: {},
-  children: h.all(node),
-});
