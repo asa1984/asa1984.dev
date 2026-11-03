@@ -2,9 +2,10 @@ import { z } from "zod";
 
 import { env } from "#/libs/env.ts";
 
-// The content repository is the single source of truth for articles and
-// their images. The site pulls from it at request/revalidate time through
-// the GitHub API; nothing is pushed into a database anymore.
+// The content repository is the single source of truth for articles. The
+// site pulls from it at request/revalidate time through the GitHub API;
+// nothing is pushed into a database anymore. Article images live in this
+// repository instead (public/content-assets) and ship as static assets.
 const commit_schema = z.object({ sha: z.string() });
 
 const tree_schema = z.object({
@@ -120,18 +121,4 @@ export async function fetch_content_text(path: string): Promise<string> {
     throw new Error(`Failed to fetch content file ${path}: ${String(res.status)}`);
   }
   return res.text();
-}
-
-export async function fetch_content_binary(path: string): Promise<ArrayBuffer | null> {
-  if (process.env["ALLOW_EMPTY_CONTENT"] === "1") {
-    return null;
-  }
-  const res = await fetch_content_file(path);
-  if (res.status === 404) {
-    return null;
-  }
-  if (!res.ok) {
-    throw new Error(`Failed to fetch content file ${path}: ${String(res.status)}`);
-  }
-  return res.arrayBuffer();
 }

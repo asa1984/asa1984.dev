@@ -88,5 +88,6 @@ echo "=== web: workerd smoke ==="
 wait_for "http://127.0.0.1:$WEB_PORT/" 200 90
 expect "http://127.0.0.1:$WEB_PORT/blog" 200
 expect "http://127.0.0.1:$WEB_PORT/rss.xml" 200
+expect "http://127.0.0.1:$WEB_PORT/content-assets/blog/first/first.webp" 200
 
 echo "workers-check: all green"

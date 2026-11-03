@@ -104,7 +104,7 @@ describe("compile_markdown", () => {
     expect(html).toContain("<table>");
   });
 
-  test("routes local images through the content-assets route", () => {
+  test("resolves local images under the content-assets path", () => {
     // next/image may wrap the src in /_next/image?url=<encoded> depending on
     // loader config, so accept the path in either raw or encoded form.
     const path = "/content-assets/blog/test-post/photo.webp";
