@@ -8,7 +8,7 @@ const next_config: NextConfig = {
   // fine-grained imports in src/features/markdown/highlighter.ts remain.
   transpilePackages: ["shiki"],
   images: {
-    // Article images are tiny webp files served by the /content-assets route;
+    // Article images are small static files under public/content-assets;
     // sharp is unavailable in workerd, so skip the optimization pipeline.
     unoptimized: true,
   },
