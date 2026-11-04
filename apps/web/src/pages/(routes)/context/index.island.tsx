@@ -1,15 +1,17 @@
+import type { ContextPostSummary } from "#/features/context.ts";
 import { css } from "#/styled-system/css";
 
 import NavMenu from "../_components/nav-menu.tsx" with { island: "load" };
 import { RoutesLayout } from "../_components/routes-layout.tsx";
 import { LinkCard } from "./_components/link-card.tsx";
-import type { Props } from "./index.server.ts";
 
-type PostSummary = Props["posts"][number];
+export type Props = {
+  posts: ContextPostSummary[];
+};
 
 /** Groups the posts by year, newest year first, keeping their order within each year. */
-const groupByYear = (posts: PostSummary[]): [number, PostSummary[]][] => {
-  const years = new Map<number, PostSummary[]>();
+const groupByYear = (posts: ContextPostSummary[]): [number, ContextPostSummary[]][] => {
+  const years = new Map<number, ContextPostSummary[]>();
   for (const post of posts) {
     const year = new Date(post.date).getFullYear();
     years.set(year, [...(years.get(year) ?? []), post]);

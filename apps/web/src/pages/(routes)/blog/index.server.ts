@@ -1,20 +1,13 @@
 import { defineHandler, defineHead } from "void";
-import type { InferProps } from "void";
 
-import { blogPosts } from "#/features/blog.ts";
-import { pageHead } from "#/libs/head.ts";
+import { listBlogPostSummaries } from "#/features/blog.ts";
+import { voidHead } from "#/libs/void-head.ts";
 
-export const loader = defineHandler(() => ({
-  posts: blogPosts.map(({ slug, title, description, image, date }) => ({
-    slug,
-    title,
-    description,
-    image,
-    date: date.toISOString(),
-  })),
+import type { Props } from "./index.island.tsx";
+
+export const loader = defineHandler((): Props => ({
+  posts: listBlogPostSummaries(),
   renderedAt: Date.now(),
 }));
 
-export type Props = InferProps<typeof loader>;
-
-export const head = defineHead(() => pageHead({ title: "TrashBox", description: "Blog list" }));
+export const head = defineHead(() => voidHead({ title: "TrashBox", description: "Blog list" }));

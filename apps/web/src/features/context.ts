@@ -41,3 +41,21 @@ export const contextPosts: ContextPost[] = parsePosts({
 /** The Context post with the slug, if any. */
 export const findContextPost = (slug: string): ContextPost | undefined =>
   contextPosts.find((post) => post.slug === slug);
+
+/** What the Context index shows of a post. */
+export type ContextPostSummary = {
+  slug: string;
+  title: string;
+  emoji: string;
+  /** ISO 8601 date of the post. */
+  date: string;
+};
+
+/** Summaries of the Context posts, newest first. */
+export const listContextPostSummaries = (): ContextPostSummary[] =>
+  contextPosts.map(({ slug, title, emoji, date }) => ({
+    slug,
+    title,
+    emoji,
+    date: date.toISOString(),
+  }));

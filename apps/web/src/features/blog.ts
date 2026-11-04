@@ -48,3 +48,24 @@ export const blogPosts: BlogPost[] = parsePosts({ sources, schema: frontmatterSc
 /** The blog post with the slug, if any. */
 export const findBlogPost = (slug: string): BlogPost | undefined =>
   blogPosts.find((post) => post.slug === slug);
+
+/** What the blog index shows of a post. */
+export type BlogPostSummary = {
+  slug: string;
+  title: string;
+  description: string;
+  /** Site-relative URL of the cover image. */
+  image: string;
+  /** ISO 8601 date of the post. */
+  date: string;
+};
+
+/** Summaries of the blog posts, newest first. */
+export const listBlogPostSummaries = (): BlogPostSummary[] =>
+  blogPosts.map(({ slug, title, description, image, date }) => ({
+    slug,
+    title,
+    description,
+    image,
+    date: date.toISOString(),
+  }));

@@ -1,10 +1,16 @@
+import type { BlogPostSummary } from "#/features/blog.ts";
 import { css } from "#/styled-system/css";
 
 import NavMenu from "../_components/nav-menu.tsx" with { island: "load" };
 import { RoutesLayout } from "../_components/routes-layout.tsx";
 import { LinkCard } from "./_components/link-card.tsx";
 import RelativeDate from "./_components/relative-date.tsx" with { island: "load" };
-import type { Props } from "./index.server.ts";
+
+export type Props = {
+  posts: BlogPostSummary[];
+  /** When the page was prerendered, which the RelativeDate islands hydrate with. */
+  renderedAt: number;
+};
 
 const containerStyle = css({ mt: 8 });
 
