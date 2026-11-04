@@ -1,4 +1,5 @@
-import type { ContextPostSummary } from "#/features/context.ts";
+import type { ContextPostMeta } from "#/features/context.ts";
+import { toSiteDate } from "#/libs/date.ts";
 import { css } from "#/styled-system/css";
 
 import NavMenu from "../_components/nav-menu.tsx" with { island: "load" };
@@ -6,14 +7,14 @@ import { RoutesLayout } from "../_components/routes-layout.tsx";
 import { LinkCard } from "./_components/link-card.tsx";
 
 export type Props = {
-  posts: ContextPostSummary[];
+  posts: ContextPostMeta[];
 };
 
 /** Groups the posts by year, newest year first, keeping their order within each year. */
-const groupByYear = (posts: ContextPostSummary[]): [number, ContextPostSummary[]][] => {
-  const years = new Map<number, ContextPostSummary[]>();
+const groupByYear = (posts: ContextPostMeta[]): [number, ContextPostMeta[]][] => {
+  const years = new Map<number, ContextPostMeta[]>();
   for (const post of posts) {
-    const year = new Date(post.date).getFullYear();
+    const { year } = toSiteDate(post.date);
     years.set(year, [...(years.get(year) ?? []), post]);
   }
   return [...years.entries()].toSorted(([a], [b]) => b - a);

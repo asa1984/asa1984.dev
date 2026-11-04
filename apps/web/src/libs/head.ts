@@ -1,6 +1,8 @@
+import type { SitePath } from "#/libs/site-path.ts";
+
 type OgImage = {
-  /** Site-relative URL; crawlers need an absolute one, so it is resolved against the site URL. */
-  path: string;
+  /** Crawlers need an absolute URL, so the path is resolved against the site URL. */
+  path: SitePath;
   type?: string;
   width?: number;
   height?: number;

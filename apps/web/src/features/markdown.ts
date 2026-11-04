@@ -1,3 +1,2 @@
 export { Article } from "./markdown/article.tsx";
-export type { ArticleDocument } from "./markdown/load-article.ts";
-export { loadArticle } from "./markdown/load-article.ts";
+export { collectLinkCardUrls, compileMarkdown } from "./markdown/compile.ts";

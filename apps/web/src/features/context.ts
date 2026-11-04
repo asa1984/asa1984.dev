@@ -1,23 +1,20 @@
 import { z } from "zod";
 
-import { parsePosts } from "#/features/content.ts";
+import type { Page, PageRequest, Post, PostMeta, Slug } from "#/features/content.ts";
+import { instantSchema, paginate, parsePosts } from "#/features/content.ts";
 
 const frontmatterSchema = z.object({
   title: z.string().min(1),
   emoji: z.string().min(1),
-  date: z.coerce.date(),
+  date: instantSchema,
 });
+type Frontmatter = z.infer<typeof frontmatterSchema>;
+
+/** What Context shows of a post outside its own page. */
+export type ContextPostMeta = PostMeta<Frontmatter>;
 
 /** A post of Context, the short essays. */
-export type ContextPost = {
-  slug: string;
-  title: string;
-  emoji: string;
-  date: Date;
-  body: string;
-  /** Site-relative URL of the directory that holds the post's images. */
-  assetBase: string;
-};
+export type ContextPost = Post<Frontmatter>;
 
 const sources = import.meta.glob<string>("../../../../contents/context/*/index.md", {
   query: "?raw",
@@ -25,37 +22,14 @@ const sources = import.meta.glob<string>("../../../../contents/context/*/index.m
   eager: true,
 });
 
-/** Context posts, newest first. */
-export const contextPosts: ContextPost[] = parsePosts({
-  sources,
-  schema: frontmatterSchema,
-}).map(({ slug, frontmatter, body }) => ({
-  slug,
-  title: frontmatter.title,
-  emoji: frontmatter.emoji,
-  date: frontmatter.date,
-  body,
-  assetBase: `/content-assets/context/${slug}`,
-}));
+const readPosts = () => parsePosts({ sources, schema: frontmatterSchema });
+
+/** The Context posts in the requested slice, newest first. */
+export const listContextPosts = (request: PageRequest = {}): Promise<Page<ContextPostMeta>> =>
+  Promise.resolve(paginate({ items: readPosts().map(({ meta }) => meta), ...request }));
 
 /** The Context post with the slug, if any. */
-export const findContextPost = (slug: string): ContextPost | undefined =>
-  contextPosts.find((post) => post.slug === slug);
-
-/** What the Context index shows of a post. */
-export type ContextPostSummary = {
-  slug: string;
-  title: string;
-  emoji: string;
-  /** ISO 8601 date of the post. */
-  date: string;
+export const getContextPost = (slug: Slug): Promise<ContextPost | undefined> => {
+  const post = readPosts().find(({ meta }) => meta.slug === slug);
+  return Promise.resolve(post === undefined ? undefined : { ...post.meta, body: post.body });
 };
-
-/** Summaries of the Context posts, newest first. */
-export const listContextPostSummaries = (): ContextPostSummary[] =>
-  contextPosts.map(({ slug, title, emoji, date }) => ({
-    slug,
-    title,
-    emoji,
-    date: date.toISOString(),
-  }));

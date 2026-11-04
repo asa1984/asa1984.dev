@@ -14,6 +14,8 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
 
+import type { SitePath } from "#/libs/site-path.ts";
+
 import { getHighlighter } from "./highlighter.ts";
 import { remarkInlineFootnote } from "./remark-inline-footnote.ts";
 import { remarkLinkCard } from "./remark-link-card.ts";
@@ -76,7 +78,7 @@ export const compileMarkdown = async ({
   assetBase,
 }: {
   source: string;
-  assetBase: string;
+  assetBase: SitePath;
 }): Promise<Root> => {
   const root = await processor.run(processor.parse(source));
   visit(root, "element", (node) => {
