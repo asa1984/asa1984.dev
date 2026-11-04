@@ -28,16 +28,16 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
-        run: pnpm exec vp run codegen
+        run: vp run codegen
       - parallel:
           - name: Lint
-            run: pnpm exec vp lint
+            run: vp lint
           - name: Format check
-            run: pnpm exec vp fmt --check
+            run: vp fmt --check
           - name: Typecheck
-            run: pnpm exec vp run typecheck
+            run: vp run typecheck
           - name: Test
-            run: pnpm exec vp run test
+            run: vp run test
       # The only GitHub secret is OP_SERVICE_ACCOUNT_TOKEN; every real
       # credential lives in the 1Password vault "asa1984.dev".
       - name: Load secrets from 1Password
@@ -49,8 +49,8 @@ jobs:
           CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/credential
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
       - name: Build
-        run: pnpm exec vp run "@asa1984.dev/web#build"
+        run: vp run "@asa1984.dev/web#build"
         env:
           VITE_SITE_URL: https://dev.asa1984.dev
       - name: Deploy to dev
-        run: pnpm exec vp run "@asa1984.dev/web#deploy:dev"
+        run: vp run "@asa1984.dev/web#deploy:dev"

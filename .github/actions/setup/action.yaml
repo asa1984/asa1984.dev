@@ -27,3 +27,6 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm install --frozen-lockfile
+    - name: Add workspace bins to PATH
+      shell: bash
+      run: echo "$GITHUB_WORKSPACE/node_modules/.bin" >> "$GITHUB_PATH" # zizmor: ignore[github-env]
