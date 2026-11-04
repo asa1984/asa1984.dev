@@ -1,6 +1,6 @@
 import { IconPen } from "#/components/icons.tsx";
-import type { ArticleDocument } from "#/features/markdown.ts";
-import { Article } from "#/features/markdown.ts";
+import { formatDateString, toSiteDate } from "#/libs/date.ts";
+import type { SitePath } from "#/libs/site-path.ts";
 import { css } from "#/styled-system/css";
 
 const articleStyle = css({
@@ -59,38 +59,38 @@ export const ArticleLayout = ({
   description,
   image,
   date,
-  document,
+  children,
 }: {
   title: string;
   description?: string;
-  /** URL of the cover image. */
-  image?: string;
-  /** ISO 8601 date of the post. */
-  date: string;
-  document: ArticleDocument;
-}) => (
-  <article className={articleStyle}>
-    <header className={headerStyle}>
-      {image !== undefined && (
-        <img
-          src={image}
-          alt={title}
-          width={512}
-          height={288}
-          fetchPriority="high"
-          decoding="async"
-          className={coverStyle}
-        />
-      )}
-      <h1 className={titleStyle}>{title}</h1>
-      {description !== undefined && <p className={descriptionStyle}>{description}</p>}
-      <time dateTime={date} className={dateStyle}>
-        <IconPen className={penStyle} />
-        {new Date(date).toDateString()}
-      </time>
-    </header>
-    <main>
-      <Article document={document} />
-    </main>
-  </article>
-);
+  image?: SitePath;
+  date: Temporal.Instant;
+  /** The article itself. */
+  children: React.ReactNode;
+}) => {
+  const published = toSiteDate(date);
+  return (
+    <article className={articleStyle}>
+      <header className={headerStyle}>
+        {image !== undefined && (
+          <img
+            src={image}
+            alt={title}
+            width={512}
+            height={288}
+            fetchPriority="high"
+            decoding="async"
+            className={coverStyle}
+          />
+        )}
+        <h1 className={titleStyle}>{title}</h1>
+        {description !== undefined && <p className={descriptionStyle}>{description}</p>}
+        <time dateTime={published.toString()} className={dateStyle}>
+          <IconPen className={penStyle} />
+          {formatDateString(published)}
+        </time>
+      </header>
+      <main>{children}</main>
+    </article>
+  );
+};

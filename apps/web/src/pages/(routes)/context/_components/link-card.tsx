@@ -1,3 +1,5 @@
+import type { Slug } from "#/features/content.ts";
+import { toSiteDate } from "#/libs/date.ts";
 import { css } from "#/styled-system/css";
 
 const cardStyle = css({
@@ -26,15 +28,12 @@ export const LinkCard = ({
   emoji,
   date,
 }: {
-  slug: string;
+  slug: Slug;
   title: string;
   emoji: string;
-  /** ISO 8601 date of the post. */
-  date: string;
+  date: Temporal.Instant;
 }) => {
-  const published = new Date(date);
-  const month = published.getMonth() + 1;
-  const day = published.getDate();
+  const published = toSiteDate(date);
   return (
     // The rule cannot see that the title rendered inside is the link's text.
     // oxlint-disable-next-line jsx-a11y/control-has-associated-label
@@ -92,8 +91,8 @@ export const LinkCard = ({
           >
             {title}
           </h3>
-          <time dateTime={date} className={css({ color: "gray.500" })}>
-            {month}/{day}
+          <time dateTime={published.toString()} className={css({ color: "gray.500" })}>
+            {published.month}/{published.day}
           </time>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 
+import { sitePathSchema } from "#/libs/site-path.ts";
+
 import { Article } from "./article.tsx";
 import { collectLinkCardUrls, compileMarkdown } from "./compile.ts";
 
@@ -47,10 +49,10 @@ describe("Article", () => {
   beforeAll(async () => {
     const root = await compileMarkdown({
       source: fixture,
-      assetBase: "/content-assets/blog/test-post",
+      assetBase: sitePathSchema.parse("/content-assets/blog/test-post"),
     });
     linkCardUrls = collectLinkCardUrls(root);
-    html = renderToStaticMarkup(<Article document={{ root, ogps: { [cardOgp.url]: cardOgp } }} />);
+    html = renderToStaticMarkup(<Article root={root} ogps={{ [cardOgp.url]: cardOgp }} />);
   });
 
   test("renders headings", () => {
