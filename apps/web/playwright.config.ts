@@ -10,6 +10,10 @@ const baseURL = `http://localhost:${String(port)}`;
 export default defineConfig({
   testDir: "e2e",
   forbidOnly: true,
+  // Every test runs on its own. The tests only read the static build, so no test may depend on
+  // another having run or on their order.
+  fullyParallel: true,
+  globalTimeout: 10 * 60 * 1000,
   use: { baseURL },
   webServer: {
     command: `wrangler dev --config deploy/wrangler.jsonc --port ${String(port)}`,

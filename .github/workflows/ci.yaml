@@ -41,9 +41,8 @@ jobs:
           - name: Check unused code
             run: vp run check:knip
 
-  # 本番と同じ手順で全ページをプリレンダーし、デプロイと同じ静的配信で
-  # 主要なパスの応答を確かめる。
-  build-check:
+  # 本番と同じ手順でビルドし、デプロイと同じ静的配信に対して Playwright のテストを実行する。
+  e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -56,8 +55,14 @@ jobs:
         uses: ./.github/actions/setup
       - name: Codegen
         run: vp run codegen
-      - name: Check the static build
-        run: scripts/build-check.sh
+      # Playwright の推奨に従い、ブラウザはキャッシュせず毎回入れる。
+      - name: Install Chromium
+        working-directory: apps/web
+        run: pnpm exec playwright install --with-deps --only-shell chromium
+      - name: Test
+        run: vp run test:e2e
+        env:
+          VITE_SITE_URL: https://asa1984.dev
 
   # main のルールセットが必須にするチェックはこのジョブだけにする。
   # マージの条件にするジョブは needs に並べるので、ジョブの追加や改名で
@@ -67,7 +72,7 @@ jobs:
   # 実行し、needs の結果を見て失敗させる。
   pre-merge-check:
     if: always()
-    needs: [checks, build-check]
+    needs: [checks, e2e]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions: {}
