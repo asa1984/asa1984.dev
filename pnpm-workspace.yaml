@@ -37,6 +37,7 @@ catalog:
   remark-rehype: 11.1.2
   sass: 1.106.1
   shiki: 4.5.0
+  temporal-polyfill: 1.0.6
   typescript: 7.0.2
   unified: 11.0.5
   unist-util-visit: 5.2.0
