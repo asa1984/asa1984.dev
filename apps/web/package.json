@@ -35,6 +35,7 @@
     "remark-rehype": "catalog:",
     "sass": "catalog:",
     "shiki": "catalog:",
+    "temporal-polyfill": "catalog:",
     "unified": "catalog:",
     "unist-util-visit": "catalog:",
     "void": "catalog:",
