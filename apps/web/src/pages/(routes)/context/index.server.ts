@@ -1,18 +1,10 @@
 import { defineHandler, defineHead } from "void";
-import type { InferProps } from "void";
 
-import { contextPosts } from "#/features/context.ts";
-import { pageHead } from "#/libs/head.ts";
+import { listContextPostSummaries } from "#/features/context.ts";
+import { voidHead } from "#/libs/void-head.ts";
 
-export const loader = defineHandler(() => ({
-  posts: contextPosts.map(({ slug, title, emoji, date }) => ({
-    slug,
-    title,
-    emoji,
-    date: date.toISOString(),
-  })),
-}));
+import type { Props } from "./index.island.tsx";
 
-export type Props = InferProps<typeof loader>;
+export const loader = defineHandler((): Props => ({ posts: listContextPostSummaries() }));
 
-export const head = defineHead(() => pageHead({ title: "Context", description: "Context list" }));
+export const head = defineHead(() => voidHead({ title: "Context", description: "Context list" }));
