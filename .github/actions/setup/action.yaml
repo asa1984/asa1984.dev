@@ -27,11 +27,6 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm install --frozen-lockfile
-    # .envrc の PATH_add と同じく、vp などワークスペースの bin を以降の
-    # ステップから直接呼べるようにする。追加するのはワークスペース内の
-    # 固定パスで、中身は lockfile で固定した依存の bin だけである。vp run
-    # もタスクの実行時にこのディレクトリを PATH に足すので、以降の
-    # ステップが実行しうるものは増えない。
     - name: Add workspace bins to PATH
       shell: bash
       run: echo "$GITHUB_WORKSPACE/node_modules/.bin" >> "$GITHUB_PATH" # zizmor: ignore[github-env]
