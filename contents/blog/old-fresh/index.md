@@ -2,7 +2,6 @@
 title: FreshでMarkdownブログを作った
 image: fresh.webp
 description: 臆病な自尊心と尊大な羞恥心と偉大なFresh
-published: true
 date: 2022-11-15T15:00:00.000Z
 ---
 

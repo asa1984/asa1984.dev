@@ -1,7 +1,6 @@
 ---
 title: 声帯
 emoji: 🗣️
-published: true
 date: 2024-01-12T09:02:49.671Z
 ---
 

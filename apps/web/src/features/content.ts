@@ -1,7 +1,7 @@
 import { parse } from "yaml";
 import type { z } from "zod";
 
-/** A post parsed from `src/content/<collection>/<slug>.md`. */
+/** A post parsed from `contents/<collection>/<slug>/index.md`. */
 export type Post<Frontmatter> = {
   slug: string;
   frontmatter: Frontmatter;
@@ -10,7 +10,6 @@ export type Post<Frontmatter> = {
 
 /** The frontmatter fields every collection has. */
 type BaseFrontmatter = {
-  published: boolean;
   date: Date;
 };
 
@@ -30,11 +29,11 @@ export const splitFrontmatter = (source: string): { header: string; body: string
   };
 };
 
-const slugPattern = /([^/]+)\.md$/u;
+const slugPattern = /([^/]+)\/index\.md$/u;
 
 /**
- * Parses the posts of a collection, keyed by their path as `import.meta.glob` returns them, and
- * returns the published ones, newest first. Drafts are left out entirely, so they get no page.
+ * Parses the posts of a collection, keyed by their path as `import.meta.glob` returns them, newest
+ * first. Every post in contents/ is published; drafts are never committed.
  */
 export const parsePosts = <Frontmatter extends BaseFrontmatter>({
   sources,
@@ -52,5 +51,4 @@ export const parsePosts = <Frontmatter extends BaseFrontmatter>({
       const { header, body } = splitFrontmatter(source);
       return { slug, frontmatter: schema.parse(parse(header)), body };
     })
-    .filter((post) => post.frontmatter.published)
     .toSorted((a, b) => b.frontmatter.date.getTime() - a.frontmatter.date.getTime());

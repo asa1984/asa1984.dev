@@ -2,7 +2,6 @@
 title: 関数型まつり2026参加記
 image: f.png
 description: 型と言語に思いを馳せよう2026
-published: true
 date: 2026-08-17T00:00:00.000Z
 ---
 

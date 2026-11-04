@@ -1,7 +1,10 @@
+import { fileURLToPath } from "node:url";
+
 import { voidReact } from "@void/react/plugin";
 import { defineConfig } from "vite-plus";
 import { voidPlugin } from "void";
 
+import { contentAssets } from "./vite-plugins/content-assets.ts";
 import { rss } from "./vite-plugins/rss.ts";
 
 // Tasks are intentionally unchained (no dependsOn on codegen): CI runs `vp run codegen` once as an
@@ -9,7 +12,12 @@ import { rss } from "./vite-plugins/rss.ts";
 // separate steps. Tasks that read VITE_SITE_URL or Cloudflare credentials are cache: false, which
 // gives them the full environment instead of the cached tasks' allowlist.
 export default defineConfig({
-  plugins: [rss(), voidPlugin(), voidReact({ react: { compiler: true } })],
+  plugins: [
+    contentAssets({ contentsDir: fileURLToPath(new URL("../../contents", import.meta.url)) }),
+    rss(),
+    voidPlugin(),
+    voidReact({ react: { compiler: true } }),
+  ],
   run: {
     tasks: {
       "codegen:css": { command: "panda codegen" },

@@ -4,14 +4,13 @@ import { parsePosts } from "#/features/content.ts";
 
 const frontmatterSchema = z.object({
   title: z.string().min(1),
-  /** File name of the cover image in the post's asset directory. */
+  /** File name of the cover image in the post's directory. */
   image: z.string().min(1),
   description: z.string().min(1),
-  published: z.boolean(),
   date: z.coerce.date(),
 });
 
-/** A published post of the blog, TrashBox. */
+/** A post of the blog, TrashBox. */
 export type BlogPost = {
   slug: string;
   title: string;
@@ -24,13 +23,13 @@ export type BlogPost = {
   assetBase: string;
 };
 
-const sources = import.meta.glob<string>("/src/content/blog/*.md", {
+const sources = import.meta.glob<string>("../../../../contents/blog/*/index.md", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
-/** Published blog posts, newest first. */
+/** Blog posts, newest first. */
 export const blogPosts: BlogPost[] = parsePosts({ sources, schema: frontmatterSchema }).map(
   ({ slug, frontmatter, body }) => {
     const assetBase = `/content-assets/blog/${slug}`;
@@ -46,6 +45,6 @@ export const blogPosts: BlogPost[] = parsePosts({ sources, schema: frontmatterSc
   },
 );
 
-/** The published blog post with the slug, if any. */
+/** The blog post with the slug, if any. */
 export const findBlogPost = (slug: string): BlogPost | undefined =>
   blogPosts.find((post) => post.slug === slug);

@@ -1,7 +1,6 @@
 ---
 title: 感謝
 emoji: 🎖
-published: true
 date: 2024-01-08T11:25:54.246Z
 ---
 

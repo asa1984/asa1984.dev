@@ -5,11 +5,10 @@ import { parsePosts } from "#/features/content.ts";
 const frontmatterSchema = z.object({
   title: z.string().min(1),
   emoji: z.string().min(1),
-  published: z.boolean(),
   date: z.coerce.date(),
 });
 
-/** A published post of Context, the short essays. */
+/** A post of Context, the short essays. */
 export type ContextPost = {
   slug: string;
   title: string;
@@ -20,13 +19,13 @@ export type ContextPost = {
   assetBase: string;
 };
 
-const sources = import.meta.glob<string>("/src/content/context/*.md", {
+const sources = import.meta.glob<string>("../../../../contents/context/*/index.md", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
-/** Published Context posts, newest first. */
+/** Context posts, newest first. */
 export const contextPosts: ContextPost[] = parsePosts({
   sources,
   schema: frontmatterSchema,
@@ -39,6 +38,6 @@ export const contextPosts: ContextPost[] = parsePosts({
   assetBase: `/content-assets/context/${slug}`,
 }));
 
-/** The published Context post with the slug, if any. */
+/** The Context post with the slug, if any. */
 export const findContextPost = (slug: string): ContextPost | undefined =>
   contextPosts.find((post) => post.slug === slug);

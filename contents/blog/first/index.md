@@ -2,7 +2,6 @@
 title: Next.js 13でブログを作った
 image: first.webp
 description: Markdown絶許
-published: true
 date: 2023-10-23T00:00:00.000Z
 ---
 

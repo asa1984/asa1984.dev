@@ -30,5 +30,6 @@ Without direnv, prefix commands with `pnpm exec` (e.g. `pnpm exec vp run dev`).
 
 ## Content
 
-Articles live in `apps/web/src/content/<blog|context>/<slug>.md` and their images in `apps/web/public/content-assets/<blog|context>/<slug>/`.
+Each article is a directory `contents/<blog|context>/<slug>/` holding `index.md` and the images it references.
+Every article in `contents/` is published, so drafts are never committed.
 The site is built with [Void](https://void.cloud) and every page is prerendered, so publishing an article means deploying the site.

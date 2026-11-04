@@ -2,7 +2,6 @@
 title: 2023年振り返り
 image: 2023.png
 description: 技術，文化，デスマーチ
-published: true
 date: 2024-01-08T08:57:26.527Z
 ---
 

@@ -18,7 +18,7 @@ export default defineConfig({
   fmt: {
     ...fmt,
     // Articles are written by hand; reformatting them changes the rendered HTML.
-    ignorePatterns: [...generated, "apps/web/src/content"],
+    ignorePatterns: [...generated, "contents"],
   },
 
   lint: {

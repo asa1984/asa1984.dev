@@ -5,7 +5,11 @@ import { describe, expect, test } from "vite-plus/test";
 
 import { contextPosts, findContextPost } from "./context.ts";
 
-const publicFile = (url: string) => fileURLToPath(new URL(`../../public${url}`, import.meta.url));
+/** The file in contents/ that a /content-assets/ URL serves. */
+const contentFile = (url: string) =>
+  fileURLToPath(
+    new URL(`../../../../contents/${url.slice("/content-assets/".length)}`, import.meta.url),
+  );
 
 const localImage = /!\[[^\]]*\]\(\.\/([^)]+)\)/gu;
 
@@ -20,7 +24,7 @@ describe("contextPosts", () => {
   });
 
   test.each(images)("%s がある", (image) => {
-    expect(existsSync(publicFile(image))).toBe(true);
+    expect(existsSync(contentFile(image))).toBe(true);
   });
 });
 
