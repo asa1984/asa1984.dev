@@ -1,16 +1,31 @@
 import { defineHandler, defineHead } from "void";
 
-import type { ContextArticle } from "#/features/articles.ts";
-import { loadContextArticle } from "#/features/articles.ts";
-import { contextPosts } from "#/features/context.ts";
+import { postAssetPath, slugSchema } from "#/features/content.ts";
+import { getContextPost, listContextPosts } from "#/features/context.ts";
+import { collectLinkCardUrls, compileMarkdown } from "#/features/markdown.ts";
+import { fetchOgps } from "#/features/ogp.ts";
 import { voidHead } from "#/libs/void-head.ts";
 
-export const getPrerenderPaths = () => contextPosts.map(({ slug }) => ({ slug }));
+import type { Props } from "./[slug].island.tsx";
 
-export const loader = defineHandler(
-  async (c) => (await loadContextArticle(c.req.param("slug") ?? "")) ?? c.notFound(),
-);
+export const getPrerenderPaths = async () => {
+  const { items } = await listContextPosts();
+  return items.map(({ slug }) => ({ slug }));
+};
 
-export const head = defineHead<ContextArticle>((_c, { title }) =>
-  voidHead({ title, description: title, type: "article" }),
+export const loader = defineHandler(async (c): Promise<Props | Response> => {
+  const slug = slugSchema.safeParse(c.req.param("slug"));
+  const post = slug.success ? await getContextPost(slug.data) : undefined;
+  if (post === undefined) {
+    return c.notFound();
+  }
+  const root = await compileMarkdown({
+    source: post.body,
+    assetBase: postAssetPath({ collection: "context", slug: post.slug }),
+  });
+  return { post, root, ogps: await fetchOgps(collectLinkCardUrls(root)) };
+});
+
+export const head = defineHead<Props>((_c, { post }) =>
+  voidHead({ title: post.title, description: post.title, type: "article" }),
 );
