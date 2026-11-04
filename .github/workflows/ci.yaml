@@ -26,20 +26,20 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
-        run: pnpm exec vp run codegen
+        run: vp run codegen
       - parallel:
           - name: Lint
-            run: pnpm exec vp lint
+            run: vp lint
           - name: Format check
-            run: pnpm exec vp fmt --check
+            run: vp fmt --check
           - name: Typecheck
-            run: pnpm exec vp run typecheck
+            run: vp run typecheck
           - name: Test
-            run: pnpm exec vp run test
+            run: vp run test
           - name: Check workflows
-            run: pnpm exec vp run check:actions
+            run: vp run check:actions
           - name: Check unused code
-            run: pnpm exec vp run check:knip
+            run: vp run check:knip
 
   # 本番と同じ手順で全ページをプリレンダーし、デプロイと同じ静的配信で
   # 主要なパスの応答を確かめる。
@@ -55,7 +55,7 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Codegen
-        run: pnpm exec vp run codegen
+        run: vp run codegen
       - name: Check the static build
         run: scripts/build-check.sh
 
