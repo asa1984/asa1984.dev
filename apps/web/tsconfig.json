@@ -1,28 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    /* Next.js */
-    "jsx": "preserve",
-    // The generated worker-configuration.d.ts redeclares the DOM types.
+    // Void island pages mark islands with import attributes (`with { island }`).
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    // Workers runtime types redeclare parts of the DOM types.
     "skipLibCheck": true,
-    "allowJs": true,
-    "incremental": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "types": ["./worker-configuration.d.ts"]
+    // Node.js for the Vite plugins and tests, Workers runtime types for prerendering in workerd.
+    "types": ["node", "void/env", "vite-plus/client"]
   },
-  "include": [
-    "next-env.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    ".next/types/**/*.ts",
-    "panda.config.ts",
-    "vite.config.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite-plugins/**/*.ts", ".void/**/*.d.ts", "*.ts"],
   "exclude": ["node_modules"]
 }

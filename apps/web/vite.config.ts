@@ -1,22 +1,41 @@
+import { fileURLToPath } from "node:url";
+
+import { voidReact } from "@void/react/plugin";
 import { defineConfig } from "vite-plus";
+import { voidPlugin } from "void";
 
-// Env note: cached tasks run in a clean environment (only an allowlist of
-// vars is passed through). Every task that reads content/Cloudflare env vars
-// (dev, start, build:worker, deploy:*, secret:*) is cache: false, which opts
-// out of that filtering and receives the full environment.
+import { contentAssets } from "./vite-plugins/content-assets.ts";
+import { rss } from "./vite-plugins/rss.ts";
 
-// `build` stays a package.json script (not a task): opennextjs-cloudflare
-// build shells out to `pnpm build`, so the script must keep existing.
-
-// Tasks are intentionally unchained (no dependsOn on codegen): CI runs
-// `vp run codegen` once as an explicit step before the parallel check
-// steps, and the deploy workflows drive build:worker / deploy / secret
-// as separate steps.
-export default defineConfig({
+// Tasks are intentionally unchained (no dependsOn on codegen): CI runs `vp run codegen` once as an
+// explicit step before the parallel check steps, and the deploy workflows run build and deploy as
+// separate steps. Tasks that read VITE_SITE_URL or Cloudflare credentials are cache: false, which
+// gives them the full environment instead of the cached tasks' allowlist.
+export default defineConfig(({ mode }) => ({
+  // Tests import modules directly. Void's plugin would start the workerd runner and validate the
+  // site's env, which unit tests need neither of.
+  plugins:
+    mode === "test"
+      ? []
+      : [
+          contentAssets({ contentsDir: fileURLToPath(new URL("../../contents", import.meta.url)) }),
+          rss(),
+          voidPlugin(),
+          voidReact({ react: { compiler: true } }),
+        ],
+  // The Vitest baseline of asa1984/conceptory: modules are evaluated once per worker instead of per
+  // test file, so spies and stubbed globals and env are restored after each test.
+  test: {
+    include: ["src/**/*.test.{ts,tsx}"],
+    isolate: false,
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
+  },
   run: {
     tasks: {
       "codegen:css": { command: "panda codegen" },
-      "codegen:types": { command: "wrangler types" },
+      "codegen:types": { command: "void prepare" },
       codegen: "vp run codegen:css && vp run codegen:types",
       typecheck: {
         command: "tsc",
@@ -26,38 +45,28 @@ export default defineConfig({
       },
       test: { command: "vp test run" },
       dev: {
-        command: "rimraf ./next && next dev",
+        command: "vp dev",
         cache: false,
       },
+      // Prerenders every page into dist/client. Link cards fetch their targets' OGP metadata, so
+      // the build needs network access.
+      build: {
+        command: "vp build",
+        cache: false,
+      },
+      // Serves the build output the way Cloudflare does.
       start: {
-        command:
-          // ${...} is shell parameter expansion, not a template literal.
-          // oxlint-disable-next-line eslint/no-template-curly-in-string
-          "opennextjs-cloudflare build && opennextjs-cloudflare populateCache local && wrangler dev --port 3000 --var ALLOW_EMPTY_CONTENT:${ALLOW_EMPTY_CONTENT:-1} --var CONTENT_GITHUB_TOKEN:${CONTENT_GITHUB_TOKEN:-local-dummy} --var CONTENT_WEBHOOK_SECRET:${CONTENT_WEBHOOK_SECRET:-local-dev}",
-        cache: false,
-      },
-      "build:worker": {
-        command: "opennextjs-cloudflare build",
+        command: "wrangler dev --config deploy/wrangler.jsonc --port 3000",
         cache: false,
       },
       "deploy:dev": {
-        command: "CLOUDFLARE_ENV=dev opennextjs-cloudflare deploy -- --env dev",
+        command: "wrangler deploy --config deploy/wrangler.jsonc --env dev",
         cache: false,
       },
       "deploy:production": {
-        command: "CLOUDFLARE_ENV=production opennextjs-cloudflare deploy -- --env production",
-        cache: false,
-      },
-      "secret:dev": {
-        command:
-          "node -e 'process.stdout.write(JSON.stringify({ CONTENT_GITHUB_TOKEN: process.env.CONTENT_GITHUB_TOKEN, CONTENT_WEBHOOK_SECRET: process.env.CONTENT_WEBHOOK_SECRET }))' | wrangler secret bulk --env dev",
-        cache: false,
-      },
-      "secret:production": {
-        command:
-          "node -e 'process.stdout.write(JSON.stringify({ CONTENT_GITHUB_TOKEN: process.env.CONTENT_GITHUB_TOKEN, CONTENT_WEBHOOK_SECRET: process.env.CONTENT_WEBHOOK_SECRET }))' | wrangler secret bulk --env production",
+        command: "wrangler deploy --config deploy/wrangler.jsonc --env production",
         cache: false,
       },
     },
   },
-});
+}));

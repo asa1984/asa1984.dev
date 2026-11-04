@@ -1,0 +1,24 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "asa1984-web",
+  "compatibility_date": "2026-10-01",
+
+  // The site is fully prerendered (void.config.ts), so the Worker has no script and only serves
+  // the build output. It is not at the package root, where Void would take it for its own config.
+  "assets": {
+    "directory": "../dist/client",
+    "not_found_handling": "404-page",
+  },
+
+  // Real deploys always go through `--env production` / `--env dev`; the top level is only used
+  // by local `wrangler dev`. Routes are not inheritable, so they are repeated per environment.
+  "env": {
+    "production": {
+      "name": "asa1984-web",
+    },
+    "dev": {
+      "name": "asa1984-web-dev",
+      "routes": [{ "pattern": "dev.asa1984.dev", "custom_domain": true }],
+    },
+  },
+}

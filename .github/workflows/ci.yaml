@@ -38,12 +38,12 @@ jobs:
             run: pnpm exec vp run test
           - name: Check workflows
             run: pnpm exec vp run check:actions
+          - name: Check unused code
+            run: pnpm exec vp run check:knip
 
-  # Bundle-size budgets + workerd smoke over the production bundling
-  # path (opennextjs-cloudflare), which a plain `next build` never
-  # exercises — see issue #31. 素の `next build` はこのビルドに包含される
-  # ため独立した build ジョブは持たない。
-  workers-check:
+  # 本番と同じ手順で全ページをプリレンダーし、デプロイと同じ静的配信で
+  # 主要なパスの応答を確かめる。
+  build-check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -56,5 +56,22 @@ jobs:
         uses: ./.github/actions/setup
       - name: Codegen
         run: pnpm exec vp run codegen
-      - name: Check worker bundle
-        run: scripts/workers-check.sh
+      - name: Check the static build
+        run: scripts/build-check.sh
+
+  # main のルールセットが必須にするチェックはこのジョブだけにする。
+  # マージの条件にするジョブは needs に並べるので、ジョブの追加や改名で
+  # ルールセット (asa1984/infrastructure) を変える必要はない。
+  # needs のジョブが失敗するとこのジョブは既定でスキップされ、GitHub は
+  # スキップされた必須チェックを成功として扱う。そのため always() で必ず
+  # 実行し、needs の結果を見て失敗させる。
+  pre-merge-check:
+    if: always()
+    needs: [checks, build-check]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require every needed job to succeed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        run: exit 1

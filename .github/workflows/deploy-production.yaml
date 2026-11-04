@@ -38,15 +38,11 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/credential
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
-          CONTENT_GITHUB_TOKEN: op://asa1984.dev/production/CONTENT_GITHUB_TOKEN
-          CONTENT_WEBHOOK_SECRET: op://asa1984.dev/content-webhook-secret/password
       - name: Codegen
         run: pnpm exec vp run codegen
-      - name: Build worker
-        run: pnpm exec vp run "@asa1984.dev/web#build:worker"
+      - name: Build
+        run: pnpm exec vp run "@asa1984.dev/web#build"
         env:
-          FRONTEND_URL: https://asa1984.dev
+          VITE_SITE_URL: https://asa1984.dev
       - name: Deploy to production
         run: pnpm exec vp run "@asa1984.dev/web#deploy:production"
-      - name: Sync worker secrets
-        run: pnpm exec vp run "@asa1984.dev/web#secret:production"

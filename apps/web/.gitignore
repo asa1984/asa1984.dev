@@ -1,15 +1,7 @@
-# Next.js
-next-env.d.ts
-.next/
-
 # Panda CSS
 src/styled-system/
 
-# nitrogql
-src/generated
-*.d.graphql.ts
-*.d.graphql.ts.map
-.vercel
-
-# OpenNext
-.open-next/
+# Void
+.void/
+.void-wrangler.jsonc
+.cloudflare/

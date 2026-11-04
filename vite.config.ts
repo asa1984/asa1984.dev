@@ -1,14 +1,14 @@
 import { defineConfig } from "vite-plus";
 
 import { fmt } from "./config/fmt.ts";
-import { lint, testLint } from "./config/lint.ts";
+import { lint, reactLint, testLint } from "./config/lint.ts";
 
 // Generated / build artifacts that lint and fmt must never touch.
 const generated = [
-  "**/worker-configuration.d.ts",
   "**/styled-system",
-  "**/.next",
-  "**/.open-next",
+  "**/.void",
+  "**/.cloudflare",
+  "**/.void-wrangler.jsonc",
   "**/.wrangler",
   "**/.size-check",
   "**/dist",
@@ -17,7 +17,8 @@ const generated = [
 export default defineConfig({
   fmt: {
     ...fmt,
-    ignorePatterns: generated,
+    // Articles are written by hand; reformatting them changes the rendered HTML.
+    ignorePatterns: [...generated, "contents"],
   },
 
   lint: {
@@ -37,19 +38,17 @@ export default defineConfig({
     },
     overrides: [
       ...lint.overrides,
+      { files: ["apps/web/src/**"], ...reactLint },
+      { files: ["**/*.{test,spec}.{ts,mts,cts,tsx}"], ...testLint },
       {
-        files: ["**/*.{test,spec}.{ts,mts,cts,tsx}"],
-        ...testLint,
-        rules: {
-          ...testLint.rules,
-          // Adoption debt: three test files still mock modules with vi.mock.
-          "vitest/no-restricted-vi-methods": "off",
-        },
-      },
-      {
-        // Next.js requires these files to export their component as default.
+        // Void takes pages, layouts, islands, and env.ts by their default export.
         files: [
-          "apps/web/src/app/**/{page,layout,template,loading,error,global-error,not-found,default}.tsx",
+          "apps/web/src/pages/**/*.island.tsx",
+          "apps/web/src/pages/**/layout.tsx",
+          "apps/web/src/pages/(routes)/_components/nav-menu.tsx",
+          "apps/web/src/pages/(routes)/blog/_components/relative-date.tsx",
+          "apps/web/src/pages/(routes)/profile/_components/age.tsx",
+          "apps/web/src/env.ts",
         ],
         rules: {
           "import/no-default-export": "off",
@@ -85,6 +84,8 @@ export default defineConfig({
       dev: { command: ["vp run -r codegen", "vp run -r dev"], cache: false },
       start: { command: "vp run -r start", cache: false },
       "check:actions": { command: ["actionlint", "zizmor --offline .github"], cache: false },
+      // Unused files, exports, and dependencies across the workspace (knip.config.ts).
+      "check:knip": { command: "knip", cache: false },
     },
   },
 });
