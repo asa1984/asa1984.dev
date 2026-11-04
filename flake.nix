@@ -11,7 +11,6 @@
         "aarch64-linux" # 64-bit ARM Linux
         "x86_64-linux" # 64-bit x86 Linux
         "aarch64-darwin" # 64-bit ARM macOS
-        "x86_64-darwin" # 64-bit x86 macOS
       ];
 
       perSystem =
