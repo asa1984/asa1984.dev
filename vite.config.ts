@@ -12,6 +12,8 @@ const generated = [
   "**/.wrangler",
   "**/.size-check",
   "**/dist",
+  "**/test-results",
+  "**/playwright-report",
 ];
 
 export default defineConfig({
@@ -39,7 +41,8 @@ export default defineConfig({
     overrides: [
       ...lint.overrides,
       { files: ["apps/web/src/**"], ...reactLint },
-      { files: ["**/*.{test,spec}.{ts,mts,cts,tsx}"], ...testLint },
+      // Vitest tests are *.test.ts; *.spec.ts are Playwright tests, which testLint does not cover.
+      { files: ["**/*.test.{ts,mts,cts,tsx}"], ...testLint },
       {
         // Void takes pages, layouts, islands, and env.ts by their default export.
         files: [
@@ -80,6 +83,7 @@ export default defineConfig({
       codegen: "vp run -r codegen",
       typecheck: "vp run -r typecheck",
       test: "vp run -r test",
+      "test:e2e": { command: "vp run -r test:e2e", cache: false },
       build: "vp run -r build",
       dev: { command: ["vp run -r codegen", "vp run -r dev"], cache: false },
       start: { command: "vp run -r start", cache: false },

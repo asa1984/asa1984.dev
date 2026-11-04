@@ -8,6 +8,7 @@ catalog:
   "@pandacss/dev": 2.4.0
   "@pandacss/preset-base": 2.4.0
   "@pandacss/preset-panda": 2.4.0
+  "@playwright/test": 1.64.1
   "@types/hast": 3.0.5
   "@types/mdast": 4.0.4
   "@types/node": 26.6.5
