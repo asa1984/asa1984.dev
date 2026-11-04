@@ -44,6 +44,12 @@ export default defineConfig(({ mode }) => ({
         },
       },
       test: { command: "vp test run" },
+      // Builds and runs the Playwright tests in e2e/ against the build output.
+      "test:e2e": {
+        command: "playwright test",
+        dependsOn: ["build"],
+        cache: false,
+      },
       dev: {
         command: "vp dev",
         cache: false,

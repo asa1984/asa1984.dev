@@ -10,6 +10,13 @@
     // Node.js for the Vite plugins and tests, Workers runtime types for prerendering in workerd.
     "types": ["node", "void/env", "vite-plus/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite-plugins/**/*.ts", ".void/**/*.d.ts", "*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "e2e/**/*.ts",
+    "vite-plugins/**/*.ts",
+    ".void/**/*.d.ts",
+    "*.ts"
+  ],
   "exclude": ["node_modules"]
 }

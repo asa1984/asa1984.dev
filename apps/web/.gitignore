@@ -5,3 +5,7 @@ src/styled-system/
 .void/
 .void-wrangler.jsonc
 .cloudflare/
+
+# Playwright
+test-results/
+playwright-report/
