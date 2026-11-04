@@ -38,6 +38,8 @@ jobs:
             run: pnpm exec vp run test
           - name: Check workflows
             run: pnpm exec vp run check:actions
+          - name: Check unused code
+            run: pnpm exec vp run check:knip
 
   # 本番と同じ手順で全ページをプリレンダーし、デプロイと同じ静的配信で
   # 主要なパスの応答を確かめる。

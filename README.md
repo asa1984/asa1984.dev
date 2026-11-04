@@ -24,6 +24,7 @@ vp run test       # vitest (run codegen first)
 vp run typecheck  # tsc (run codegen first)
 vp lint           # oxlint (config: config/lint.ts, copied from asa1984/conceptory)
 vp fmt            # oxfmt
+vp run check:knip # knip: unused files, exports, and dependencies (config: knip.config.ts)
 ```
 
 Without direnv, prefix commands with `pnpm exec` (e.g. `pnpm exec vp run dev`).

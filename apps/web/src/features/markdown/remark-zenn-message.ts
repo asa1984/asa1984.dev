@@ -8,7 +8,7 @@ const messageBeginning = ":::message\n";
 const messageEnding = "\n:::";
 
 /** Whether the paragraph is a Zenn `:::message ... :::` block. */
-export const isMessage = (node: unknown): node is Paragraph => {
+const isMessage = (node: unknown): node is Paragraph => {
   if (!isParagraph(node)) {
     return false;
   }

@@ -5,7 +5,6 @@ catalog:
   "@fontsource-variable/inter": 5.3.0
   "@fontsource-variable/jetbrains-mono": 5.3.0
   "@fontsource-variable/noto-emoji": 5.3.2
-  "@fontsource-variable/noto-sans-jp": 5.3.1
   "@pandacss/dev": 2.4.0
   "@pandacss/preset-base": 2.4.0
   "@pandacss/preset-panda": 2.4.0
@@ -19,6 +18,7 @@ catalog:
   feed: 6.0.0
   hast-util-to-jsx-runtime: 2.3.6
   katex: 0.18.10
+  knip: 6.44.1
   mdast-util-to-hast: 13.2.1
   node-html-parser: 9.0.5
   oxc-transform-react: 0.156.0

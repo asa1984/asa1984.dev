@@ -16,6 +16,9 @@ dist
 .size-check
 
 
+# Void: generated into the working directory of any vp command that loads apps/web/vite.config.ts
+.void/
+
 # Deployment
 .vercel
 .wrangler

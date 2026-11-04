@@ -18,7 +18,7 @@ type PageHead = {
 };
 
 /** Resolves a site-relative URL against the URL the site is deployed to. */
-export const absoluteUrl = (path: string): string => new URL(path, env.VITE_SITE_URL).toString();
+const absoluteUrl = (path: string): string => new URL(path, env.VITE_SITE_URL).toString();
 
 const imageMeta = ({ image, key }: { image: OgImage; key: "og:image" | "twitter:image" }) => {
   const attribute = key === "og:image" ? "property" : "name";

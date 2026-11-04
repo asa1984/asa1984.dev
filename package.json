@@ -4,8 +4,8 @@
   "description": "asa1984's personal website",
   "type": "module",
   "devDependencies": {
-    "vite-plus": "catalog:",
-    "wrangler": "catalog:"
+    "knip": "catalog:",
+    "vite-plus": "catalog:"
   },
   "packageManager": "pnpm@12.16.1"
 }
