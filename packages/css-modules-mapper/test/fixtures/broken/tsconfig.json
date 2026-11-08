@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "types": []
+  },
+  "contentMappers": [
+    { "package": "@asa1984.dev/css-modules-mapper", "extensions": [".module.css"] }
+  ],
+  "include": ["*.ts"]
+}
