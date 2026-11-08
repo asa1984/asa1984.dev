@@ -38,7 +38,8 @@ export default defineConfig(({ mode }) => ({
       "codegen:types": { command: "void prepare" },
       codegen: "vp run codegen:css && vp run codegen:types",
       typecheck: {
-        command: "tsc",
+        // Content mappers are external processes, so tsc runs them only when told to.
+        command: "tsc --runExternalCode",
         cache: {
           output: [{ auto: true }, "!**/*.tsbuildinfo"],
         },

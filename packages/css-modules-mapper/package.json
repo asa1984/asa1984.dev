@@ -1,0 +1,27 @@
+{
+  "name": "@asa1984.dev/css-modules-mapper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A TypeScript content mapper that types *.module.css with Lightning CSS, the same engine that builds them",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "lightningcss": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "typescript": {
+    "contentMapper": {
+      "compilerOptions": [],
+      "exec": [
+        "node",
+        "./src/server.ts"
+      ]
+    }
+  }
+}

@@ -16,16 +16,19 @@ const generated = [
   "**/playwright-report",
 ];
 
+// Projects that only the content mapper can type check, some of them broken on purpose.
+const mapperFixtures = "packages/css-modules-mapper/test/fixtures";
+
 export default defineConfig({
   fmt: {
     ...fmt,
     // Articles are written by hand; reformatting them changes the rendered HTML.
-    ignorePatterns: [...generated, "contents"],
+    ignorePatterns: [...generated, mapperFixtures, "contents"],
   },
 
   lint: {
     ...lint,
-    ignorePatterns: generated,
+    ignorePatterns: [...generated, mapperFixtures],
     rules: {
       ...lint.rules,
       // Panda CSS finds css() calls by the exact `styled-system/css` specifier, so keep it as is.

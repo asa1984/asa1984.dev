@@ -1,0 +1,14 @@
+/* .ghost is only a comment */
+.card {
+  container: card / inline-size;
+  grid-column: prose;
+
+  & .title-text {
+    content: ".notAClass";
+  }
+}
+
+#main,
+.default {
+  color: red;
+}

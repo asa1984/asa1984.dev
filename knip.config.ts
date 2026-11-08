@@ -5,6 +5,10 @@ export default {
     ".": {
       entry: ["config/**/*.ts"],
     },
+    "packages/css-modules-mapper": {
+      // Fixtures are type checked only by tsc spawning the mapper in test/tsc.test.ts.
+      project: ["src/**/*.ts", "test/**/*.ts", "*.ts", "!test/fixtures/**"],
+    },
     "apps/web": {
       entry: [
         // Void loads pages, their server modules, and layouts by their file names.
