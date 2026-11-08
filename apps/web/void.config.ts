@@ -16,8 +16,10 @@ export default defineConfig({
     link: [{ rel: "icon", href: "/favicon.ico", sizes: "48x48", type: "image/x-icon" }],
   },
   // Pages are prerendered inside workerd with these settings.
+  // `temporal` exposes the Temporal global, which the content model uses; it becomes a default
+  // from compatibility date 2026-12-01.
   worker: {
     compatibility_date: "2026-10-01",
-    compatibility_flags: ["nodejs_compat", "global_fetch_strictly_public"],
+    compatibility_flags: ["nodejs_compat", "global_fetch_strictly_public", "temporal"],
   },
 });

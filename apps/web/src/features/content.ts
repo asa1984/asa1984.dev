@@ -1,7 +1,3 @@
-// workerd, which prerenders the pages, has no Temporal; the shim installs it only where it is
-// missing, so Node keeps its own.
-// oxlint-disable-next-line import/no-unassigned-import
-import "temporal-polyfill/global";
 import { parse } from "yaml";
 import { z } from "zod";
 
