@@ -1,4 +1,5 @@
 import { IconNixOS, IconReact, IconRust, IconTypescript } from "#/components/icons.tsx";
+import type { Ogp } from "#/features/ogp.ts";
 import { OgpLinkCard } from "#/features/ogp.ts";
 import { css } from "#/styled-system/css";
 
@@ -7,7 +8,13 @@ import { RoutesLayout } from "../_components/routes-layout.tsx";
 import Age from "./_components/age.tsx" with { island: "load" };
 import { ProfileCard } from "./_components/profile.tsx";
 import { Topic } from "./_components/topic.tsx";
-import type { Props } from "./index.server.ts";
+
+export type Props = {
+  /** The playlist the Music topic links to. */
+  playlist: Ogp;
+  /** When the page was prerendered, which the Age island hydrates with. */
+  renderedAt: number;
+};
 
 const articleStyle = css({
   marginTop: 16,

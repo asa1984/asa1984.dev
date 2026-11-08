@@ -1,10 +1,17 @@
+import type { BlogPostMeta } from "#/features/blog.ts";
+import { postAssetPath } from "#/features/content.ts";
 import { css } from "#/styled-system/css";
 
 import NavMenu from "../_components/nav-menu.tsx" with { island: "load" };
 import { RoutesLayout } from "../_components/routes-layout.tsx";
 import { LinkCard } from "./_components/link-card.tsx";
 import RelativeDate from "./_components/relative-date.tsx" with { island: "load" };
-import type { Props } from "./index.server.ts";
+
+export type Props = {
+  posts: BlogPostMeta[];
+  /** When the page was prerendered, which the RelativeDate islands hydrate with. */
+  renderedAt: number;
+};
 
 const containerStyle = css({ mt: 8 });
 
@@ -28,8 +35,9 @@ const BlogPage = ({ posts, renderedAt }: Props) => (
             slug={post.slug}
             title={post.title}
             description={post.description}
-            image={post.image}
-            date={<RelativeDate date={post.date} renderedAt={renderedAt} />}
+            image={postAssetPath({ collection: "blog", slug: post.slug, file: post.image })}
+            // Island props are JSON, so the date crosses as an ISO 8601 string.
+            date={<RelativeDate date={post.date.toString()} renderedAt={renderedAt} />}
           />
         ))}
       </div>

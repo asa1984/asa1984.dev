@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { runnerImport } from "vite-plus";
 import type { Plugin, ResolvedConfig } from "vite-plus";
 
-type FeedModule = { buildFeed: (siteUrl: string) => string };
+type FeedModule = { buildFeed: (siteUrl: string) => Promise<string> };
 
 /** Builds the feed by loading src/features/feed.ts through Vite, so `import.meta.glob` works. */
 const renderFeed = async (config: ResolvedConfig): Promise<string> => {

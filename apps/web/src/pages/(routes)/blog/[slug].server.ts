@@ -1,34 +1,37 @@
 import { defineHandler, defineHead } from "void";
-import type { InferProps } from "void";
 
-import { blogPosts, findBlogPost } from "#/features/blog.ts";
-import { loadArticle } from "#/features/markdown.ts";
-import { pageHead } from "#/libs/head.ts";
+import { getBlogPost, listBlogPosts } from "#/features/blog.ts";
+import { postAssetPath, slugSchema } from "#/features/content.ts";
+import { collectLinkCardUrls, compileMarkdown } from "#/features/markdown.ts";
+import { fetchOgps } from "#/features/ogp.ts";
+import { voidHead } from "#/libs/void-head.ts";
 
-export const getPrerenderPaths = () => blogPosts.map(({ slug }) => ({ slug }));
+import type { Props } from "./[slug].island.tsx";
 
-export const loader = defineHandler(async (c) => {
-  const post = findBlogPost(c.req.param("slug") ?? "");
+export const getPrerenderPaths = async () => {
+  const { items } = await listBlogPosts();
+  return items.map(({ slug }) => ({ slug }));
+};
+
+export const loader = defineHandler(async (c): Promise<Props | Response> => {
+  const slug = slugSchema.safeParse(c.req.param("slug"));
+  const post = slug.success ? await getBlogPost(slug.data) : undefined;
   if (post === undefined) {
     return c.notFound();
   }
-  return {
-    title: post.title,
-    description: post.description,
-    image: post.image,
-    date: post.date.toISOString(),
-    document: await loadArticle({ source: post.body, assetBase: post.assetBase }),
-  };
+  const root = await compileMarkdown({
+    source: post.body,
+    assetBase: postAssetPath({ collection: "blog", slug: post.slug }),
+  });
+  return { post, root, ogps: await fetchOgps(collectLinkCardUrls(root)) };
 });
 
-export type Props = Exclude<InferProps<typeof loader>, Response>;
-
-export const head = defineHead<Props>((_c, { title, description, image }) =>
-  pageHead({
-    title,
-    description,
+export const head = defineHead<Props>((_c, { post }) =>
+  voidHead({
+    title: post.title,
+    description: post.description,
     type: "article",
-    image: { path: image },
+    image: { path: postAssetPath({ collection: "blog", slug: post.slug, file: post.image }) },
     card: "summary_large_image",
   }),
 );

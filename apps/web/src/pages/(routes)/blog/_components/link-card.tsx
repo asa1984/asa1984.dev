@@ -1,3 +1,5 @@
+import type { Slug } from "#/features/content.ts";
+import type { SitePath } from "#/libs/site-path.ts";
 import { css } from "#/styled-system/css";
 
 const cardStyle = css({
@@ -50,10 +52,10 @@ export const LinkCard = ({
   image,
   date,
 }: {
-  slug: string;
+  slug: Slug;
   title: string;
   description: string;
-  image: string;
+  image: SitePath;
   /** The RelativeDate island of the post's date. */
   date: React.ReactNode;
 }) => (
