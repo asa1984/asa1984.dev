@@ -52,6 +52,9 @@ test.describe("island", () => {
     const errors = collectErrors(page);
     await page.goto("/blog");
     const profileLink = page.locator('header a[href="/profile"]');
+    // A click on the prerendered button does nothing until the island hydrates, which Void marks
+    // with data-hydrated.
+    await expect(page.locator('header [data-island][data-hydrated="true"]')).toBeAttached();
 
     await page.getByRole("button", { name: "Open menu" }).click();
     await expect(profileLink).toBeVisible();
