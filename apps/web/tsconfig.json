@@ -10,6 +10,11 @@
     // Node.js for the Vite plugins and tests, Workers runtime types for prerendering in workerd.
     "types": ["node", "void/env", "vite-plus/client"]
   },
+  // Types *.module.css with the same Lightning CSS settings the build uses. tsc needs
+  // --runExternalCode to spawn it, and the editor needs workspace trust.
+  "contentMappers": [
+    { "package": "@asa1984.dev/css-modules-mapper", "extensions": [".module.css"] }
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

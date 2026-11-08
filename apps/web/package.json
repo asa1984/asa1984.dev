@@ -7,6 +7,7 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@asa1984.dev/css-modules-mapper": "workspace:*",
     "@fontsource-variable/inter": "catalog:",
     "@fontsource-variable/jetbrains-mono": "catalog:",
     "@fontsource-variable/noto-emoji": "catalog:",
