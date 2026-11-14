@@ -19,7 +19,7 @@ catalog:
   feed: 6.0.0
   hast-util-to-jsx-runtime: 2.3.7
   katex: 0.19.1
-  knip: 6.45.0
+  knip: 6.45.1
   mdast-util-to-hast: 13.2.1
   node-html-parser: 9.0.7
   oxc-transform-react: 0.156.0
