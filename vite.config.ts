@@ -58,8 +58,8 @@ export default defineConfig({
         },
       },
       {
-        // tsgolint resolves this feature's hast/panda imports to error types
-        // (tsc is fine), so its type-aware findings here are artifacts.
+        // The type-aware linter (tsrs since Vite+ 1.7, tsgolint before) resolves this feature's
+        // hast/panda imports to error types (tsc is fine), so its findings here are artifacts.
         files: ["apps/web/src/features/markdown/**"],
         rules: {
           "typescript/no-unsafe-argument": "off",
