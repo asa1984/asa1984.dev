@@ -29,7 +29,7 @@ vp run build      # prerender every page into apps/web/dist/client
 vp run start      # serve the build the way Cloudflare does
 vp run test       # vitest (run codegen first)
 vp run typecheck  # tsc (run codegen first)
-vp lint           # oxlint (config: config/lint.ts, copied from asa1984/conceptory)
+vp lint           # oxlint (baseline: @asa1984/conceptory/lint)
 vp fmt            # oxfmt
 vp run check:knip # knip: unused files, exports, and dependencies (config: knip.config.ts)
 ```

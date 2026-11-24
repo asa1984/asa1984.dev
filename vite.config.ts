@@ -1,7 +1,6 @@
+import { fmt } from "@asa1984/conceptory/fmt";
+import { lint, reactLint, testLint } from "@asa1984/conceptory/lint";
 import { defineConfig } from "vite-plus";
-
-import { fmt } from "./config/fmt.ts";
-import { lint, reactLint, testLint } from "./config/lint.ts";
 
 // Generated / build artifacts that lint and fmt must never touch.
 const generated = [

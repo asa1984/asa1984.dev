@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
 
+import { test } from "@asa1984/conceptory/test";
 import { voidReact } from "@void/react/plugin";
 import { defineConfig } from "vite-plus";
 import { voidPlugin } from "void";
@@ -23,14 +24,9 @@ export default defineConfig(({ mode }) => ({
           voidPlugin(),
           voidReact({ react: { compiler: true } }),
         ],
-  // The Vitest baseline of asa1984/conceptory: modules are evaluated once per worker instead of per
-  // test file, so spies and stubbed globals and env are restored after each test.
   test: {
+    ...test,
     include: ["src/**/*.test.{ts,tsx}"],
-    isolate: false,
-    restoreMocks: true,
-    unstubGlobals: true,
-    unstubEnvs: true,
   },
   run: {
     tasks: {
