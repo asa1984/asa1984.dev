@@ -6,14 +6,16 @@ runs:
   steps:
     - name: Setup Nix
       uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+      with:
+        # conceptory's binary cache serves the packages that the flake module adds.
+        extra-conf: |
+          extra-substituters = https://cache.asa1984.dev
+          extra-trusted-public-keys = cache.asa1984.dev-2:ZDLpWsB88DIjBav8I3NSSRuBACUgljt7dP2KVkv7IDg=
     # devShell を都度 `nix develop --command` で包む代わりに、CI ツール一式を
     # profile に入れて以降のステップから直接呼ぶ。
     - name: Install CI toolchain
       shell: bash
       run: nix profile add .#ci
-    - name: Setup corepack
-      shell: bash
-      run: corepack install
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash
