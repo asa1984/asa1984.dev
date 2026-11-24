@@ -8,9 +8,16 @@ My personal website.
 gh repo clone asa1984/asa1984.dev
 cd asa1984.dev
 direnv allow # nix devshell + node_modules/.bin on PATH
-corepack install
 pnpm install
 vp run dev
+```
+
+The devShell comes from [conceptory](https://github.com/asa1984/conceptory)'s flake module.
+Add its binary cache to your nix.conf to download conceptory's packages instead of building them:
+
+```
+extra-substituters = https://cache.asa1984.dev
+extra-trusted-public-keys = cache.asa1984.dev-2:ZDLpWsB88DIjBav8I3NSSRuBACUgljt7dP2KVkv7IDg=
 ```
 
 Scripts are managed by [Vite+](https://viteplus.dev/) tasks (`vite.config.ts`), not package.json scripts:
