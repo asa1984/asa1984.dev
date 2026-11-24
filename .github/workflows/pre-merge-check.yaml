@@ -1,4 +1,4 @@
-name: CI
+name: pre-merge-check
 
 on:
   # Runs for every base branch so that stacked PRs are checked too.
@@ -23,23 +23,17 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Codegen
-        run: vp run codegen
+      - uses: ./.github/actions/setup
+      - run: vp run codegen
       - parallel:
-          - name: Lint
-            run: vp lint
-          - name: Format check
-            run: vp fmt --check
-          - name: Typecheck
-            run: vp run typecheck
-          - name: Test
-            run: vp run test
-          - name: Check workflows
-            run: vp run check:actions
-          - name: Check unused code
-            run: vp run check:knip
+          - run: vp lint
+          - run: vp fmt --check
+          - run: vp run typecheck
+          - run: vp run test
+          - run: vp run check:actions
+          - run: vp run check:knip
+          - run: vp run check:ast-grep
+          - run: vp run check:files
 
   # 本番と同じ手順でビルドし、デプロイと同じ静的配信に対して Playwright のテストを実行する。
   e2e:
@@ -51,16 +45,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Codegen
-        run: vp run codegen
+      - uses: ./.github/actions/setup
+      - run: vp run codegen
       # Playwright の推奨に従い、ブラウザはキャッシュせず毎回入れる。
-      - name: Install Chromium
-        working-directory: apps/web
+      - working-directory: apps/web
         run: pnpm exec playwright install --with-deps --only-shell chromium
-      - name: Test
-        run: vp run test:e2e
+      - run: vp run test:e2e
         env:
           VITE_SITE_URL: https://asa1984.dev
 
@@ -77,6 +67,5 @@ jobs:
     timeout-minutes: 5
     permissions: {}
     steps:
-      - name: Require every needed job to succeed
-        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
         run: exit 1

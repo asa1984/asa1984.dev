@@ -21,7 +21,6 @@
         { pkgs, ... }:
         {
           conceptory = {
-            astGrepRules.enable = false;
             ciPackages = [
               pkgs.nodejs-slim_26
               # pnpm fetches and switches to the version that packageManager in package.json names.

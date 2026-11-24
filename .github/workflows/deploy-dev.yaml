@@ -1,4 +1,4 @@
-name: Deploy (dev)
+name: deploy-dev
 
 on:
   push:
@@ -25,32 +25,23 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Codegen
-        run: vp run codegen
+      - uses: ./.github/actions/setup
+      - run: vp run codegen
       - parallel:
-          - name: Lint
-            run: vp lint
-          - name: Format check
-            run: vp fmt --check
-          - name: Typecheck
-            run: vp run typecheck
-          - name: Test
-            run: vp run test
+          - run: vp lint
+          - run: vp fmt --check
+          - run: vp run typecheck
+          - run: vp run test
       # The only GitHub secret is OP_SERVICE_ACCOUNT_TOKEN; every real
       # credential lives in the 1Password vault "asa1984.dev".
-      - name: Load secrets from 1Password
-        uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
+      - uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
         with:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           CLOUDFLARE_API_TOKEN: op://asa1984.dev/cloudflare/credential
           CLOUDFLARE_ACCOUNT_ID: op://asa1984.dev/cloudflare/CLOUDFLARE_ACCOUNT_ID
-      - name: Build
-        run: vp run "@asa1984.dev/web#build"
+      - run: vp run "@asa1984.dev/web#build"
         env:
           VITE_SITE_URL: https://dev.asa1984.dev
-      - name: Deploy to dev
-        run: vp run "@asa1984.dev/web#deploy:dev"
+      - run: vp run "@asa1984.dev/web#deploy:dev"
