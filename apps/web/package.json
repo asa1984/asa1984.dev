@@ -42,6 +42,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@asa1984/conceptory": "catalog:",
     "@playwright/test": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",

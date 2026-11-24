@@ -2,9 +2,6 @@ import type { KnipConfig } from "knip";
 
 export default {
   workspaces: {
-    ".": {
-      entry: ["config/**/*.ts"],
-    },
     "apps/web": {
       entry: [
         // Void loads pages, their server modules, and layouts by their file names.
