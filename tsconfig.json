@@ -1,4 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": [
+    "@asa1984/conceptory/tsconfig/base.json",
+    "@asa1984/conceptory/tsconfig/bundler.json"
+  ],
   "include": ["vite.config.ts", "knip.config.ts"]
 }

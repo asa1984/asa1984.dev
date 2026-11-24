@@ -1,0 +1,4 @@
+ruleDirs:
+  - .conceptory/ast-grep/typescript
+  - .conceptory/ast-grep/json
+  - .conceptory/ast-grep/yaml

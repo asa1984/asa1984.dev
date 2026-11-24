@@ -29,3 +29,6 @@ dist
 # git-hooks.nix
 .pre-commit-config.yaml
 .vitest/
+
+# Links to the rules that conceptory distributes, made by the devShell and CI
+.conceptory/

@@ -16,6 +16,9 @@ runs:
     - name: Install CI toolchain
       shell: bash
       run: nix profile add .#ci
+    - name: Link conceptory's ast-grep rules
+      shell: bash
+      run: conceptory-link-ast-grep-rules
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash

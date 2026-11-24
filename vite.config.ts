@@ -89,6 +89,11 @@ export default defineConfig({
       "check:actions": { command: ["actionlint", "zizmor --offline .github"], cache: false },
       // Unused files, exports, and dependencies across the workspace (knip.config.ts).
       "check:knip": { command: "knip", cache: false },
+      // conceptory's ast-grep rules (sgconfig.yaml). ast-grep skips hidden directories unless they
+      // are given explicitly.
+      "check:ast-grep": { command: "ast-grep scan . .github", cache: false },
+      // conceptory's file name conventions, such as a workflow's name matching its file name.
+      "check:files": { command: "conceptory files check", cache: false },
     },
   },
 });
